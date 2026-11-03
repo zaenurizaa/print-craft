@@ -329,37 +329,55 @@ Pengguna PrintCraft dikelompokkan menjadi pengguna internal yang mengakses Websi
 
 ## 3.1 Karakteristik Tampilan Pengguna {#3.1-karakteristik-tampilan-pengguna}
 
-1. Ukuran layar responsif. 
+Perancangan antarmuka pengguna sistem PrintCraft mengadopsi **Softro SaaS Design System** modern berbasis komponen Tailwind CSS, dipadukan dengan tipografi hierarkis Google Fonts (*Manrope*, *Inter*, dan *JetBrains Mono*) serta ikonografi presisi *Lucide Icons*. Seluruh layar dirancang dengan mematuhi prinsip **10 Usability Heuristics Jakob Nielsen** untuk menjamin efisiensi, kejelasan status, pencegahan kesalahan, dan konsistensi visual di seluruh alur operasional konveksi.
 
-   Tampilan utama untuk desktop atau laptop (lebar minimal 1024 px), dan dapat diakses dari smartphone (lebar minimal 360 px).
+1. **Ukuran Layar Responsif (*Responsive Viewport Specification*)**
+   - **Tampilan Desktop (Utama):** Dirancang optimal pada resolusi standar **1440 px** (lebar minimum 1024 px) dengan tata kelola ruang lapang, visual hierarchy bertingkat, dan *fixed multi-panel layout*.
+   - **Tampilan Smartphone (Mobile):** Responsif hingga lebar layar smartphone minimal **360 px** (optimal pada 390 px–420 px). Layout otomatis mereflow menjadi kartu vertikal tunggal (*stacked cards*), sidebar berubah menjadi drawer menu ringkas, dan ukuran target sentuh (*tap target*) memenuhi standar aksesibilitas minimal 44×44 px.
 
-2. Tata letak 
+2. **Tata Letak & Arsitektur Navigasi (*Softro SaaS 2-Column Dashboard*)**
+   - **Sidebar Navigasi Kiri (*Fixed Sidebar* 240 px):** Menampilkan identitas logo brand PrintCraft Duta Media, navigasi menu hierarkis dengan active state violet tint (`#EEF2FF`) dan border indikator tebal (`#7C3AED`), serta profil drawer petugas aktif di bagian bawah sidebar.
+   - **Header Atas (*Sticky Header* 64 px):** Memuat kolom pencarian global *real-time* (pencarian nomor pesanan, pelanggan, atau cabang), badge status peran yang sedang aktif, tombol aksi cepat (+ Order Baru), serta menu avatar pengguna.
+   - **Pemisahan Menu Berdasarkan Peran (*Role-Based Access Control*):**
+     - **Owner (Pusat):** Memiliki hak akses penuh (*multi-cabang*) terhadap 16 layar internal: *Dashboard Multicabang, Manajemen Akun User, Manajemen Cabang, Master Data Biaya & Tarif, Kalkulator Harga Custom Live (margin dinamis), Data Seluruh Pesanan, Detail Pesanan & Milestone Produksi, Input Pesanan Baru, CRM Database Pelanggan, Pengadaan Kaos Polos Vendor, Invoice Resmi, Work Order Production (SPK Workshop),* dan *Rekap Laporan Finansial Konsolidasi*.
+     - **Admin Cabang:** Dibatasi secara ketat hanya pada operasional unit cabang yang ditugaskan (7 layar operasional): *Dashboard Cabang, Kalkulator Kasir Cabang (margin terkunci 30%), Data Pesanan Cabang, Detail Pesanan Cabang, Input Pesanan Cabang, Pengadaan Kaos Cabang,* dan *Rekap Laporan Kasir Cabang*. Admin tidak memiliki akses ke menu Akun, Cabang, Master Data, dan Finansial Pusat.
+     - **Customer (Publik Tanpa Login):** Akses mandiri melalui 3 layar publik: *Landing Page Informasi & Simulasi Harga Kaos, Form Pendaftaran Member Online,* dan *Kartu Virtual Member Prioritas*.
 
-   Menu navigasi utama berada di sisi kiri pada desktop dan berubah menjadi menu ringkas pada layar kecil. Menu yang tampil disesuaikan dengan peran pengguna. Owner melihat menu Dashboard, Rekap Laporan, Akun, Cabang, Master Data, Kalkulator Harga, Pesanan, Data Customer, Pengadaan Kaos, serta Invoice dan WOP. Admin tidak melihat menu Akun, Cabang, dan Master Data, hanya melihat menu Kalkulator Harga, dan hanya melihat data cabangnya sendiri.
+3. **Standar Komponen Tombol (*Action Buttons - Softro SaaS Violet Palette*)**
+   - **Tombol Aksi Utama (*Primary CTA*):** Menggunakan warna ungu vibrant Softro **`#7C3AED`** (hover: `#6D28D9`, active state: `scale-95`, teks putih tebal, sudut melengkung `rounded-xl`, serta efek elevasi bayangan halus `shadow-lg shadow-violet-500/25`). Diterapkan pada tombol *Login ke Sistem, Simpan Data, Buat Pesanan Baru, Hitung Estimasi,* dan *Kirim Pendaftaran Member*.
+   - **Tombol Batal / Kembali (*Secondary / Cancel Action*):** Menggunakan warna netral berlatar terang `#F8FAFC` dengan garis batas halus `border-slate-200` dan teks `#475569` (hover: `bg-slate-100`), selalu dilengkapi ikon panah kembali atau ikon silang (X) untuk menjamin kebebasan kontrol pengguna (*Heuristik Nielsen #3: User Control and Freedom*).
+   - **Tombol Hapus / Tindakan Destruktif (*Destructive Action*):** Menggunakan warna merah rose **`#DC2626`** (hover: `#B91C1C`, teks putih). Aksi hapus **WAJIB** didahului oleh dialog konfirmasi (*Confirmation Modal*) dengan rincian data yang akan dihapus guna mencegah ketidaksengajaan (*Heuristik Nielsen #5: Error Prevention*).
+   - **Tombol Dokumen & Ekspor (*Dark Precision Action*):** Menggunakan warna gelap presisi slate-900 **`#0F172A`** (hover: `#1E293B`, teks putih) untuk tombol *Cetak SPK Workshop, Unduh Invoice PDF,* dan *Export Laporan Excel*.
+   - **Tombol Transaksi / Pelunasan (*Success Action*):** Menggunakan warna hijau emerald **`#16A34A`** (hover: `#15803D`, teks putih) pada tombol pencatatan pembayaran dan verifikasi kasir.
 
-3. Standar tombol  
-1. Tombol aksi utama (Login, Simpan, Buat Invoice) berwarna biru **\#0055FF** dan berada di kanan bawah form.  
-2. Tombol Batal berwarna abu-abu **\#CCCCCC** .  
-3. Tombol Hapus berwarna merah **\#DC2626** dan selalu didahului dialog konfirmasi.  
-4. Tombol Kirim Invoice berwarna hijau **\#16A34A** .  
-4. Highlight status  
-1. Status pembayaran dibedakan warna: DP (kuning **\#F1D308**), Lunas (hijau **\#16A34A**), piutang setelah melewati deadline (merah **\#DC2626**).  
-2. Deadline pesanan yang mendekati atau melewati batas diberi penanda warna orange **\#FF9500**.  
-5. Format pesan error dan notifikasi
+4. **Highlight Status (*Rounded Pill Badges 9999px*)**
+   Seluruh indikator status disajikan dalam format *badge pill* bersudut tumpul penuh (`rounded-full`) dengan kombinasi warna latar pastel lembut (*soft tint*) dan border kontras tipis (*Heuristik Nielsen #1: Visibility of System Status*):
+   - **Status Lunas (*Paid*):** Latar hijau emerald lembut `bg-emerald-50 text-emerald-700 border border-emerald-200/60` (Hex teks: **`#047857`**, latar: **`#ECFDF5`**).
+   - **Status DP / Pembayaran Sebagian (*Pending*):** Latar kuning amber lembut `bg-amber-50 text-amber-700 border border-amber-200/60` (Hex teks: **`#B45309`**, latar: **`#FFFBEB`**).
+   - **Status Piutang Lewat Deadline / Belum Bayar (*Overdue*):** Latar merah rose lembut `bg-rose-50 text-rose-700 border border-rose-200/60` (Hex teks: **`#BE123C`**, latar: **`#FFF1F2`**).
+   - **Deadline Mendekati (*Near Deadline < 3 Hari*):** Latar oranye hangat `bg-orange-50 text-orange-700 border border-orange-200/60` (Hex teks: **`#C2410C`**, latar: **`#FFF7ED`**).
 
-   Muncul sebagai kotak pesan di bagian atas halaman atau tepat di bawah kolom yang bermasalah, ditulis dalam Bahasa Indonesia yang jelas. Contohnya “Jumlah pesanan harus berupa angka lebih dari 0” atau “Nomor WhatsApp customer tidak valid”. Pesan berhasil berwarna hijau **\#16A34A** dan pesan gagal berwarna merah **\#DC2626**. 
+5. **Format Pesan Error, Validasi, dan Notifikasi Toast**
+   - **Notifikasi Sistem Melayang (*Floating Toast Alert*):** Tampil di sudut kanan atas layar dengan animasi *fade-in/slide* halus, berlatar gelap pekat `#0F172A` dengan teks putih dan ikon status indikator (centang hijau untuk sukses, seru merah untuk gagal). Menghilang otomatis setelah 3 detik.
+   - **Pesan Validasi Form Langsung (*Inline Validation*):** Ditampilkan tepat di bawah kolom input dengan warna merah rose **`#DC2626`**, teks ringkas berukuran 11 px, menggunakan formulasi Bahasa Indonesia yang spesifik dan solutif (*Heuristik Nielsen #9: Help Users Recognize, Diagnose, and Recover from Errors*). Contoh pesan:
+     - *“Jumlah pesanan minimal untuk produksi sablon konveksi adalah 12 pcs.”*
+     - *“Nomor WhatsApp customer tidak valid (wajib diawali 08/62 dan minimal 10 digit).”*
+     - *“Data cabang tidak dapat dihapus karena masih terikat dengan data pesanan aktif.”*
 
-6. Format data
+6. **Format Data Angka, Finansial, dan Tanggal**
+   - **Mata Uang & Finansial:** Menggunakan format resmi Rupiah dengan pemisah ribuan titik menggunakan font monospace `JetBrains Mono` untuk menjaga kerapian kolom angka (contoh: **`Rp 1.250.000`**, **`Rp 32.000 / pcs`**, atau **`Rp 148.500.000`**).
+   - **Tanggal & Waktu:** Menggunakan format tanggal standar **`DD-MM-YYYY`** (contoh: `24-10-2026`) atau format tanggal bisnis ringkas (contoh: `24 Okt 2026`).
+   - **Nomor Identifikasi Sistem:** Menggunakan kode alfanumerik terstandar dengan font monospace, seperti `ORD-2026-101` (Pesanan), `PO-2026-081` (Pengadaan Bahan), `WOP-ORD-101` (Surat Perintah Kerja), dan `MBR-2026-981` (Member VIP).
 
-   Mata uang ditampilkan dalam Rupiah (contoh: Rp 1.250.000) dan tanggal dalam format DD-MM-YYYY.
+7. **Cetak Dokumen Resmi (Invoice dan SPK Workshop / WOP)**
+   - Menggunakan tata letak khusus siap cetak (*print-ready layout*) dengan standar kertas **A4**.
+   - **Invoice Pembayaran Resmi:** Memuat kop surat resmi Duta Media, rincian biaya bahan kaos, biaya cetak sablon, biaya big size, potongan diskon member (5%), total tagihan, nominal DP yang telah dibayar, sisa piutang pelunasan, serta nomor rekening perbankan (BCA) dan kode QRIS.
+   - **Work Order Production (SPK Workshop):** Sesuai aturan operasional konveksi pada **SRS Seksi 2.5.j**, lembar SPK workshop **DICETAK TANPA MENAMPILKAN NOMINAL HARGA**. Dokumen ini hanya berisi parameter teknis lantai produksi meliputi: kode job order, nama customer, tanggal deadline, rincian ukuran (*size breakdown*: S, M, L, XL, XXL), jenis bahan kain & warna, spesifikasi teknis sablon (posisi cetak dada/punggung, dimensi area, screen mesh, jenis tinta plastisol/DTF), catatan khusus operator, serta tabel checklist kendali mutu (*Quality Control*) dan kotak paraf operator potong, sablon, jahit, dan finishing.
 
-7. Cetak invoice dan WOP
-
-   Menggunakan format PDF dan memiliki tampilan khusus ukuran kertas A4 yang siap cetak. WOP tidak menampilkan nominal harga.
-
-8. Landing Page
-
-   Halaman publik yang dapat diakses tanpa login, berisi tombol Daftar Member berwarna biru \#0055FF dan responsif pada desktop (minimal 1024 px) maupun smartphone (minimal 360 px).
+8. **Landing Page Publik (Portal Pelanggan Tanpa Login)**
+   - Halaman publik modern yang dapat diakses bebas oleh konsumen umum tanpa registrasi akun maupun otentikasi login.
+   - Menampilkan *Hero Showcase* keunggulan konveksi Duta Media, kalkulator estimasi biaya kaos interaktif (*Interactive Public Mini Price Estimator*), dan tombol aksi utama pendaftaran **"Daftar Member Online"** berwarna ungu Softro **`#7C3AED`** untuk mendapatkan diskon 5% permanen.
+   - Di sisi kanan atas navbar publik hanya disediakan tautan diskrit *"Portal Petugas"* dengan ikon gembok kecil yang mengarahkan petugas operasional internal (Owner & Admin Cabang) ke portal login internal, sehingga tidak membingungkan pelanggan umum.
 
 ## 3.2 Karakteristik Hardware {#3.2-karakteristik-hardware}
 
