@@ -1,0 +1,50 @@
+<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
+  <diagram id="class-pc004" name="Class Diagram PC-004">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Database -->
+        <mxCell id="cls_db" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;Database&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ db: array&lt;br/&gt;+ nama_database: String&lt;hr size=&quot;1&quot;/&gt;+ koneksi(nama_database)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="50" y="45" width="170" height="85" as="geometry" />
+        </mxCell>
+
+        <!-- PengadaanKaos Model -->
+        <mxCell id="cls_pengadaan" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;PengadaanKaos&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ id_pengadaan: int&lt;br/&gt;+ no_po: String&lt;br/&gt;+ id_cabang: int&lt;br/&gt;+ id_pesanan: int&lt;br/&gt;+ id_bahan: int&lt;br/&gt;+ id_ukuran: int&lt;br/&gt;+ jumlah_pcs: int&lt;br/&gt;+ nama_supplier: String&lt;br/&gt;+ total_biaya_beli: double&lt;br/&gt;+ status_pengadaan: enum&lt;hr size=&quot;1&quot;/&gt;+ buatPO(data)&lt;br/&gt;+ terimaBarang(id, tgl)&lt;br/&gt;+ updateStokKaos(id)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="360" y="30" width="270" height="230" as="geometry" />
+        </mxCell>
+
+        <!-- Pesanan (External) -->
+        <mxCell id="cls_ext_pes" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;Pesanan (PC-003)&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ id_pesanan: int&lt;br/&gt;+ no_pesanan: String" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="750" y="50" width="180" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- PengadaanController -->
+        <mxCell id="cls_peng_ctrl" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;PengadaanController&lt;/b&gt;&lt;br/&gt;&amp;lt;&amp;lt;Controller&amp;gt;&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ index()&lt;br/&gt;+ create()&lt;br/&gt;+ store(request)&lt;br/&gt;+ konfirmasiPenerimaan(id)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="380" y="330" width="230" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- Views -->
+        <mxCell id="cls_v_peng" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;view_pengadaan&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ listPengadaan()" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="270" y="510" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cls_f_peng" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;form_pengadaan&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ simpanPengadaan()&lt;br/&gt;+ validasiPO()" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="540" y="510" width="170" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Relations -->
+        <mxCell id="rel_pes_peng" value="1               0..*" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="cls_pengadaan" target="cls_ext_pes" />
+        <mxCell id="dep_peng_db" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0;exitY=0.3;exitDx=0;exitDy=0;entryX=1;entryY=0.3;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_pengadaan" target="cls_db" />
+        <mxCell id="dep_ctrl_model" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_peng_ctrl" target="cls_pengadaan" />
+        <mxCell id="dep_ctrl_vp" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.3;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_peng_ctrl" target="cls_v_peng" />
+        <mxCell id="dep_ctrl_fp" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.7;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_peng_ctrl" target="cls_f_peng" />
+
+        <mxCell id="cap_fig8" value="&lt;b&gt;Gambar 8. Class Diagram Fitur Pengadaan Kaos (PC-004)&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="310" y="630" width="450" height="30" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

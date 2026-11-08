@@ -1,0 +1,73 @@
+<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
+  <diagram id="class-pc002" name="Class Diagram PC-002">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Database -->
+        <mxCell id="cls_db" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;Database&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ db: array&lt;br/&gt;+ nama_database: String&lt;hr size=&quot;1&quot;/&gt;+ koneksi(nama_database)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="170" height="85" as="geometry" />
+        </mxCell>
+
+        <!-- Bahan Model -->
+        <mxCell id="cls_bahan" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;Bahan&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ id_bahan: int&lt;br/&gt;+ jenis_kain: String&lt;br/&gt;+ gramasi: String&lt;hr size=&quot;1&quot;/&gt;+ getAllBahan()" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="260" y="40" width="160" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Ukuran Model -->
+        <mxCell id="cls_ukuran" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;Ukuran&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ id_ukuran: int&lt;br/&gt;+ ukuran: String&lt;br/&gt;+ surcharge: double&lt;hr size=&quot;1&quot;/&gt;+ getAllUkuran()" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="470" y="40" width="160" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- JenisSablon Model -->
+        <mxCell id="cls_sablon" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;JenisSablon&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ id_sablon: int&lt;br/&gt;+ teknik: String&lt;br/&gt;+ tarif_per_warna: double&lt;hr size=&quot;1&quot;/&gt;+ getTarifSablon(teknik)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="680" y="40" width="190" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- HargaBeliKaos (Relasi Bahan & Ukuran) -->
+        <mxCell id="cls_hpp" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;HargaBeliKaos&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ id_harga_beli: int&lt;br/&gt;+ id_bahan: int&lt;br/&gt;+ id_ukuran: int&lt;br/&gt;+ harga_pokok: double&lt;hr size=&quot;1&quot;/&gt;+ getHPP(bahan, ukuran)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="340" y="190" width="220" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- PotonganMember Model -->
+        <mxCell id="cls_potongan" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;PotonganMember&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ id_potongan: int&lt;br/&gt;+ jenis_member: String&lt;br/&gt;+ persentase_diskon: double&lt;hr size=&quot;1&quot;/&gt;+ getDiskon(jenis_member)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="680" y="190" width="190" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- MasterDataController -->
+        <mxCell id="cls_mstr_ctrl" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;MasterDataController&lt;/b&gt;&lt;br/&gt;&amp;lt;&amp;lt;Controller&amp;gt;&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ index()&lt;br/&gt;+ updateBahan(request)&lt;br/&gt;+ updateSablon(request)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="100" y="380" width="220" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- KalkulatorController -->
+        <mxCell id="cls_kalk_ctrl" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;KalkulatorController&lt;/b&gt;&lt;br/&gt;&amp;lt;&amp;lt;Controller&amp;gt;&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ index()&lt;br/&gt;+ hitungEstimasi(request)&lt;br/&gt;+ getRincianHPP(data)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="540" y="380" width="240" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Views -->
+        <mxCell id="cls_v_master" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;view_master_data&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ formUbahTarif()" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="120" y="550" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cls_v_kalk" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;view_kalkulator&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ formSimulasiHarga()&lt;br/&gt;+ tampilkanEstimasi()" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="570" y="550" width="180" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Associations & Dependencies -->
+        <mxCell id="rel_bhn_hpp" value="1          *" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.2;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="cls_bahan" target="cls_hpp" />
+        <mxCell id="rel_ukr_hpp" value="1          *" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.8;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="cls_ukuran" target="cls_hpp" />
+        <mxCell id="dep_db_all" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_bahan" target="cls_db" />
+        <mxCell id="dep_mstr_models" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.2;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_mstr_ctrl" target="cls_hpp" />
+        <mxCell id="dep_kalk_models" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.4;exitY=0;exitDx=0;exitDy=0;entryX=0.6;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_kalk_ctrl" target="cls_hpp" />
+        <mxCell id="dep_kalk_sab" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.8;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_kalk_ctrl" target="cls_potongan" />
+        <mxCell id="dep_mstr_v" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_mstr_ctrl" target="cls_v_master" />
+        <mxCell id="dep_kalk_v" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_kalk_ctrl" target="cls_v_kalk" />
+
+        <mxCell id="cap_fig6" value="&lt;b&gt;Gambar 6. Class Diagram Fitur Master Data dan Kalkulator Harga (PC-002)&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="270" y="660" width="500" height="30" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

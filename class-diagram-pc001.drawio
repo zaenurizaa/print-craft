@@ -1,0 +1,76 @@
+<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
+  <diagram id="class-pc001" name="Class Diagram PC-001">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Database -->
+        <mxCell id="cls_db" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;Database&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ db: array&lt;br/&gt;+ nama_database: String&lt;hr size=&quot;1&quot;/&gt;+ koneksi(nama_database)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="50" y="50" width="180" height="85" as="geometry" />
+        </mxCell>
+
+        <!-- Cabang Model -->
+        <mxCell id="cls_cabang" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;Cabang&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ id_cabang: int&lt;br/&gt;+ nama_cabang: String&lt;br/&gt;+ alamat: String&lt;br/&gt;+ no_telp: String&lt;br/&gt;+ status_aktif: boolean&lt;hr size=&quot;1&quot;/&gt;+ tambahCabang(data)&lt;br/&gt;+ ubahCabang(id, data)&lt;br/&gt;+ getCabangAktif()" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="360" y="45" width="220" height="150" as="geometry" />
+        </mxCell>
+
+        <!-- Akun Model -->
+        <mxCell id="cls_akun" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;Akun&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ id_akun: int&lt;br/&gt;+ id_cabang: int&lt;br/&gt;+ nama: String&lt;br/&gt;+ username: String&lt;br/&gt;+ password_hash: String&lt;br/&gt;+ role: enum('owner', 'admin')&lt;br/&gt;+ status_aktif: boolean&lt;hr size=&quot;1&quot;/&gt;+ autentikasi(username, password)&lt;br/&gt;+ buatAkun(data)&lt;br/&gt;+ ubahStatus(id, status)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="720" y="40" width="260" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- AuthController -->
+        <mxCell id="cls_auth_ctrl" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;AuthController&lt;/b&gt;&lt;br/&gt;&amp;lt;&amp;lt;Controller&amp;gt;&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ showLoginForm()&lt;br/&gt;+ login(request)&lt;br/&gt;+ logout(request)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="50" y="290" width="180" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- CabangController -->
+        <mxCell id="cls_cab_ctrl" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;CabangController&lt;/b&gt;&lt;br/&gt;&amp;lt;&amp;lt;Controller&amp;gt;&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ index()&lt;br/&gt;+ store(request)&lt;br/&gt;+ update(request, id)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="380" y="290" width="180" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- AkunController -->
+        <mxCell id="cls_akn_ctrl" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;AkunController&lt;/b&gt;&lt;br/&gt;&amp;lt;&amp;lt;Controller&amp;gt;&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ index()&lt;br/&gt;+ store(request)&lt;br/&gt;+ update(request, id)&lt;br/&gt;+ destroy(id)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="740" y="290" width="200" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Views -->
+        <mxCell id="cls_v_login" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;view_login&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ submitLogin()" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="60" y="470" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cls_v_cabang" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;view_cabang&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ tambahCabang()&lt;br/&gt;+ ubahCabang()" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="385" y="470" width="170" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="cls_v_akun" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;view_akun&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ tambahAkun()&lt;br/&gt;+ ubahStatusAkun()" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="755" y="470" width="170" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Association: Cabang -> Akun -->
+        <mxCell id="rel_cab_akn" value="1               *" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="cls_cabang" target="cls_akun" />
+
+        <!-- Dependencies to Database -->
+        <mxCell id="dep_cab_db" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0;exitY=0.3;exitDx=0;exitDy=0;entryX=1;entryY=0.3;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_cabang" target="cls_db" />
+        <mxCell id="dep_akn_db" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.2;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_akun" target="cls_db">
+          <Array as="points"><mxPoint x="770" y="20" /><mxPoint x="140" y="20" /></Array>
+        </mxCell>
+
+        <!-- Dependencies Controller to Model -->
+        <mxCell id="dep_auth_akn" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.8;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_auth_ctrl" target="cls_akun" />
+        <mxCell id="dep_cabctrl_cab" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_cab_ctrl" target="cls_cabang" />
+        <mxCell id="dep_aknctrl_akn" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_akn_ctrl" target="cls_akun" />
+
+        <!-- Dependencies Controller to View -->
+        <mxCell id="dep_auth_v" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_auth_ctrl" target="cls_v_login" />
+        <mxCell id="dep_cab_v" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_cab_ctrl" target="cls_v_cabang" />
+        <mxCell id="dep_akn_v" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_akn_ctrl" target="cls_v_akun" />
+
+        <!-- Caption -->
+        <mxCell id="cap_fig7" value="&lt;b&gt;Gambar 7. Class Diagram Fitur Login, Akun, Cabang (PC-001)&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="290" y="590" width="450" height="30" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

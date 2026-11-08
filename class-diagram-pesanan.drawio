@@ -1,0 +1,69 @@
+<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
+  <diagram id="class-pesanan" name="Class Diagram Pesanan">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Database -->
+        <mxCell id="cls_db" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;Database&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ db: array&lt;br/&gt;+ nama_database: String&lt;hr size=&quot;1&quot;/&gt;+ koneksi(nama_database)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="160" height="85" as="geometry" />
+        </mxCell>
+
+        <!-- Customer Model -->
+        <mxCell id="cls_cust" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;Customer&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ id_customer: int&lt;br/&gt;+ nama: String&lt;br/&gt;+ nomor_whatsapp: String&lt;br/&gt;+ email: String&lt;br/&gt;+ alamat: String&lt;br/&gt;+ id_kategori_customer: int&lt;hr size=&quot;1&quot;/&gt;+ findOrCreateByWA(data)&lt;br/&gt;+ updateCustomer(id, data)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="270" y="40" width="220" height="160" as="geometry" />
+        </mxCell>
+
+        <!-- Pesanan Model -->
+        <mxCell id="cls_pesanan" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;Pesanan&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ id_pesanan: int&lt;br/&gt;+ no_pesanan: String&lt;br/&gt;+ id_customer: int&lt;br/&gt;+ id_cabang: int&lt;br/&gt;+ status_pesanan: enum&lt;br/&gt;+ total_biaya: double&lt;br/&gt;+ sisa_tagihan: double&lt;br/&gt;+ deadline: date&lt;br/&gt;+ catatan_desain: text&lt;hr size=&quot;1&quot;/&gt;+ buatPesanan(data)&lt;br/&gt;+ updateStatus(id, status)&lt;br/&gt;+ hitungSisaTagihan(id)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="580" y="30" width="250" height="210" as="geometry" />
+        </mxCell>
+
+        <!-- Pembayaran Model -->
+        <mxCell id="cls_bayar" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;Pembayaran&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ id_pembayaran: int&lt;br/&gt;+ id_pesanan: int&lt;br/&gt;+ jenis_pembayaran: enum&lt;br/&gt;+ jumlah_bayar: double&lt;br/&gt;+ metode_bayar: enum&lt;br/&gt;+ bukti_bayar: String&lt;hr size=&quot;1&quot;/&gt;+ catatPembayaran(data)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="910" y="45" width="200" height="160" as="geometry" />
+        </mxCell>
+
+        <!-- CustomerController -->
+        <mxCell id="cls_cust_ctrl" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;CustomerController&lt;/b&gt;&lt;br/&gt;&amp;lt;&amp;lt;Controller&amp;gt;&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ index()&lt;br/&gt;+ store(request)&lt;br/&gt;+ update(request, id)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="270" y="310" width="210" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- PesananController -->
+        <mxCell id="cls_pes_ctrl" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;PesananController&lt;/b&gt;&lt;br/&gt;&amp;lt;&amp;lt;Controller&amp;gt;&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ index()&lt;br/&gt;+ create()&lt;br/&gt;+ store(request)&lt;br/&gt;+ show(id)&lt;br/&gt;+ updateStatus(request, id)" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="600" y="300" width="220" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- Views -->
+        <mxCell id="cls_v_cust" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;view_customer&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ listCustomer()" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="295" y="490" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cls_f_pes" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;form_pesanan&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ simpanPesanan()&lt;br/&gt;+ validasiPesanan()" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="540" y="490" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="cls_v_pes" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;view_pesanan&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ filterStatusPesanan()" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="740" y="490" width="170" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Relations -->
+        <mxCell id="rel_c_p" value="1               *" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="cls_cust" target="cls_pesanan" />
+        <mxCell id="rel_p_b" value="1               *" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="cls_pesanan" target="cls_bayar" />
+        <mxCell id="dep_c_db" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_cust" target="cls_db" />
+
+        <mxCell id="dep_cctrl_c" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_cust_ctrl" target="cls_cust" />
+        <mxCell id="dep_pctrl_p" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_pes_ctrl" target="cls_pesanan" />
+        <mxCell id="dep_pctrl_b" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.9;exitY=0;exitDx=0;exitDy=0;entryX=0.2;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_pes_ctrl" target="cls_bayar" />
+
+        <mxCell id="dep_cctrl_v" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_cust_ctrl" target="cls_v_cust" />
+        <mxCell id="dep_pctrl_f" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.3;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_pes_ctrl" target="cls_f_pes" />
+        <mxCell id="dep_pctrl_v" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.8;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_pes_ctrl" target="cls_v_pes" />
+
+        <mxCell id="cap_fig_pes" value="&lt;b&gt;Gambar 5b. Class Diagram Fitur Transaksi Pesanan dan Data Customer (PC-003)&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="310" y="610" width="520" height="30" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
