@@ -86,9 +86,9 @@ DAFTAR ISI
 
 [4.6 Sequence Diagram	89](#4.6-sequence-diagram)
 
-[4.6.1 Sequence Diagram Fitur xxxx	89](#heading=h.147n2zr)
+[4.6.1 Sequence Diagram Fitur Landing Page (PC-003)	89](#4.6.1-sequence-diagram-fitur-landing-page-pc-003)
 
-[4.6.2 Sequence Diagram Fitur xxxx	89](#heading=h.3o7alnk)
+[4.6.2 Sequence Diagram Fitur Daftar Member (PC-003)	89](#4.6.2-sequence-diagram-fitur-daftar-member-pc-003)
 
 [1\. Kebutuhan Non-Fungsional Produk atau Aplikasi	90](#heading=h.23ckvvd)
 
@@ -1611,39 +1611,1757 @@ Gambar 55 menampilkan sequence diagram fitur pendaftaran member pada website Pri
 7. Beban Pengguna Bersamaan: Mengingat skala operasional Duta Media saat ini, aplikasi ditargetkan mampu melayani minimal 20 pengguna aktif secara bersamaan (Owner, Admin pusat, dan Admin cabang) tanpa mengalami penurunan performa yang berarti atau *error* pada database.  
 8. Pemrosesan Laporan: Halaman Rekap Laporan (penjualan, piutang, keuangan) yang ditarik berdasarkan filter cabang dan bulan, ditargetkan muncul maksimal dalam 5 detik. Jika data transaksi sudah sangat menumpuk (di atas 10.000 baris), pengembang telah menyiapkan indeks database agar query tetap berjalan cepat.
 
-   2. #### Space 
+   2. #### Space (Kapasitas Penyimpanan & Jaringan)
 
-   Sebutkan kapasitas penyimpanan dari aplikasi. Misal : batasan minimal RAM atau batasan minimal kecepatan akses internet (kapasitas bandwidth), dan lainnya.
+1. **Kapasitas Penyimpanan Server (Disk Storage):** Server hosting berbasis web minimal menyediakan alokasi ruang penyimpanan sebesar **10 GB SSD** untuk menampung *source code* framework Laravel, aset frontend antarmuka, serta direktori penyimpanan arsip dokumen PDF (*Faktur Invoice* dan *Work Order Production*) yang diterbitkan sistem.
+2. **Kapasitas Basis Data (Database Space):** Alokasi ruang basis data MySQL minimal **1 GB**, yang dirancang mampu menampung riwayat transaksi pesanan, katalog master data, pengadaan vendor, dan data customer hingga puluhan ribu transaksi tanpa penurunan kecepatan query.
+3. **Memori Operasional Server (RAM):** Server web minimal memiliki alokasi **RAM 2 GB** (direkomendasikan 4 GB) untuk menjamin kelancaran kompilasi *view* Blade, kalkulasi formula HPP live, dan eksekusi library *barryvdh/laravel-dompdf* saat melakukan *rendering* dokumen cetak A4.
+4. **Kapasitas Bandwidth & Jaringan:** Hosting minimal menyediakan kuota *bandwidth* sebesar **100 GB per bulan** dengan kecepatan transfer data minimal **10 Mbps**, guna memastikan responsivitas akses dashboard multi-cabang serta pengunduhan berkas invoice PDF oleh pelanggan berlangsung tanpa kendala *buffering*.
 
-   Sesuaikan space dengan tipe aplikasi. Jika aplikasi mobile maka detailkan space untuk instalasi dan pengoperasian aplikasi mobile.
+      3. #### Security (Keamanan Sistem & Data)
 
-      3. #### Security 
-
-   Sebutkan aspek keamanan yang harus ada pada aplikasi. Misal : enkripsi password setiap pengguna, double keamanan (aplikasi mobile), dan lainnya
+1. **Enkripsi Kata Sandi:** Seluruh kata sandi (*password*) pengguna internal (Owner dan Admin Cabang) dienkripsi satu arah menggunakan algoritma *Bcrypt* dengan *cost factor* standar 10 pada kolom `password_hash`, sehingga kata sandi asli tidak dapat dibaca oleh pihak pengembang maupun pengelola database.
+2. **Kontrol Akses Berbasis Peran (*Role-Based Access Control*):** Mengimplementasikan *middleware* autentikasi pada rute web Laravel (`auth`, `role:owner`, `role:admin`). Admin Cabang secara ketat dibatasi hanya dapat mengakses dan memodifikasi data pada unit cabangnya sendiri, serta dilarang mengakses modul akun, manajemen cabang, dan master data pusat. Customer tidak memiliki akun dan tidak diizinkan masuk ke area portal internal.
+3. **Proteksi Serangan Siber Web:**
+   - **Cross-Site Request Forgery (CSRF):** Setiap formulir pengiriman data (`POST`, `PUT`, `DELETE`) wajib menyertakan token `@csrf` bawaan Laravel untuk mencegah manipulasi sesi transaksi dari situs berbahaya luar.
+   - **SQL Injection:** Seluruh kueri basis data memanfaatkan *Eloquent ORM* dan *Query Builder* berbasis *PDO Prepared Statements* dengan *parameter binding*, sehingga masukan teks pengguna tidak dapat dieksekusi sebagai perintah injeksi SQL.
+   - **Cross-Site Scripting (XSS):** Seluruh data keluaran yang dirender pada antarmuka web disaring otomatis melalui sintaks kurung kurawal ganda Blade (`{{ $data }}`) untuk mencegah penyusupan skrip JavaScript berbahaya.
+4. **Pembatasan Percobaan Login (*Rate Limiting*):** Diterapkan pembatasan maksimal 5 kali kegagalan login berturut-turut dalam kurun waktu 15 menit. Jika batas terlampaui, sistem otomatis mengunci akses login dari IP/perangkat tersebut selama 15 menit untuk mengantisipasi serangan *brute force*.
+5. **Enkripsi Saluran Komunikasi:** Seluruh pertukaran data antara browser pengguna dan web server wajib melalui protokol aman HTTPS yang terenkripsi menggunakan sertifikat SSL/TLS 1.3.
 
 2. # Kebutuhan Teknis Implementasi Coding {#kebutuhan-teknis-implementasi-coding}
 
    ## Ketentuan Data {#ketentuan-data}
 
-   Berisi penjabaran ketentuan mengenai batasan-batasan pada data produk/aplikasi. Contoh ketentuan mengenai batasan-batasan pada data yang digunakan terdiri dari : 
+Penjabaran batasan tipe dan format data operasional sistem PrintCraft mencakup seluruh modul fungsional sebagai berikut:
 
-1. Fitur login  
-1) Username harus huruf dan angka, semua huruf kecil  
-2) Password harus 8 karakter dengan kombinasi huruf, angka, dan karakter khusus  
-2. Fitur kelola barang  
-1) Nama barang harus berisi huruf dan panjang maksimal 50 karakter  
-2) Jenis barang memilih otomatis dari data yang sudah tersedia
+1. **Modul Autentikasi & Akun Petugas:**
+   - **Username:** Wajib menggunakan huruf kecil dan angka, panjang 4–30 karakter, tanpa spasi atau karakter khusus kecuali garis bawah (`_`), dan harus unik di database.
+   - **Password:** Minimal 8 karakter dengan kombinasi huruf dan angka. Disimpan dalam bentuk hash Bcrypt 60 karakter.
+   - **Email:** Format alamat email standar internasional (`user@domain.ext`), unik untuk setiap akun petugas.
+   - **Peran:** Bernilai salah satu dari enum `Owner` atau `Admin`.
+2. **Modul Cabang Workshop:**
+   - **Nama Cabang:** Teks alfanumerik panjang maksimal 100 karakter.
+   - **Nomor Telepon Cabang:** Deret angka panjang 10–15 digit.
+   - **Alamat Cabang:** Teks deskriptif alamat fisik workshop.
+3. **Modul Master Data & Parameter Biaya:**
+   - **Nama Bahan & Nama Sablon:** Teks alfabetis panjang maksimal 100 karakter.
+   - **Tarif Sablon & HPP Kaos Polos:** Angka bilangan bulat positif (`integer ge 0`) dalam satuan Rupiah tanpa sen.
+   - **Biaya Tambahan Ukuran Jumbo (*Surcharge*):** Angka bilangan bulat Rupiah (`integer ge 0`).
+   - **Margin Keuntungan:** Angka bulat persentase 10%–100% (default 30%).
+4. **Modul Transaksi Pesanan & Customer:**
+   - **Nomor Pesanan:** Format kode terstandarisasi `ORD-YYYY-XXX` (contoh: `ORD-2026-101`), bersifat unik.
+   - **Nomor WhatsApp Customer:** Format nomor seluler Indonesia (diawali `08` atau `628`), panjang 10–14 digit angka.
+   - **Jumlah Pesanan (Qty):** Bilangan bulat positif minimal 12 pcs (standar pesanan konveksi).
+   - **Nilai Rupiah (Harga Dasar, Diskon, Total Harga):** Bilangan bulat dalam mata uang Rupiah tanpa pecahan desimal/sen.
+   - **Batas Waktu (Deadline):** Format tanggal valid (`DD-MM-YYYY`) yang bernilai lebih besar dari tanggal pembuatan pesanan.
+   - **Status Pesanan:** Bernilai salah satu dari enum tahapan workshop: `Menunggu Bahan`, `Produksi Sablon`, `Selesai Sablon`, `Siap Diambil`, atau `Selesai`.
+5. **Modul Pembayaran & Kasir:**
+   - **Tahapan Pembayaran:** Pilihan enum `DP 50%` atau `Pelunasan`.
+   - **Nominal Bayar:** Angka bulat positif dalam Rupiah, bernilai maksimal sebesar sisa tagihan pesanan.
+   - **Metode Pembayaran:** Teks metode transaksi (`Tunai`, `Transfer Bank`, atau `QRIS`).
+6. **Modul Pengadaan Kaos Polos (PO Vendor):**
+   - **Nomor PO:** Format kode unik `PO-YYYY-XXX` (contoh: `PO-2026-088`).
+   - **Pemasok:** Teks nama vendor/supplier kaos polos pihak ketiga maksimal 100 karakter.
+   - **Status Pengadaan:** Pilihan enum logistik: `Dipesan ke Vendor`, `Dalam Pengiriman`, atau `Tiba di Cabang`.
+7. **Modul Invoice & WOP:**
+   - **Nomor Invoice:** Format kode unik penagihan `INV-YYYY-XXX`.
+   - **Nomor WOP:** Format kode unik instruksi kerja workshop `WOP-YYYY-XXX`.
+   - **Dokumen WOP:** Tidak memuat kolom harga, biaya, maupun nominal pembayaran (SRS 2.5.j).
 
    ## Validasi {#validasi}
 
-   Berisi penjabaran ketentuan mengenai validasi pada seluruh fitur produk/aplikasi. Contoh ketentuan mengenai validasi pada seluruh fitur yang dibuat terdiri dari : 
+Penjabaran ketentuan validasi sistem PrintCraft untuk mencegah inkonsistensi data (*Nielsen H5: Error Prevention*) serta memberikan pesan galat kontekstual (*Nielsen H9*):
 
-1. Fitur login  
-1) Validasi pada input username sesuai ketentuan data  
-2) Validasi pada input password sesuai ketentuan data  
-2. Fitur kelola barang  
-1) Validasi pada input nama barang sesuai ketentuan data  
-2) Validasi pilih jenis barang otomatis 
+1. **Validasi Modul Autentikasi & Akun:**
+   - **Validasi Keberadaan Pengguna:** Memvalidasi kombinasi username dan password. Jika salah, sistem mengembalikan pesan *"Username atau password salah"* tanpa membocorkan akun mana yang keliru.
+   - **Validasi Keunikan Data:** Memvalidasi bahwa username dan email baru yang didaftarkan belum pernah digunakan oleh akun lain di tabel `akun`.
+   - **Validasi Format Isian:** Memastikan email berformat valid dan password memenuhi syarat minimal 8 karakter.
+2. **Validasi Formulir Pesanan Baru:**
+   - **Validasi Kelengkapan Data Mandatori:** Seluruh kolom spesifikasi (customer, cabang, bahan kain, ukuran, jenis sablon, jumlah pcs, dan deadline) wajib diisi. Jika kosong, sistem menandai kolom terkait dengan border merah dan menampilkan pesan *"Kolom ini wajib diisi"*.
+   - **Validasi Jumlah Minimal Order:** Nilai jumlah pesanan diverifikasi harus berupa angka bilangan bulat minimal 12. Jika kurang, tampil pesan *"Jumlah pesanan minimal 12 pcs"*.
+   - **Validasi Logika Deadline:** Tanggal deadline wajib berjarak minimal 3 hari kerja dari tanggal input pesanan. Jika diinput mundur atau hari ini, sistem menolak dengan pesan *"Batas waktu pengerjaan tidak valid"*.
+3. **Validasi Transaksi Pembayaran:**
+   - **Validasi Nilai Pembayaran:** Nominal uang bayar yang diinput kasir harus berupa angka $> 0$.
+   - **Validasi Batas Pelunasan:** Nominal bayar tidak boleh melebihi sisa tagihan pesanan. Jika lebih, tampil pesan *"Nominal pembayaran melebihi sisa piutang pesanan"*.
+   - **Validasi Status Lunas Otomatis:** Ketika akumulasi pembayaran telah sama dengan `total_harga`, sistem otomatis mengunci status pesanan menjadi Lunas dan menonaktifkan tombol tambah bayar.
+4. **Validasi Pendaftaran Member Online:**
+   - **Validasi Format Nomor WhatsApp:** Memvalidasi nomor ponsel diawali digit `08` atau `628` dengan panjang 10–14 digit (regex `^(08|628)[0-9]{8,12}**Software Requirement Specification**
+
+**for**
+
+***PrintCraft:*** **Sistem Manajemen Internal dan Kalkulator Harga Custom untuk Vendor Konveksi & Sablon**
+
+Dipersiapkan Oleh
+
+24.12.3197 Ahmad Zaenuri Zafa Muzaky
+
+24.12.3373 Nailah Putri Alidya
+
+Program Studi Sistem Informasi
+
+Fakultas Ilmu Komputer
+
+Universitas Amikom Yogyakarta
+
+2026
+
+DAFTAR ISI
+
+[1. Pendahuluan	5](#pendahuluan)
+
+[1.2 Deskripsi Umum Dokumen	6](#1.2-deskripsi-umum-dokumen)
+
+[1.3 Definisi dan Istilah	6](#1.3-definisi-dan-istilah)
+
+[1.4 Referensi	8](#1.4-referensi)
+
+[2\. Deskripsi Produk atau Website	9](#2.-deskripsi-produk-atau-website)
+
+[2.1 Deskripsi Umum Produk atau Website	9](#2.1-deskripsi-umum-produk-atau-website)
+
+[2.2 Kategori Pengguna Produk atau Website	10](#2.2-kategori-pengguna-produk-atau-website)
+
+[2.3 Fitur Website	10](#2.3-fitur-website)
+
+[2.4 Karakteristik Pengguna Website	11](#2.4-karakteristik-pengguna-website)
+
+[2.5 Batasan Produk atau Website	11](#2.5-batasan-produk-atau-website)
+
+[2.6 Dokumentasi Pengguna	13](#2.6-dokumentasi-pengguna)
+
+[3\. Kebutuhan Eksternal Website	14](#heading=h.lnxbz9)
+
+[3.1 Karakteristik Tampilan Pengguna	14](#3.1-karakteristik-tampilan-pengguna)
+
+[3.2 Karakteristik Hardware	15](#3.2-karakteristik-hardware)
+
+[3.3 Karakteristik Software	16](#3.3-karakteristik-software)
+
+[3.4 Karakteristik Komunikasi	17](#3.4-karakteristik-komunikasi)
+
+[4\. Kebutuhan Fungsional Website	17](#4.-kebutuhan-fungsional-website)
+
+[4.1 Kebutuhan Fungsional	17](#4.1-kebutuhan-fungsional)
+
+[4.2 Use case Diagram	23](#4.2-use-case-diagram)
+
+[4.3 Use case Deskripsi	25](#4.3-use-case-deskripsi)
+
+[4.4 Activity Diagram	41](#4.4-activity-diagram)
+
+[4.4.1 Activity diagram fitur Login	42](#4.4.1-activity-diagram-fitur-login)
+
+[4.4.2 Activity diagram fitur Akun	45](#4.4.2-activity-diagram-fitur-akun)
+
+[4.4.3 Activity diagram fitur Cabang	50](#4.4.3-activity-diagram-fitur-cabang)
+
+[4.4.4 Activity diagram fitur Master Data dan Kalkulator Harga	56](#4.4.4-activity-diagram-fitur-master-data-dan-kalkulator-harga)
+
+[4.4.5 Activity diagram fitur Pesanan dan Data Customer	63](#4.4.5-activity-diagram-fitur-pesanan-dan-data-customer)
+
+[4.4.6 Activity diagram fitur Pengadaan Kaos	74](#4.4.6-activity-diagram-fitur-pengadaan-kaos)
+
+[4.4.7 Activity diagram fitur Invoice dan WOP	80](#4.4.7-activity-diagram-fitur-invoice-dan-wop)
+
+[4.4.8 Activity diagram fitur Dashboard dan Rekap Laporan	85](#4.4.8-activity-diagram-fitur-dashboard-dan-rekap-laporan)
+
+[4.5 Kebutuhan Database	89](#4.5-kebutuhan-database)
+
+[4.5.1 Entity Relationship Diagram	89](#4.5.1-entity-relationship-diagram)
+
+[4.5.2 Class Diagrams	89](#4.5.2-class-diagrams)
+
+[4.6 Sequence Diagram	89](#4.6-sequence-diagram)
+
+[4.6.1 Sequence Diagram Fitur Landing Page (PC-003)	89](#4.6.1-sequence-diagram-fitur-landing-page-pc-003)
+
+[4.6.2 Sequence Diagram Fitur Daftar Member (PC-003)	89](#4.6.2-sequence-diagram-fitur-daftar-member-pc-003)
+
+[1\. Kebutuhan Non-Fungsional Produk atau Aplikasi	90](#heading=h.23ckvvd)
+
+[Kebutuhan Produk	90](#kebutuhan-produk)
+
+[1.1.1 Usability	90](#usability)
+
+[1.1.2 Efficiency	90](#efficiency)
+
+[2\. Kebutuhan Teknis Implementasi Coding	90](#kebutuhan-teknis-implementasi-coding)
+
+[Ketentuan Data	90](#ketentuan-data)
+
+[Validasi	91](#validasi)
+
+RIWAYAT REVISI
+
+| Keterangan Revisi | Tanggal | Alasan Perubahan | Penanggungjawab  Revisi |
+| :---: | :---: | :---: | :---: |
+| Revisi 1 | 12-10-2026 | Penyusunan awal SRS: pendahuluan, deskripsi produk, kebutuhan eksternal, dan kebutuhan fungsional berdasarkan konsep proyek | Ahmad Zaenuri Zafa Muzaky, Nailah Putri Alidya |
+| Revisi 2 | 14-10-2026 | Perbaikan kebutuhan fungsional agar sesuai contoh, serta penambahan use case diagram dan use case deskripsi | Ahmad Zaenuri Zafa Muzaky, Nailah Putri Alidya |
+| Revisi 3 | 15-10-2026 | Perbaikan bagian pendahuluan sampai kebutuhan eksternal, penyesuaian kalimat. | Ahmad Zaenuri Zafa Muzaky, Nailah Putri Alidya |
+| Revisi 4 | 19-10-2026 | Penyempurnaan use case diagram (Owner dan Admin) dan use case deskripsi, serta pengecekan konsistensi antar bagian. | Ahmad Zaenuri Zafa Muzaky, Nailah Putri Alidya |
+| Revisi 5 | 20-10-2026  | Revisi Keseluruhan Dokumen | Ahmad Zaenuri Zafa Muzaky, Nailah Putri Alidya |
+| Revisi 6 | 25-10-2026 | Pemisahan fitur Akun dan Cabang, penambahan alur lupa password, penyesuaian istilah menjadi website, serta pengurutan fitur berdasarkan fitur pertama yang diakses pengguna | Ahmad Zaenuri Zafa Muzaky, Nailah Putri Alidya |
+| Revisi 7 | 01-11-2026  | Penambahan peran Customer (landing page dan daftar member) pada use case diagram, use case deskripsi, activity diagram, dan class diagram  | Ahmad Zaenuri Zafa Muzaky, Nailah Putri Alidya  |
+| Revisi 8 | 06-11-2026 | Revisi Class Diagram : hanya LandingPage yang berasosiasi dengan Database, function yang membaca atau menulis data dipindah dari DaftarMember ke LandingPage, Database ditambah variabel nama\_database (printcraft\_db) dan function koneksi(), serta parameter function disesuaikan dengan kolom variabel. | Ahmad Zaenuri Zafa Muzaky, Nailah Putri Alidya  |
+
+# 
+
+1. # Pendahuluan {#pendahuluan}
+
+Dokumen Software Requirement Specification (SRS) ini disusun sebagai landasan formal dalam pengembangan PrintCraft, yaitu sistem manajemen internal dan kalkulator harga custom berbasis web untuk vendor konveksi dan sablon. Dokumen ini merinci kebutuhan sistem dari sisi pengguna, batasan operasional, hingga kebutuhan eksternal dan fungsional produk. Sistematikanya mencakup pendahuluan, deskripsi produk, kebutuhan eksternal, fungsional, non-fungsional, serta teknis implementasi coding. Susunan ini dibuat agar seluruh pemangku kepentingan memperoleh pemahaman yang seragam. Tujuannya adalah menyelaraskan ruang lingkup dan target pengembangan PrintCraft mulai dari tahap perencanaan hingga pemeliharaan sistem.  
+1.1 Tujuan
+
+1. Tujuan bagi Klien (Owner Duta Media)   
+1. Menjadi media komunikasi kebutuhan operasional vendor konveksi dan sablon, sehingga sistem PrintCraft yang dibangun benar-benar sesuai dengan alur kerja nyata di lapangan.   
+2. Menjadi dasar kesepakatan mengenai fitur dan batasan sistem yang akan dikembangkan, sehingga klien memiliki gambaran yang jelas tentang sistem yang akan diterima.  
+   b. Tujuan bagi Product Owner   
+1. Menjadi dasar dalam menyusun product backlog dan memprioritaskan fitur PrintCraft yang akan dikerjakan pada setiap sprint.   
+2. Memastikan setiap kebutuhan pengguna terpetakan dengan jelas ke dalam fitur sistem PrintCraft.  
+   c. Tujuan bagi Scrum Master yaitu menjadi pedoman dalam memfasilitasi proses Scrum, memantau Sprint Backlog, serta memastikan setiap item backlog terpenuhi sesuai kesepakatan tim.
+
+   d. Tujuan bagi Development Team yaitu menjadi pedoman teknis dalam merancang arsitektur sistem PrintCraft, basis data, antarmuka, serta mengimplementasikan fitur-fitur PrintCraft sesuai kebutuhan fungsional dan non-fungsional yang telah disepakati menggunakan framework Laravel.
+
+## 1.2 Deskripsi Umum Dokumen {#1.2-deskripsi-umum-dokumen}
+
+Dokumen SRS PrintCraft ini disusun dengan sistematika sebagai berikut. 
+
+1. Pendahuluan berisi tujuan penyusunan, definisi dan istilah, serta referensi.  
+2. Deskripsi Produk berisi proses bisnis, kategori pengguna, fitur, karakteristik pengguna, batasan, dan dokumentasi pengguna.  
+3. Kebutuhan Eksternal berisi karakteristik tampilan, hardware, software, dan komunikasi.  
+4. Kebutuhan Fungsional berisi rincian kebutuhan fungsional, use case diagram dan deskripsinya, activity diagram, kebutuhan database (ERD dan class diagram), serta sequence diagram.  
+5. Kebutuhan Non-Fungsional berisi usability dan efficiency (performance, space, dan security).  
+6. Kebutuhan Teknis Implementasi Coding berisi ketentuan data dan validasi.
+
+   ## 1.3 Definisi dan Istilah {#1.3-definisi-dan-istilah}
+
+   Berikut definisi dan istilah yang digunakan dalam dokumen SRS PrintCraft, disajikan pada Tabel 1\.
+
+Tabel 1\. Definisi dan Istilah 
+
+| Istilah/Singkatan | Definisi | Sumber |
+| ----- | ----- | ----- |
+| SRS | Software Requirement Specification, yaitu dokumen spesifikasi kebutuhan perangkat lunak yang memuat apa yang harus dilakukan sistem beserta batasannya | \[1\] |
+| Scrum | Kerangka kerja agile untuk mengembangkan perangkat lunak secara iteratif dan bertahap | \[2\] |
+| Sprint | Periode kerja dengan durasi tetap dalam Scrum untuk menyelesaikan item backlog yang dipilih | \[2\] |
+| Product Backlog | Daftar seluruh fitur dalam bentuk user story yang diberi prioritas | \[2\] |
+| Sprint Backlog | Rincian tugas teknis dari item backlog yang dipilih untuk sprint berjalan | \[2\] |
+| API | Application Programming Interface, yaitu antarmuka pemrograman yang memungkinkan dua sistem saling bertukar data | \[3\] |
+| PHP | Bahasa pemrograman sisi server yang digunakan untuk membangun website | \[6\] |
+| MVC | Model-View-Controller, yaitu arsitektur perangkat lunak yang memisahkan model (data), tampilan, dan pengendali | \[4\] |
+| Laravel | Framework PHP open-source dengan arsitektur MVC | \[4\] |
+| UML | Unified Modeling Language, yaitu bahasa pemodelan standar untuk merancang sistem perangkat lunak | \[1\] |
+| Use Case Diagram | Diagram UML yang menggambarkan interaksi antara aktor dengan sistem | \[1\] |
+| Activity Diagram | Diagram UML yang menggambarkan alur aktivitas dalam sistem | \[1\] |
+| Sequence Diagram | Diagram UML yang menggambarkan interaksi antar objek dalam urutan waktu | \[1\] |
+| Class Diagram | Diagram UML yang menggambarkan struktur kelas dan hubungannya dalam sistem | \[1\] |
+| ERD | Entity Relationship Diagram, yaitu diagram yang menggambarkan hubungan antar entitas dalam basis data | \[1\] |
+| Whitebox Testing | Pengujian perangkat lunak yang memeriksa struktur internal kode program | \[1\] |
+| Blackbox Testing | Pengujian perangkat lunak yang memeriksa fungsionalitas tanpa melihat struktur internal | \[1\] |
+| Usability Testing | Pengujian yang mengukur kemudahan penggunaan sistem oleh pengguna | \[5\] |
+
+## 
+
+## 1.4 Referensi  {#1.4-referensi}
+
+\[1\] 	A. S. Rosa and M. Shalahuddin, *Rekayasa Perangkat Lunak Terstruktur dan Berorientasi Objek*. Bandung, Indonesia: Informatika, 2018\.
+
+\[2\] 	J. Partogi, *Manajemen Modern dengan Scrum: Sebuah Petualangan Baru di Abad 21 Menjadi Manajer Software Development Modern*, 1st ed. Yogyakarta, Indonesia: Andi, 2015\.
+
+\[3\] 	A. Lauret, *The Design of Web APIs*. Shelter Island, NY, USA: Manning Publications, 2019\.
+
+\[4\] 	M. Stauffer, *Laravel: Up & Running: A Framework for Building Modern PHP Apps*, 2nd ed. Sebastopol, CA, USA: O’Reilly Media, 2019\.
+
+\[5\] 	J. Nielsen, *Usability Engineering*. Boston, MA, USA: Academic Press, 1993\.
+
+\[6\] 	W3Schools, “PHP tutorial.” W3Schools.com. [https\://www\.w3schools.com/php/default.asp](https://www.w3schools.com/php/default.asp) (accessed Oct. 19, 2026).
+
+# 2\. Deskripsi Produk atau Website {#2.-deskripsi-produk-atau-website}
+
+## 2.1 Deskripsi Umum Produk atau Website {#2.1-deskripsi-umum-produk-atau-website}
+
+Customer menghubungi Admin untuk memesan produk konveksi dengan menyampaikan spesifikasi bahan, ukuran, sablon, jumlah, dan tenggat waktu. Selain itu, Customer juga dapat mendaftar sebagai member melalui landing page website untuk mendapatkan potongan harga. Admin kemudian menghitung estimasi harga berdasarkan spesifikasi pesanan dan status member (kategori customer). Setelah kesepakatan harga, Customer melakukan pembayaran (DP atau lunas), lalu Admin mencatat detail pesanan, status pembayaran, piutang, serta pembelian kaos dari pihak ketiga. Setelah pesanan tercatat, Admin mencetak WOP sebagai acuan PIC produksi, lalu membuat invoice dan mengirimkannya melalui WhatsApp dan/atau email. Owner bertugas memantau seluruh pesanan, piutang, dan transaksi dari semua cabang untuk keperluan audit.  
+Pengguna terdiri dari Owner, Admin, dan Customer. Customer bertindak sebagai aktor eksternal yang aksesnya sebatas pada landing page, pendaftaran member, dan penerimaan invoice. Laporan yang didapatkan oleh masing-masing pengguna yaitu: Owner memperoleh ringkasan dashboard serta rekap penjualan, piutang, dan keuangan dari semua cabang yang dapat difilter per cabang dan per bulan. Admin memperoleh estimasi harga, daftar pesanan, invoice PDF, WOP cetak, serta ringkasan dashboard dan rekap laporan pada cabang yang ditugaskan; sedangkan Customer memperoleh konfirmasi pendaftaran member beserta informasi potongan harga, dan invoice berformat PDF melalui WhatsApp dan email.
+
+## 2.2 Kategori Pengguna Produk atau Website {#2.2-kategori-pengguna-produk-atau-website}
+
+Pengguna PrintCraft dikelompokkan menjadi pengguna internal yang mengakses Website dan aktor eksternal yang tidak memiliki akun login.
+
+1. Pengguna internal (mengakses Website setelah login)   
+1. Owner 
+
+   Pemilik bisnis vendor konveksi dan sablon dengan akses penuh terhadap seluruh data dan laporan dari semua cabang.
+
+2. Admin 
+
+   Pengelola operasional harian yang mencatat pesanan, transaksi, dan pengadaan kaos pada cabang yang ditugaskan.
+
+2. Aktor eksternal ((tidak login ke Website)   
+1. Customer (Pelanggan)
+
+   Pihak yang memesan produk, dapat mendaftar sebagai member melalui landing page, dan menerima invoice PDF melalui WhatsApp dan email setelah diproses oleh Admin; tidak memiliki akun login.
+
+   ## 2.3 Fitur Website {#2.3-fitur-website}
+
+   Fitur PrintCraft dituliskan secara umum pada tabel berikut. ID fitur memakai kode PC (singkatan PrintCraft) dan diurutkan dari fitur yang pertama diakses pengguna (Login) sampai fitur yang terakhir diakses (Dashboard dan Rekap Laporan). Jumlah fitur utama adalah enam sesuai konsep proyek. Fitur pertama (PC-001) terdiri dari Login, Akun, dan Cabang. Fitur Landing Page dan Daftar Member dikelompokkan pada PC-003 karena data member tersimpan sebagai data customer dengan kategori Member. 
+
+Tabel 2\. Rincian Fitur (Berdasarkan ID Fitur)
+
+| Kategori Pengguna | ID Fitur | Fitur |
+| :---: | :---: | :---: |
+| Owner, Admin | PC-001 | Login |
+| Owner | PC-001 | Akun |
+| Owner | PC-001 | Cabang |
+| Owner, Admin | PC-002 | Master Data dan Kalkulator Harga |
+| Owner, Admin | PC-003 | Pesanan dan Data Customer |
+| Customer | PC-003 | Landing Page dan Daftar Member |
+| Owner, Admin | PC-004 | Pengadaan Kaos |
+| Owner, Admin | PC-005 | Invoice dan WOP |
+| Owner, Admin | PC-006 | Dashboard dan Rekap Laporan |
+
+## 2.4 Karakteristik Pengguna Website {#2.4-karakteristik-pengguna-website}
+
+Karakteristik pengguna PrintCraft, yang mencakup tugas, hak akses, dan kemampuan yang harus dimiliki, dijabarkan pada tabel berikut. Customer dimasukkan sebagai aktor eksternal karena tidak memiliki akun login, hanya mengakses landing page dan menerima invoice.
+
+Tabel 3\. Karakteristik Pengguna
+
+| Kategori Pengguna | Tugas | Hak Akses ke Website | Kemampuan yang harus dimiliki |
+| :---: | :---: | :---: | :---: |
+| Owner | Memantau operasional dan keuangan seluruh cabang secara jarak jauh melalui laporan per cabang dan per bulan; mengelola akun, cabang, dan master data | Seluruh fitur (PC-001 sampai PC-006) pada semua cabang | Membaca laporan penjualan, piutang, dan keuangan; menganalisis data antar cabang; mengoperasikan browser web |
+| Admin | Menghitung estimasi harga; mencatat pesanan, deadline, status pembayaran, dan piutang; mengelola data customer; mencatat pengadaan kaos; membuat dan mengirim invoice; mencetak WOP; memantau dashboard dan rekap laporan cabangnya |  PC-001 (hanya Login), PC-002 (hanya kalkulator harga), dan PC-003 sampai PC-006 pada cabang yang ditugaskan |  Entry data dengan teliti; memahami alur pesanan konveksi (bahan, ukuran, jenis sablon, DP atau Lunas); mengoperasikan browser web |
+| Customer (aktor eksternal) | Memesan produk, mendaftar member, dan menerima invoice | Hanya landing page (PC-003, Daftar Member); tidak dapat login ke sistem internal; menerima invoice PDF | Mengoperasikan browser web, menggunakan WhatsApp atau email, dan membuka file PDF |
+
+## 2.5 Batasan Produk atau Website {#2.5-batasan-produk-atau-website}
+
+Seluruh fitur PrintCraft dikerjakan, sehingga batasan berikut hanya mencakup teknologi, format data, dan hak akses.
+
+a. Framework  
+PrintCraft dibangun dengan PHP dan framework Laravel menggunakan arsitektur MVC.  
+b. Basis data  
+MySQL atau MariaDB sebagai basis data tunggal yang terpusat untuk seluruh cabang.  
+c. Platform  
+Website yang diakses lewat browser di komputer atau smartphone. Website tidak tersedia dalam bentuk aplikasi yang diinstal dan tidak ada mode offline, sehingga koneksi internet wajib tersedia.  
+d. Format data  
+Nilai uang diinput sebagai angka dibulatkan ke rupiah terdekat, nomor WhatsApp customer diinput dalam format nomor Indonesia, serta invoice dan WOP hanya dihasilkan dalam format PDF.  
+e. Hak akses pengguna  
+Customer tidak memiliki akun login, hanya dapat mengakses landing page untuk mendaftar member, dan menerima invoice PDF.  
+f. Hak akses fitur Akun, Cabang, dan Master Data  
+Hanya Owner yang dapat mengelolanya. Admin hanya memakai kalkulator harga.  
+g. Hak akses Dashboard dan Rekap Laporan  
+Owner melihat semua cabang, sedangkan Admin hanya melihat cabangnya sendiri.  
+h. Pembayaran   
+Sistem hanya mencatat status pembayaran (DP atau Lunas) beserta sisa piutang. Sistem tidak menyediakan pembayaran online dan tidak memverifikasi pembayaran secara otomatis.  
+i. Pengadaan kaos   
+Sistem hanya mencatat pembelian kaos dari pihak ketiga per pesanan. Sistem tidak mengelola stok gudang dan tidak memproses pemesanan langsung ke pemasok.  
+j. WOP (Work Order Print)    
+Dicetak tanpa nominal harga karena hanya menjadi acuan PIC produksi.  
+k. Invoice   
+Pengiriman hanya melalui WhatsApp dan email, dan keberhasilannya bergantung pada layanan API WhatsApp dan email pihak ketiga serta kebenaran nomor atau alamat tujuan.  
+l. Estimasi harga  
+Hasil kalkulator harga bergantung pada keakuratan master data yang diatur Owner.  
+m. Bahasa yang digunakan   
+Antarmuka dan pesan sistem hanya tersedia dalam Bahasa Indonesia.
+
+## 2.6 Dokumentasi Pengguna {#2.6-dokumentasi-pengguna}
+
+Dokumentasi pengguna yang akan diserahkan kepada klien (Owner Duta Media) saat serah terima adalah User Manual (Buku Panduan Pengguna) berformat PDF. Dokumen ini berisi:  
+a. Panduan login dan penggunaan website untuk Owner dan Admin.
+
+b. Langkah penggunaan setiap fitur, mulai dari kalkulator harga, pencatatan pesanan, pengadaan kaos, pembuatan dan pengiriman invoice, pencetakan WOP, hingga pembacaan dashboard dan rekap laporan.
+
+c. Daftar pesan kesalahan beserta cara penanganannya.
+
+3\. Kebutuhan Eksternal Website
+
+## 3.1 Karakteristik Tampilan Pengguna {#3.1-karakteristik-tampilan-pengguna}
+
+Perancangan antarmuka pengguna sistem PrintCraft mengadopsi **Softro SaaS Design System** modern berbasis komponen Tailwind CSS, dipadukan dengan tipografi hierarkis Google Fonts (*Manrope*, *Inter*, dan *JetBrains Mono*) serta ikonografi presisi *Lucide Icons*. Seluruh layar dirancang dengan mematuhi prinsip **10 Usability Heuristics Jakob Nielsen** untuk menjamin efisiensi kerja, kejelasan status sistem, pencegahan kesalahan, dan konsistensi visual di seluruh alur operasional konveksi.
+
+1. **Ukuran Layar Responsif (*Responsive Viewport Specification*)**
+   - **Tampilan Desktop (Utama):** Dirancang optimal pada resolusi standar **1440 px** (lebar minimum 1024 px) dengan tata kelola ruang lapang, visual hierarchy bertingkat, dan *fixed multi-panel layout*.
+   - **Tampilan Smartphone (Mobile):** Responsif hingga lebar layar smartphone minimal **360 px** (optimal pada 390 px–420 px). Layout otomatis mereflow menjadi kartu vertikal tunggal (*stacked cards*), sidebar berubah menjadi drawer menu ringkas, dan ukuran target sentuh (*tap target*) memenuhi standar aksesibilitas minimal 44×44 px.
+
+2. **Tata Letak & Arsitektur Navigasi (*Softro SaaS 2-Column Dashboard*)**
+   - **Sidebar Navigasi Kiri (*Fixed Sidebar* 256 px / `w-64`):** Menampilkan identitas logo brand PrintCraft Duta Media, navigasi menu hierarkis dengan active state violet tint (`#EEF2FF`) dan border indikator tebal (`#7C3AED`), scrollbar tersembunyi yang mulus (*custom sleek scrollbar*), serta profil drawer petugas aktif di bagian bawah sidebar.
+   - **Header Atas (*Sticky Header* 64 px):** Memuat kolom pencarian global *real-time* (pencarian nomor pesanan, pelanggan, atau cabang), badge status peran yang sedang aktif, tombol aksi cepat (+ Order Baru), serta menu avatar pengguna.
+   - **Pemisahan Menu Berdasarkan Peran (*Role-Based Access Control*):**
+     - **Owner (Pusat):** Memiliki hak akses penuh (*multi-cabang*) terhadap 16 layar internal: *Dashboard Multicabang, Manajemen Akun User, Manajemen Cabang, Master Data Biaya & Tarif, Kalkulator Harga Custom Live (margin dinamis), Data Seluruh Pesanan, Detail Pesanan & Milestone Produksi, Input Pesanan Baru, CRM Database Pelanggan, Pengadaan Kaos Polos Vendor, Invoice Resmi, Work Order Production (SPK Workshop),* dan *Rekap Laporan Finansial Konsolidasi*.
+     - **Admin Cabang:** Dibatasi secara ketat hanya pada operasional unit cabang yang ditugaskan (7 layar operasional): *Dashboard Cabang, Kalkulator Kasir Cabang (margin terkunci 30%), Data Pesanan Cabang, Detail Pesanan Cabang, Input Pesanan Cabang, Pengadaan Kaos Cabang,* dan *Rekap Laporan Kasir Cabang*. Admin tidak memiliki akses ke menu Akun, Cabang, Master Data, dan Finansial Pusat.
+     - **Customer (Publik Tanpa Login):** Akses mandiri melalui 3 layar publik: *Landing Page Informasi & Simulasi Harga Kaos, Form Pendaftaran Member Online,* dan *Kartu Virtual Member Prioritas*.
+
+3. **Standar Komponen Tombol (*Action Buttons - Softro SaaS Violet Palette*)**
+   - **Tombol Aksi Utama (*Primary Action*):** Menggunakan warna Vibrant Violet **`#7C3AED`** (*hover*: `#6D28D9`, active: `#5B21B6`) dengan sudut membulat modern (`rounded-xl`), efek *subtle elevation shadow* (`shadow-sm` / `shadow-violet-200`), teks semi-bold kontras tinggi (putih), serta ikon penjelas di sisi kiri/kanan teks. Ditempatkan secara konsisten di sudut kanan bawah formulir atau header tabel.
+   - **Tombol Sekunder & Batal (*Secondary / Cancel Action*):** Menggunakan border halus *Slate Neutral* (`border-slate-200/80`) dengan latar belakang netral (`bg-white`, *hover*: `bg-slate-50`) dan warna teks Slate 700 (`#334155`), menggantikan gaya abu-abu kusam lama agar tetap menyatu harmonis.
+   - **Tombol Aksi Destruktif (*Destructive Action - Hapus*):** Menggunakan warna Rose Red **`#E11D48`** / **`#DC2626`** (`bg-rose-600`, *hover*: `bg-rose-700`). Sesuai standar Nielsen H5 (*Error Prevention*), tombol ini **wajib** memicu dialog modal konfirmasi eksplisit dengan latar belakang redup (*backdrop blur* `bg-slate-950/60`) sebelum eksekusi penghapusan permanen.
+   - **Tombol Sukses & Distribusi (*Success / Send Invoice*):** Menggunakan aksen Emerald Green **`#059669`** / **`#16A34A`** (`bg-emerald-600`, *hover*: `bg-emerald-700`) untuk aksi cetak PDF, kirim invoice via WhatsApp/Email, dan konfirmasi pelunasan kasir.
+
+4. **Hierarki Visual & Penanda Status (*Badge Pills System*)**
+   Menggantikan warna solid kusam dengan *Soft Badge Pills* berbingkai tipis dan latar belakang bernuansa lembut (*tinted soft background*) guna kenyamanan visual mata:
+   - **Status DP 50%:** Aksen Amber/Yellow lembut (`bg-amber-50 text-amber-700 border border-amber-200/60`).
+   - **Status Lunas / Selesai:** Aksen Emerald Green (`bg-emerald-50 text-emerald-700 border border-emerald-200/60`).
+   - **Status Piutang Lewat Deadline / Gagal:** Aksen Rose Red tegas (`bg-rose-50 text-rose-700 border border-rose-200/60`).
+   - **Deadline Mendekati Batas (≤ 3 Hari):** Aksen Orange peringatan (`bg-orange-50 text-orange-700 border border-orange-200/60`) dengan ikon jam pasir (*hourglass*).
+   - **Kategori Member Prioritas:** Aksen Softro Violet (`bg-violet-50 text-violet-700 border border-violet-200/60`) dengan lencana bintang/mahkota.
+
+5. **Format Pesan Notifikasi, Error, & Feedback Sistem (*Nielsen H1 & H9*)**
+   - **Toast Notification Mengambang (*Floating Toast*):** Tampil di sudut kanan atas layar (`top-6 right-6`) dengan animasi *slide-in*, latar belakang *Dark Slate* (`bg-slate-900`) berbayang halus, ikon status berwarna (hijau untuk sukses, merah untuk eror), serta teks Bahasa Indonesia yang lugas dan solutif.
+   - **Validasi Formulir Kontekstual (*Inline Field Validation*):** Pesan eror tampil tepat di bawah kolom input bersangkutan dengan teks merah (`text-rose-600`) dan highlight border merah muda (`border-rose-400`), seperti: *"Nomor WhatsApp wajib diawali angka 08 atau 62"*.
+
+6. **Format Tipografi & Standardisasi Data (*Precision Typography*)**
+   - **Tipografi Tampilan (*Display Font*):** Menggunakan font *Manrope* bobot *Bold* dan *ExtraBold* untuk judul utama, nama modul, dan header kartu.
+   - **Tipografi Antarmuka (*Interface & Body Font*):** Menggunakan font *Inter* bobot *Regular*, *Medium*, dan *SemiBold* untuk teks paragraf, label formulir, data tabel, dan navigasi.
+   - **Nilai Mata Uang (Rupiah):** Diformat standar Rupiah dengan pemisah ribuan titik (contoh: `Rp 1.250.000`), menggunakan font *JetBrains Mono* bobot *bold* (`font-mono font-bold`) untuk presisi pembacaan akuntansi konveksi.
+   - **Format Tanggal & Waktu:** Ditampilkan dalam format standar Indonesia `DD-MM-YYYY` (contoh: `24-10-2026`).
+   - **Nomor Transaksi & Order ID:** Menggunakan kode alfanumerik terstandarisasi dengan font monospace (contoh: `ORD-2026-101`, `INV-2026-089`, `WOP-2026-044`).
+
+7. **Standardisasi Dokumen Cetak (Invoice & Work Order Production)**
+   - **Invoice Penagihan:** Dokumen berukuran A4 siap cetak dan ekspor PDF resmi, memuat rincian harga per pcs, total biaya sablon, diskon member (bila ada), riwayat pembayaran DP, dan sisa tagihan piutang dengan stempel status lunas/DP.
+   - **Work Order Production (SPK Workshop):** Format cetak instruksi produksi A4 khusus staf operator sablon dan penjahit. **Sesuai ketentuan fungsional SRS 2.5.j, lembar WOP tidak menampilkan nominal harga, total rupiah, maupun sisa pembayaran**, melainkan hanya memuat spesifikasi teknis: nama bahan kaos, ukuran & jumlah pcs, jenis tinta sablon, posisi/titik sablon, catatan teknis, mockup visual, dan barcode pelacakan.
+
+8. **Landing Page Publik & Pengalaman Tanpa Akun (*Customer Self-Service*)**
+   - Halaman publik dirancang *clean* dan modern dengan tata letak studio asimetris profesional tanpa memerlukan autentikasi login bagi pelanggan. Memuat formulir simulasi kalkulator harga kaos mandiri yang terintegrasi di sisi hero, tabel ringkas katalog spesifikasi kain & sablon, tombol **Daftar Member Online** dengan aksen Softro Violet (`#7C3AED`), serta tautan diskrit terproteksi khusus staf internal menuju portal login petugas.
+
+## 3.2 Karakteristik Hardware {#3.2-karakteristik-hardware}
+
+	Customer tidak membutuhkan hardware khusus, cukup smartphone atau komputer untuk membuka landing page, WhatsApp, email, dan file PDF.
+
+1. Hardware untuk pengguna (Owner dan Admin) 
+
+   Perangkat yang dibutuhkan memiliki spesifikasi minimal sebagai berikut. Komputer atau laptop menggunakan prosesor dual-core 1,6 GHz, RAM 4 GB, dan layar 1366×768; perangkat ini menjadi perangkat utama bagi Admin dan Owner. Smartphone menggunakan Android 8.0 atau iOS 13 ke atas dengan RAM 2 GB, digunakan untuk pemantauan Owner dari jarak jauh. Printer harus mendukung kertas A4 untuk mencetak invoice dan WOP. Koneksi internet minimal 2 Mbps diperlukan untuk mengakses website yang berjalan di hosting.
+
+2. Hardware untuk pengembangan (sesuai Project Charter)  
+
+   Browser (Google Chrome, Mozilla Firefox, atau Microsoft Edge versi minimal 100, atau Safari versi minimal 15\) untuk membuka landing page; WhatsApp (versi terbaru) dan atau layanan email, serta pembaca PDF, untuk menerima dan membuka invoice.atau AMD Ryzen 3, RAM minimal 8 GB, dan penyimpanan SSD 1TB.
+
+3. Server (hosting) 
+
+   Layanan web hosting komersial dengan penyimpanan minimal 5 GB.
+
+## 3.3 Karakteristik Software {#3.3-karakteristik-software}
+
+a. Software untuk pengguna (Owner dan Admin)
+
+> > > Software pendukung yang dibutuhkan untuk mengoperasikan website PrintCraft meliputi browser dan pembaca PDF. Browser yang didukung adalah Google Chrome versi minimal 100 sebagai browser utama, Mozilla Firefox versi minimal 100 dan Microsoft Edge versi minimal 100 sebagai browser alternatif, serta Safari versi minimal 15 untuk perangkat Apple. Pembaca PDF seperti Adobe Acrobat Reader DC 2022 atau penampil PDF bawaan browser digunakan untuk membuka dan mencetak invoice dan WOP. Tidak diperlukan software office atau library tambahan yang harus diinstal pengguna.
+
+b. Software untuk customer  
+
+> > > WhatsApp (versi terbaru) dan atau aplikasi email, serta pembaca PDF, untuk menerima dan membuka invoice.
+
+c. Software untuk pengembangan dan server
+
+> > > Software pendukung pengembangan dan server meliputi PHP versi 8.2 sebagai bahasa pemrograman backend, Laravel versi 11+ sebagai framework MVC, MySQL versi 8.0 atau MariaDB versi 10.6 sebagai basis data, Composer versi 2.x sebagai pengelola dependensi PHP, serta Node.js dan npm versi 18 sebagai pengelola aset frontend. Server lokal pengembangan menggunakan XAMPP atau Docker versi terbaru, dengan Visual Studio Code versi terbaru sebagai penyunting kode, Draw.io atau Visual Paradigm versi terbaru untuk pemodelan UML dan ERD, serta Figma versi web untuk perancangan tampilan website. Library barryvdh/laravel-dompdf versi 2.x digunakan untuk menghasilkan invoice dan WOP berformat PDF, serta API WhatsApp dan layanan email SMTP dari pihak ketiga digunakan untuk mengirim invoice kepada customer.
+
+## 3.4 Karakteristik Komunikasi {#3.4-karakteristik-komunikasi}
+
+1. Protokol 
+
+   Seluruh komunikasi antara browser dan server, termasuk landing page dan form daftar member, menggunakan HTTPS (SSL/TLS) di domain resmi. 
+
+2. Enkripsi password 
+
+   Password pengguna disimpan dalam bentuk hash (bcrypt) dan tidak pernah ditampilkan ulang.
+
+3. Autentikasi dan sesi 
+
+   Pengguna internal (Owner dan Admin) harus melakukan login dengan username dan password yang valid sebelum dapat mengakses fitur website. Sesi login berakhir ketika pengguna melakukan logout, sehingga pengguna harus login kembali. Pada fitur lupa password, website mengirim tautan reset ke email akun yang bersangkutan. Tautan tersebut hanya berlaku selama 60 menit dan hanya dapat digunakan satu kali. Jika tautan sudah kedaluwarsa, pengguna harus meminta tautan reset yang baru.
+
+4. Hak akses 
+
+   Akses dibedakan per peran (Owner dan Admin). Admin hanya dapat membaca dan mengubah data cabangnya.
+
+5. Integrasi pengiriman invoice
+
+   Invoice PDF dikirim ke WhatsApp customer melalui API WhatsApp pihak ketiga. Invoice juga dapat dikirim ke email customer melalui layanan email (SMTP). Tautan reset password pada fitur lupa password juga dikirim ke email pengguna melalui layanan SMTP yang sama. Status pengiriman (terkirim atau gagal) dicatat oleh sistem.
+
+6. Format pertukaran data 
+
+   Komunikasi dengan API pihak ketiga menggunakan format JSON melalui HTTPS. File invoice dan WOP dibuat berformat PDF.
+
+7. Bahasa 
+
+   Seluruh antarmuka dan pesan sistem menggunakan Bahasa Indonesia.
+
+8. Sinkronisasi 
+
+   Data bersifat terpusat di satu basis data. Perubahan yang dilakukan Admin langsung tersedia bagi Owner pada dashboard dan rekap laporan.
+
+# 
+
+# 4\. Kebutuhan Fungsional Website {#4.-kebutuhan-fungsional-website}
+
+## 4.1 Kebutuhan Fungsional {#4.1-kebutuhan-fungsional}
+
+1. Kebutuhan fungsional pengguna Owner terdiri dari:
+
+   1\. Login
+
+   a. Login pengguna
+
+   b. Logout
+
+   c. Lupa password (reset password)
+
+   2\. Akun
+
+   a. Tampil data akun
+
+   b. Tambah data akun
+
+   c. Ubah data akun
+
+   d. Hapus data akun
+
+   e. Reset password akun
+
+   f. Cari data akun berdasarkan nama atau username
+
+   3\. Cabang
+
+   a. Tampil data cabang
+
+   b. Tambah data cabang
+
+   c. Ubah data cabang
+
+   d. Hapus data cabang
+
+   e. Cari data cabang berdasarkan nama
+
+   4\. Master Data dan Kalkulator Harga
+
+   a. Tampil data master
+
+   b. Tambah data master 
+
+   c. Ubah data master
+
+   d. Hapus data master
+
+   e. Cari data master berdasarkan nama
+
+   f. Hitung estimasi harga
+
+   g. Simpan estimasi menjadi pesanan
+
+   5\. Pesanan dan Data Customer
+
+   a. Tampil data pesanan
+
+   b. Tambah data pesanan
+
+   c. Ubah data pesanan
+
+   d. Hapus data pesanan
+
+   e. Catat pembayaran (DP atau Lunas) dan hitung sisa piutang
+
+   f. Cari dan filter data pesanan
+
+   g. Tampil data customer
+
+   h. Tambah data customer
+
+   i. Ubah data customer
+
+   j. Hapus data customer
+
+   k. Cari data customer berdasarkan nama atau nomor WhatsApp
+
+   6\. Pengadaan Kaos
+
+   a. Tampil data pengadaan kaos
+
+   b. Tambah data pengadaan kaos
+
+   c. Ubah data pengadaan kaos
+
+   d. Hapus data pengadaan kaos
+
+   e. Ubah status pengadaan
+
+   f. Cari data pengadaan berdasarkan nomor pesanan
+
+   7\. Invoice dan WOP
+
+   a. Tampil data invoice
+
+   b. Buat invoice PDF
+
+   c. Kirim invoice melalui WhatsApp dan email
+
+   d. Cetak WOP
+
+   e. Cari data invoice berdasarkan nomor pesanan
+
+   8\. Dashboard dan Rekap Laporan
+
+   a. Tampil ringkasan dashboard
+
+   b. Tampil rekap penjualan, piutang, dan keuangan
+
+   c. Filter laporan berdasarkan cabang dan bulan
+
+2. Kebutuhan fungsional pengguna Admin terdiri dari : 
+
+   1\. Login
+
+   a. Login pengguna
+
+   b. Logout
+
+   c. Lupa password (reset password)
+
+   2\. Master Data dan Kalkulator Harga
+
+   a. Hitung estimasi harga
+
+   b. Simpan estimasi menjadi pesanan
+
+   3\. Pesanan dan Data Customer
+
+   a. Tampil data pesanan
+
+   b. Tambah data pesanan
+
+   c. Ubah data pesanan
+
+   d. Hapus data pesanan
+
+   e. Catat pembayaran (DP atau Lunas) dan hitung sisa piutang
+
+   f.  Cari dan filter data pesanan
+
+   g. Tampil data customer
+
+   h. Tambah data customer
+
+   i. Ubah data customer
+
+   j. Hapus data customer
+
+   k. Cari data customer berdasarkan nama atau nomor WhatsApp
+
+   4\. Pengadaan Kaos
+
+   a. Tampil data pengadaan kaos
+
+   b. Tambah data pengadaan kaos
+
+   c. Ubah data pengadaan kaos
+
+   d. Hapus data pengadaan kaos
+
+   e. Ubah status pengadaan
+
+   f. Cari data pengadaan berdasarkan nomor pesanan
+
+   5\. Invoice dan WOP
+
+   a. Tampil data invoice
+
+   b. Buat invoice PDF
+
+   c. Kirim invoice melalui WhatsApp dan email
+
+   d. Cetak WOP
+
+   e. Cari data invoice berdasarkan nomor pesanan
+
+   6\. Dashboard dan Rekap Laporan
+
+   a. Tampil ringkasan dashboard cabang
+
+   b. Tampil rekap penjualan, piutang, dan keuangan cabang
+
+   c. Filter laporan berdasarkan bulan
+
+   
+
+3. Kebutuhan fungsional pengguna Customer terdiri dari:  
+   1\. Landing Page dan Daftar Member
+
+   a. Tampil landing page  
+   b. Form Daftar member
+
+   
+
+## 4.2 Use case Diagram {#4.2-use-case-diagram}
+
+![][image1]
+
+Gambar 1\. Use Case Diagram Pengguna Owner
+
+Gambar 1 merupakan use case diagram untuk pengguna Owner. Owner harus login untuk mengakses fitur akun, cabang, master data dan kalkulator harga, pesanan dan data customer, pengadaan kaos, invoice dan WOP, serta dashboard dan rekap laporan. Customer adalah aktor eksternal yang tidak login, menerima invoice, dan dapat mendaftar member (Gambar 3).
+
+![][image2]
+
+Gambar 2\. Use Case Diagram Pengguna Admin
+
+Gambar 2 merupakan use case diagram untuk pengguna Admin. Admin harus login untuk mengakses fitur master data dan kalkulator harga, pesanan dan data customer, pengadaan kaos, invoice dan WOP, serta dashboard dan rekap laporan pada cabang yang ditugaskan. Customer adalah aktor eksternal yang tidak login, menerima invoice, dan dapat mendaftar member (Gambar 3).
+
+![][image3]  
+Gambar 3\. Use Case Diagram Customer
+
+Gambar 3 merupakan use case diagram untuk pengguna Customer. Customer mengakses landing page website Duta  Media tanpa login, lalu mendaftar sebagai member melalui tombol Daftar Member untuk memperoleh potongan harga saat bertransaksi. Karena Customer tidak memiliki akun login, use case Landing Page dan Daftar Member tidak memiliki hubungan include ke Login. Customer juga menerima invoice dari use case Invoice dan WOP yang dikelola Owner dan Admin.
+
+## 
+
+##  4.3 Use case Deskripsi {#4.3-use-case-deskripsi}
+
+4.3.1 Use case deskripsi fitur Login  
+Tabel 7\. Use Case Deskripsi Login
+
+| Nama Use Case | Login |  |
+| :---- | :---- | :---- |
+| Aktor | Owner, Admin |  |
+| Deskripsi | Login terdiri dari login pengguna, logout, dan lupa password (reset password) |  |
+| Pre-condition | Pengguna memiliki username dan password yang aktif |  |
+| Post-condition | Website menampilkan halaman dashboard sesuai peran pengguna |  |
+| Login pengguna |  |  |
+| Aktor |  | Website |
+| 1\. Buka website |  | 1\. Menampilkan halaman login |
+| 2\. Isikan username dan password |  |   |
+| 3\. Klik tombol login |  | 2\. Mengecek username dan password valid atau tidak |
+|   |  | 3\. Menampilkan halaman dashboard sesuai peran |
+| Alur alternatif : jika username atau password yang dimasukkan salah maka website menampilkan pesan. |  |  |
+| Logout |  |  |
+| Aktor |  | Website |
+| 1\. Klik tombol logout |  | 1\. Menampilkan konfirmasi logout |
+| 2\. Klik tombol ya |  | 2\. Mengakhiri sesi pengguna |
+|   |  | 3\. Menampilkan halaman login |
+| Alur alternatif : jika klik tombol batal maka website kembali ke halaman terakhir. |  |  |
+| Lupa password (reset password) |  |  |
+| Aktor |  | Website |
+| 1\. Buka website |  | 1\. Menampilkan halaman login |
+| 2\. Klik lupa password |  | 2\. Menampilkan halaman cek username |
+| 3\. Isikan username pada textbox yang tersedia |  |   |
+| 4\. Klik tombol kirim |  | 3\. Mengecek username |
+|  |  | 4\. Mengirim tautan reset ke email |
+|  |  | 5\. Menampilkan pesan tautan reset telah dikirim |
+|  5\. Buka tautan reset pada email |  | 6\. Memeriksa keabsahan tautan |
+|  |  | 7\. Menampilkan halaman input password baru |
+| 6\. Isikan password baru |  |  |
+| 7\. Klik tombol ubah |  | 8\. Memvalidasi password baru |
+|   |  | 9\. Menyimpan password baru |
+|   |  | 10\. Menampilkan konfirmasi ubah password |
+| Alur alternatif : jika username tidak ditemukan maka website tetap menampilkan pesan netral bahwa tautan reset telah dikirim, tanpa mengirim email; jika tautan tidak valid atau sudah kedaluwarsa maka website menampilkan pesan lalu kembali ke halaman login; jika password baru tidak sesuai ketentuan maka website menampilkan pesan lalu kembali ke halaman input password baru. |  |  |
+
+4.3.2 Use case deskripsi Akun
+
+Tabel 8\. Use Case Deskripsi Akun
+
+| Nama Use Case | Akun |  |
+| :---- | :---- | :---- |
+| Aktor | Owner |  |
+| Deskripsi | Akun terdiri dari tampil, tambah, ubah, hapus, reset password, dan cari data akun |  |
+| Pre-condition | Owner sudah login |  |
+| Post-condition | Website menampilkan halaman daftar akun yang sudah diperbarui |  |
+| Tampil data akun |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Akun |  | 1\. Menampilkan halaman daftar akun |
+| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
+| Tambah data akun |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Akun |  | 1\. Menampilkan halaman daftar akun |
+| 2\. Klik tombol tambah |  | 2\. Menampilkan halaman form tambah akun |
+| 3\. Isikan email, nama, username, password, peran, dan cabang |  |   |
+| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
+|   |  | 4\. Menyimpan data akun |
+|   |  | 5\. Menampilkan halaman daftar akun beserta pesan data berhasil ditambahkan |
+| Alur alternatif : jika data tidak valid atau username sudah dipakai maka website menampilkan pesan. |  |  |
+| Ubah data akun |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Akun |  | 1\. Menampilkan halaman daftar akun |
+| 2\. Klik tombol ubah pada akun |  | 2\. Menampilkan halaman form ubah akun berisi data lama |
+| 3\. Ubah email, nama, username, peran, dan cabang |  |   |
+| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
+|   |  | 4\. Menyimpan perubahan data akun |
+|   |  | 5\. Menampilkan halaman daftar akun beserta pesan data berhasil diubah |
+| Alur alternatif : jika data tidak valid atau username sudah dipakai maka website menampilkan pesan. |  |  |
+| Hapus data akun |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Akun |  | 1\. Menampilkan halaman daftar akun |
+| 2\. Klik tombol hapus pada akun |  | 2\. Menampilkan konfirmasi hapus |
+| 3\. Klik tombol ya |  | 3\. Mengecek apakah akun sedang dipakai login |
+|   |  | 4\. Menghapus data akun |
+|   |  | 5\. Menampilkan halaman daftar akun beserta pesan data berhasil dihapus |
+| Alur alternatif : jika klik tombol batal maka website kembali ke halaman daftar akun; jika akun yang dihapus sedang dipakai login maka website menampilkan pesan data tidak dapat dihapus. |  |  |
+| Reset password akun |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Akun |  | 1\. Menampilkan halaman daftar akun |
+| 2\. Klik tombol reset password pada akun |  | 2\. Menampilkan halaman form password baru |
+| 3\. Isikan password baru |  |   |
+| 4\. Klik tombol simpan |  | 3\. Memvalidasi password baru |
+|   |  | 4\. Menyimpan password baru |
+|   |  | 5\. Menampilkan konfirmasi password berhasil diubah |
+| Alur alternatif : jika password tidak sesuai ketentuan maka website menampilkan pesan. |  |  |
+| Cari data akun |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Akun |  | 1\. Menampilkan halaman daftar akun |
+| 2\. Isikan nama atau username pada kolom cari |  |   |
+| 3\. Klik tombol cari |  | 2\. Mencari data akun |
+|   |  | 3\. Menampilkan daftar akun yang sesuai |
+| Alur alternatif : jika data tidak ditemukan maka website menampilkan pesan data tidak ditemukan. |  |  |
+
+4.3.3 Use case deskripsi Cabang
+
+Tabel 9\. Use Case Deskripsi Cabang
+
+| Nama Use Case | Cabang |  |
+| :---- | :---- | :---- |
+| Aktor | Owner |  |
+| Deskripsi | Cabang terdiri dari tampil, tambah, ubah, hapus, dan cari data cabang |  |
+| Pre-condition | Owner sudah login |  |
+| Post-condition | Website menampilkan halaman daftar cabang yang sudah diperbarui |  |
+| Tampil data cabang |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Cabang |  | 1\. Menampilkan halaman daftar cabang |
+| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
+| Tambah data cabang |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Cabang |  | 1\. Menampilkan halaman daftar cabang |
+| 2\. Klik tombol tambah |  | 2\. Menampilkan halaman form tambah cabang |
+| 3\. Isikan nama, alamat, dan nomor telepon |  |   |
+| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
+|   |  | 4\. Menyimpan data cabang |
+|   |  | 5\. Menampilkan halaman daftar cabang beserta pesan data berhasil ditambahkan |
+| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
+| Ubah data cabang |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Cabang |  | 1\. Menampilkan halaman daftar cabang |
+| 2\. Klik tombol ubah pada cabang |  | 2\. Menampilkan halaman form ubah cabang berisi data lama |
+| 3\. Ubah data cabang |  |   |
+| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
+|   |  | 4\. Menyimpan perubahan data cabang |
+|   |  | 5\. Menampilkan halaman daftar cabang beserta pesan data berhasil diubah |
+| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
+| Hapus data cabang |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Cabang |  | 1\. Menampilkan halaman daftar cabang |
+| 2\. Klik tombol hapus pada cabang |  | 2\. Menampilkan konfirmasi hapus |
+| 3\. Klik tombol ya |  | 3\. Mengecek apakah cabang masih memiliki akun atau pesanan |
+|   |  | 4\. Menghapus data cabang |
+|   |  | 5\. Menampilkan halaman daftar cabang beserta pesan data berhasil dihapus |
+| Alur alternatif : jika klik tombol batal maka website kembali ke halaman daftar cabang; jika cabang masih memiliki akun atau pesanan maka website menampilkan pesan data tidak dapat dihapus. |  |  |
+| Cari data cabang |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Cabang |  | 1\. Menampilkan halaman daftar cabang |
+| 2\. Isikan nama cabang pada kolom cari |  |   |
+| 3\. Klik tombol cari |  | 2\. Mencari data cabang |
+|   |  | 3\. Menampilkan daftar cabang yang sesuai |
+| Alur alternatif : jika data tidak ditemukan maka website menampilkan pesan data tidak ditemukan. |  |  |
+
+4.3.4 Use case deskripsi Master Data dan Kalkulator Harga
+
+Tabel 10\. Use Case Deskripsi Master Data dan Kalkulator Harga
+
+| Nama Use Case | Master Data dan Kalkulator Harga |  |
+| :---- | :---- | :---- |
+| Aktor | Owner, Admin |  |
+| Deskripsi | Master Data dan Kalkulator Harga terdiri dari tampil, tambah, ubah, hapus, dan cari data master (bahan, ukuran, jenis sablon, kategori customer, tarif), serta hitung estimasi harga dan simpan estimasi menjadi pesanan. Data master hanya dapat dikelola Owner, sedangkan Admin hanya menggunakan kalkulator harga |  |
+| Pre-condition | Pengguna sudah login |  |
+| Post-condition | Website menampilkan data master yang sudah diperbarui, hasil estimasi harga, atau data pesanan baru |  |
+| Tampil data master (Owner) |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Master Data |  | 1\. Menampilkan pilihan kelompok data |
+| 2\. Pilih kelompok data |  | 2\. Menampilkan halaman daftar data pada kelompok terpilih |
+| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
+| Tambah data master (Owner) |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Master Data |  | 1\. Menampilkan pilihan kelompok data |
+| 2\. Pilih kelompok data |  | 2\. Menampilkan halaman daftar data pada kelompok terpilih |
+| 3\. Klik tombol tambah |  | 3\. Menampilkan halaman form tambah data |
+| 4\. Isikan nama dan nilai (harga atau tarif) |  |   |
+| 5\. Klik tombol simpan |  | 4\. Memvalidasi data |
+|   |  | 5\. Menyimpan data master |
+|   |  | 6\. Menampilkan halaman daftar data beserta pesan data berhasil ditambahkan |
+| Alur alternatif : jika data tidak valid atau nama sudah ada maka website menampilkan pesan. |  |  |
+| Ubah data master (Owner) |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Master Data |  | 1\. Menampilkan pilihan kelompok data |
+| 2\. Pilih kelompok data |  | 2\. Menampilkan halaman daftar data pada kelompok terpilih |
+| 3\. Klik tombol ubah pada data |  | 3\. Menampilkan halaman form ubah data berisi data lama |
+| 4\. Ubah data master |  |   |
+| 5\. Klik tombol simpan |  | 4\. Memvalidasi data |
+|   |  | 5\. Menyimpan perubahan data master |
+|   |  | 6\. Menampilkan halaman daftar data beserta pesan data berhasil diubah |
+| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
+| Hapus data master (Owner) |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Master Data |  | 1\. Menampilkan pilihan kelompok data |
+| 2\. Pilih kelompok data |  | 2\. Menampilkan halaman daftar data pada kelompok terpilih |
+| 3\. Klik tombol hapus pada data |  | 3\. Menampilkan konfirmasi hapus |
+| 4\. Klik tombol ya |  | 4\. Mengecek apakah data master masih dipakai pada pesanan |
+|   |  | 5\. Menghapus data master |
+|   |  | 6\. Menampilkan halaman daftar data beserta pesan data berhasil dihapus |
+| Alur alternatif : jika klik tombol batal maka website kembali ke halaman daftar data; jika data masih dipakai pada pesanan maka website menampilkan pesan data tidak dapat dihapus. |  |  |
+| Cari data master (Owner) |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Master Data |  | 1\. Menampilkan pilihan kelompok data |
+| 2\. Pilih kelompok data |  | 2\. Menampilkan halaman daftar data pada kelompok terpilih |
+| 3\. Isikan nama pada kolom cari |  |   |
+| 4\. Klik tombol cari |  | 3\. Mencari data master |
+|   |  | 4\. Menampilkan daftar data yang sesuai |
+| Alur alternatif : jika data tidak ditemukan maka website menampilkan pesan data tidak ditemukan. |  |  |
+| Hitung estimasi harga |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Kalkulator Harga |  | 1\. Menampilkan halaman form kalkulator harga |
+| 2\. Pilih bahan, ukuran, jenis sablon, dan kategori customer |  |   |
+| 3\. Isikan jumlah pesanan dan harga beli kaos |  |   |
+| 4\. Klik tombol hitung |  | 2\. Memvalidasi data |
+|   |  | 3\. Menghitung harga satuan dan total berdasarkan data master |
+|   |  | 4\. Menampilkan hasil estimasi beserta rincian perhitungan |
+| Alur alternatif : jika ada kolom belum diisi atau jumlah tidak valid maka website menampilkan pesan. |  |  |
+| Simpan estimasi menjadi pesanan |  |  |
+| Aktor |  | Website |
+| 1\. Klik tombol buat pesanan pada hasil estimasi |  | 1\. Menampilkan halaman form pesanan berisi data hasil estimasi |
+| 2\. Pilih customer dan isikan deadline |  |   |
+| 3\. Klik tombol simpan |  | 2\. Memvalidasi data |
+|   |  | 3\. Menyimpan data pesanan |
+|   |  | 4\. Menampilkan halaman daftar pesanan beserta pesan data berhasil ditambahkan |
+| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
+
+4.3.5 Use case deskripsi Pesanan dan Data Customer
+
+Tabel 11\. Use Case Deskripsi Pesanan dan Data Customer
+
+| Nama Use Case | Pesanan dan Data Customer |  |
+| :---- | :---- | :---- |
+| Aktor | Owner, Admin |  |
+| Deskripsi | Pesanan dan Data Customer terdiri dari tampil, tambah, ubah, hapus, catat pembayaran, serta cari dan filter data pesanan, dan tampil, tambah, ubah, hapus, serta cari data customer. Admin hanya dapat mengelola data pada cabang yang ditugaskan |  |
+| Pre-condition | Pengguna sudah login |  |
+| Post-condition | Website menampilkan daftar pesanan atau daftar customer yang sudah diperbarui |  |
+| Tampil data pesanan |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Pesanan |  | 1\. Menampilkan halaman daftar pesanan |
+| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
+| Tambah data pesanan |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Pesanan |  | 1\. Menampilkan halaman daftar pesanan |
+| 2\. Klik tombol tambah |  | 2\. Menampilkan halaman form tambah pesanan |
+| 3\. Pilih customer, isikan spesifikasi pesanan, total harga, dan deadline |  |   |
+| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
+|   |  | 4\. Menyimpan data pesanan |
+|   |  | 5\. Menampilkan halaman daftar pesanan beserta pesan data berhasil ditambahkan |
+| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
+| Ubah data pesanan |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Pesanan |  | 1\. Menampilkan halaman daftar pesanan |
+| 2\. Klik tombol ubah pada pesanan |  | 2\. Menampilkan halaman form ubah pesanan berisi data lama |
+| 3\. Ubah data pesanan |  |   |
+| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
+|   |  | 4\. Menyimpan perubahan data pesanan |
+|   |  | 5\. Menampilkan halaman daftar pesanan beserta pesan data berhasil diubah |
+| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
+| Hapus data pesanan |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Pesanan |  | 1\. Menampilkan halaman daftar pesanan |
+| 2\. Klik tombol hapus pada pesanan |  | 2\. Menampilkan konfirmasi hapus |
+| 3\. Klik tombol ya |  | 3\. Mengecek apakah pesanan memiliki data terkait |
+|   |  | 4\. Menghapus data pesanan |
+|  |  | 5\. Menampilkan halaman daftar pesanan beserta pesan data berhasil dihapus |
+| Alur alternatif : jika klik tombol batal maka website kembali ke halaman daftar pesanan; jika pesanan memiliki data terkait maka website menampilkan pesan data tidak dapat dihapus. |  |  |
+| Catat pembayaran |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Pesanan |  | 1\. Menampilkan halaman daftar pesanan |
+| 2\. Klik tombol pembayaran pada pesanan |  | 2\. Menampilkan halaman form pembayaran |
+| 3\. Pilih status DP atau Lunas dan isikan nominal dibayar |  |   |
+| 4\. Klik tombol simpan |  | 3\. Memvalidasi nominal |
+|   |  | 4\. Menyimpan pembayaran dan menghitung sisa piutang |
+|   |  | 5\. Menampilkan halaman detail pesanan |
+| Alur alternatif : jika nominal melebihi total harga atau tidak valid maka website menampilkan pesan. |  |  |
+| Cari dan filter data pesanan |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Pesanan |  | 1\. Menampilkan halaman daftar pesanan |
+| 2\. Isikan nama customer atau pilih status pembayaran dan deadline |  |   |
+| 3\. Klik tombol cari |  | 2\. Mencari data pesanan |
+|   |  | 3\. Menampilkan daftar pesanan yang sesuai |
+| Alur alternatif : jika data tidak ditemukan maka website menampilkan pesan data tidak ditemukan. |  |  |
+| Tampil data customer |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Data Customer |  | 1\. Menampilkan halaman daftar customer |
+| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
+| Tambah data customer |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Data Customer |  | 1\. Menampilkan halaman daftar customer |
+| 2\. Klik tombol tambah |  | 2\. Menampilkan halaman form tambah customer |
+| 3\. Isikan nama, nomor WhatsApp, email, alamat, dan kategori customer (Member atau Non-Member) |  |   |
+| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
+|   |  | 4\. Menyimpan data customer |
+|   |  | 5\. Menampilkan halaman daftar customer beserta pesan data berhasil ditambahkan |
+| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
+| Ubah data customer |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Data Customer |  | 1\. Menampilkan halaman daftar customer |
+| 2\. Klik tombol ubah pada customer |  | 2\. Menampilkan halaman form ubah customer berisi data lama |
+| 3\. Ubah data customer |  |   |
+| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
+|   |  | 4\. Menyimpan perubahan data customer |
+|   |  | 5\. Menampilkan halaman daftar customer beserta pesan data berhasil diubah |
+| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
+| Hapus data customer |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Data Customer |  | 1\. Menampilkan halaman daftar customer |
+| 2\. Klik tombol hapus pada customer |  | 2\. Menampilkan konfirmasi hapus |
+| 3\. Klik tombol ya |  | 3\. Mengecek apakah customer masih memiliki pesanan |
+|   |  | 4\. Menghapus data customer |
+|   |  | 5\. Menampilkan halaman daftar customer beserta pesan data berhasil dihapus |
+| Alur alternatif : jika klik tombol batal maka website kembali ke halaman daftar customer; jika customer masih memiliki pesanan maka website menampilkan pesan data tidak dapat dihapus. |  |  |
+| Cari data customer |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Data Customer |  | 1\. Menampilkan halaman daftar customer |
+| 2\. Isikan nama atau nomor WhatsApp pada kolom cari |  |   |
+| 3\. Klik tombol cari |  | 2\. Mencari data customer |
+|   |  | 3\. Menampilkan daftar customer yang sesuai |
+| Alur alternatif : jika data tidak ditemukan maka website menampilkan pesan data tidak ditemukan. |  |  |
+|  |  |  |
+
+ 
+
+4.3.6 Use case Deskripsi Pengadaan Kaos 
+
+Tabel 12\. Use Case Deskripsi Pengadaan Kaos
+
+| Nama Use Case | Pengadaan Kaos |  |
+| ----- | :---- | ----- |
+| Aktor | Owner, Admin |  |
+| Deskripsi | Pengadaan Kaos terdiri dari tampil, tambah, ubah, hapus, ubah status, dan cari data pengadaan kaos. Admin hanya dapat mengelola data pada cabang yang ditugaskan |  |
+| Pre-condition | Pengguna sudah login dan data pesanan sudah tercatat |  |
+| Post-condition | Website menampilkan daftar pengadaan kaos yang sudah diperbarui |  |
+| Tampil data pengadaan kaos |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Pengadaan Kaos |  | 1\. Menampilkan halaman daftar pengadaan |
+| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
+| Tambah data pengadaan kaos |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Pengadaan Kaos |  | 1\. Menampilkan halaman daftar pengadaan |
+| 2\. Klik tombol tambah |  | 2\. Menampilkan halaman form tambah pengadaan |
+| 3\. Pilih pesanan, isikan pemasok, jumlah, harga beli, dan tanggal beli |  |   |
+| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
+|   |  | 4\. Menyimpan data pengadaan |
+|   |  | 5\. Menampilkan halaman daftar pengadaan beserta pesan data berhasil ditambahkan |
+| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
+| Ubah data pengadaan kaos |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Pengadaan Kaos |  | 1\. Menampilkan halaman daftar pengadaan |
+| 2\. Klik tombol ubah pada pengadaan |  | 2\. Menampilkan halaman form ubah pengadaan berisi data lama |
+| 3\. Ubah data pengadaan |  |   |
+| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
+|   |  | 4\. Menyimpan perubahan data pengadaan |
+|   |  | 5\. Menampilkan halaman daftar pengadaan beserta pesan data berhasil diubah |
+| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
+| Hapus data pengadaan kaos |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Pengadaan Kaos |  | 1\. Menampilkan halaman daftar pengadaan |
+| 2\. Klik tombol hapus pada pengadaan |  | 2\. Menampilkan konfirmasi hapus |
+| 3\. Klik tombol ya |  | 3\. Menghapus data pengadaan |
+|   |  | 4\. Menampilkan halaman daftar pengadaan beserta pesan data berhasil dihapus |
+| Alur alternatif : jika klik tombol batal maka website kembali ke halaman daftar pengadaan. |  |  |
+| Ubah status pengadaan |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Pengadaan Kaos |  | 1\. Menampilkan halaman daftar pengadaan |
+| 2\. Klik tombol ubah status pada pengadaan |  | 2\. Menampilkan pilihan status (Dipesan atau Diterima) |
+| 3\. Pilih status |  |   |
+| 4\. Klik tombol simpan |  | 3\. Memeriksa status yang dipilih |
+|   |  | 4\. Menyimpan status pengadaan |
+|   |  | 5\. Menampilkan halaman daftar pengadaan beserta pesan status berhasil diubah |
+| Alur alternatif : jika status belum dipilih maka website menampilkan pesan. |  |  |
+| Cari data pengadaan kaos |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Pengadaan Kaos |  | 1\. Menampilkan halaman daftar pengadaan |
+| 2\. Isikan nomor pesanan pada kolom cari |  |   |
+| 3\. Klik tombol cari |  | 2\. Mencari data pengadaan |
+|   |  | 3\. Menampilkan daftar pengadaan yang sesuai |
+| Alur alternatif : jika data tidak ditemukan maka website menampilkan pesan data tidak ditemukan. |  |  |
+
+### 
+
+4.3.7 Use case Deskripsi Invoice dan WOP
+
+Tabel 13\. Use Case Deskripsi Invoice dan WOP
+
+| Nama Use Case | Invoice dan WOP |  |
+| :---- | :---- | :---- |
+| Aktor | Owner, Admin (Customer sebagai aktor eksternal yang menerima invoice) |  |
+| Deskripsi | Invoice dan WOP terdiri dari tampil data invoice, buat invoice PDF, kirim invoice, cetak WOP, dan cari data invoice. Admin hanya dapat mengelola data pada cabang yang ditugaskan |  |
+| Pre-condition | Pengguna sudah login dan data pesanan sudah tersedia |  |
+| Post-condition | Invoice terkirim kepada customer atau WOP berhasil dicetak |  |
+| Tampil data invoice |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Invoice dan WOP |  | 1\. Menampilkan halaman daftar pesanan beserta status invoice |
+| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
+| Buat invoice PDF |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Invoice dan WOP |  | 1\. Menampilkan halaman daftar pesanan |
+| 2\. Pilih pesanan lalu klik tombol buat invoice |  | 2\. Mengecek kelengkapan data customer |
+|   |  | 3\. Membuat invoice PDF dari data pesanan |
+|   |  | 4\. Menampilkan halaman pratinjau invoice |
+| Alur alternatif : jika data customer pada pesanan belum lengkap maka website menampilkan pesan. |  |  |
+| Kirim invoice |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Invoice dan WOP |  | 1\. Menampilkan halaman daftar pesanan |
+| 2\. Pilih pesanan lalu klik tombol kirim WhatsApp atau kirim email |  | 2\. Mengirim invoice PDF ke nomor WhatsApp atau email customer |
+|   |  | 3\. Mencatat status pengiriman (terkirim atau gagal) |
+|   |  | 4\. Menampilkan konfirmasi pengiriman |
+| Alur alternatif : jika pengiriman gagal maka website menampilkan pesan dan pengguna dapat mengirim ulang. |  |  |
+| Cetak WOP |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Invoice dan WOP |  | 1\. Menampilkan halaman daftar pesanan |
+| 2\. Pilih pesanan lalu klik tombol cetak WOP |  | 2\. Mengecek kelengkapan data pesanan |
+|   |  | 3\. Membuat WOP tanpa nominal harga |
+|   |  | 4\. Menampilkan halaman pratinjau WOP |
+| 3\. Klik tombol cetak |  | 5\. Mencetak WOP |
+| Alur alternatif : jika data pesanan belum lengkap maka website menampilkan pesan. |  |  |
+| Cari data invoice |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Invoice dan WOP |  | 1\. Menampilkan halaman daftar pesanan |
+| 2\. Isikan nomor pesanan pada kolom cari |  |   |
+| 3\. Klik tombol cari |  | 2\. Mencari data invoice |
+|   |  | 3\. Menampilkan daftar invoice yang sesuai |
+| Alur alternatif : jika data tidak ditemukan maka website menampilkan pesan data tidak ditemukan. |  |  |
+
+4.3.8 Use Case Deskripsi Dashboard dan Rekap Laporan
+
+Tabel 14\. Use Case Deskripsi Dashboard dan Rekap Laporan
+
+| Nama Use Case | Dashboard dan Rekap Laporan |  |
+| :---- | :---- | :---- |
+| Aktor | Owner, Admin |  |
+| Deskripsi | Dashboard dan Rekap Laporan terdiri dari tampil ringkasan dashboard, tampil rekap laporan, dan filter laporan. Owner melihat data semua cabang, sedangkan Admin hanya melihat data cabang yang ditugaskan |  |
+| Pre-condition | Pengguna sudah login |  |
+| Post-condition | Website menampilkan ringkasan atau rekap laporan sesuai pilihan pengguna |  |
+| Tampil ringkasan dashboard |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Dashboard |  | 1\. Menampilkan halaman dashboard berisi jumlah pesanan, total penjualan, total piutang, dan pesanan mendekati deadline |
+| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
+| Tampil rekap laporan |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Rekap Laporan |  | 1\. Menampilkan halaman rekap penjualan, piutang, dan keuangan |
+| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
+| Filter laporan |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Rekap Laporan |  | 1\. Menampilkan halaman rekap penjualan, piutang, dan keuangan |
+| 2\. Pilih cabang (khusus Owner) dan bulan |  |   |
+| 3\. Klik tombol tampilkan |  | 2\. Mencari data laporan |
+|   |  | 3\. Menampilkan laporan sesuai cabang dan bulan |
+| Alur alternatif : jika tidak ada data pada pilihan tersebut maka website menampilkan pesan data tidak ditemukan. |  |  |
+
+4.3.8 Use Case Deskripsi Dashboard dan Rekap Laporan
+
+Tabel 14\. Use Case Deskripsi Dashboard dan Rekap Laporan
+
+| Nama Use Case | Dashboard dan Rekap Laporan |  |
+| :---- | :---- | :---- |
+| Aktor | Owner, Admin |  |
+| Deskripsi | Dashboard dan Rekap Laporan terdiri dari tampil ringkasan dashboard, tampil rekap laporan, dan filter laporan. Owner melihat data semua cabang, sedangkan Admin hanya melihat data cabang yang ditugaskan |  |
+| Pre-condition | Pengguna sudah login |  |
+| Post-condition | Website menampilkan ringkasan atau rekap laporan sesuai pilihan pengguna |  |
+| Tampil ringkasan dashboard |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Dashboard |  | 1\. Menampilkan halaman dashboard berisi jumlah pesanan, total penjualan, total piutang, dan pesanan mendekati deadline |
+| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
+| Tampil rekap laporan |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Rekap Laporan |  | 1\. Menampilkan halaman rekap penjualan, piutang, dan keuangan |
+| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
+| Filter laporan |  |  |
+| Aktor |  | Website |
+| 1\. Klik menu Rekap Laporan |  | 1\. Menampilkan halaman rekap penjualan, piutang, dan keuangan |
+| 2\. Pilih cabang (khusus Owner) dan bulan |  |   |
+| 3\. Klik tombol tampilkan |  | 2\. Mencari data laporan |
+|   |  | 3\. Menampilkan laporan sesuai cabang dan bulan |
+| Alur alternatif : jika tidak ada data pada pilihan tersebut maka website menampilkan pesan data tidak ditemukan. |  |  |
+
+## 4.3.9 Use case deskripsi Landing Page dan Daftar Member
+
+Tabel 15\. Use Case Deskripsi Landing Page dan Daftar Member
+
+| Nama Use Case | Landing Page dan Daftar Member |  |
+| :---- | :---- | :---- |
+| Aktor | Customer |  |
+| Deskripsi | Landing Page dan Daftar Member terdiri dari tampil landing page dan daftar member. Customer membuka landing page lalu dapat mendaftar sebagai member untuk memperoleh potongan harga saat bertransaksi di Duta Media |  |
+| Pre-condition | Customer dapat mengakses website melalui browser (tidak perlu login) |  |
+| Post-condition | Website menampilkan landing page atau konfirmasi pendaftaran member berhasil beserta informasi potongan harga |  |
+| Tampil landing page |  |  |
+| Aktor |  | Website |
+| 1\. Buka landing page |  | 1\. Menampilkan halaman landing page |
+| Alur alternatif : tidak ada. |  |  |
+| Daftar member |  |  |
+| Aktor |  | Website |
+| 1\. Buka landing page |  | 1\. Menampilkan halaman landing page |
+| 2\. Klik tombol daftar member |  | 2\. Menampilkan form pendaftaran member |
+| 3\. Isikan nama, nomor WhatsApp, email, dan alamat |  |   |
+| 4\. Klik tombol daftar |  | 3\. Memvalidasi data dan mengecek nomor WhatsApp belum terdaftar |
+|   |  | 4\. Menyimpan data member |
+|   |  | 5\. Menampilkan konfirmasi pendaftaran member berhasil beserta informasi potongan harga |
+| Alur alternatif : jika data tidak valid atau nomor WhatsApp sudah terdaftar maka website menampilkan pesan lalu kembali ke form pendaftaran member. |  |  |
+
+## 
+
+## 4.4 Activity Diagram {#4.4-activity-diagram}
+
+Setiap fungsi pada use case deskripsi dibuat satu activity diagram dengan dua swimlane: aktor dan website. Satu simbol aksi mewakili satu langkah aktor, satu tampilan atau proses website, atau satu pesan pada alur alternatif. Simbol yang dipakai tercantum pada tabel berikut.  
+Tabel 16\. Simbol Activity Diagram
+
+| Simbol | Nama | Arti |
+| ----- | ----- | ----- |
+| Lingkaran hitam penuh | Initial node | Awal alur aktivitas |
+| Persegi panjang sudut membulat | Action | Satu aksi aktor, satu proses website, atau satu tampilan yang dikeluarkan website |
+| Belah ketupat | Decision | Percabangan alur berdasarkan kondisi, misalnya data valid atau tidak valid |
+| Lingkaran dengan titik hitam di tengah | Final node | Akhir alur aktivitas |
+| Dua kolom vertikal | Swimlane | Pemisah tanggung jawab antara aktor dan website |
+| Panah dengan kepala terbuka | Control flow | Arah alur dari satu aktivitas ke aktivitas berikutnya |
+
+### 4.4.1 Activity diagram fitur Login {#4.4.1-activity-diagram-fitur-login}
+
+![][image4]
+
+Gambar 4\. Activity Diagram Login pengguna  
+Gambar 4 menggambarkan alur login pengguna pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Buka website” dan berakhir ketika website “menampilkan halaman dashboard sesuai peran”. Pada alur alternatif, pada percabangan “Username dan password valid”, jika hasilnya tidak valid, website menampilkan pesan username atau password salah lalu alur kembali ke “menampilkan halaman login”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 3 aksi aktor, 3 tampilan atau proses website, dan 1 pesan alur alternatif. 
+
+*![][image5]*
+
+Gambar 5\. Activity Diagram Logout
+
+Gambar 5 menggambarkan alur logout pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik tombol logout” dan berakhir ketika website “menampilkan halaman login”. Pada alur alternatif, pada percabangan “Konfirmasi logout”, jika pengguna memilih batal, alur berakhir. Jumlah simbol aksi pada diagram adalah 5, terdiri dari 2 aksi aktor, 3 tampilan atau proses website, dan 0 pesan alur alternatif. 
+
+*![][image6]*
+
+Gambar 6\. Activity Diagram Lupa password (reset password)
+
+Gambar 6 menggambarkan alur lupa password (reset password) pada website oleh Owner dan Admin. Alur dimulai dari aksi aktor “Buka website” dan berakhir ketika website “menampilkan konfirmasi ubah password”. Pada alur alternatif, pada percabangan “Username terdaftar”, jika hasilnya tidak terdaftar, website langsung menampilkan pesan tautan reset telah dikirim tanpa mengirim email;pada percabangan “Tautan valid”, jika hasilnya tidak valid atau kedaluwarsa, website menampilkan pesan tautan tidak valid lalu alur kembali ke “menampilkan halaman login”; pada percabangan “Password valid”, jika hasilnya tidak valid, website menampilkan pesan password tidak sesuai ketentuan lalu alur kembali ke “menampilkan halaman input password baru”. Jumlah simbol aksi pada diagram adalah 19, terdiri dari 7 aksi aktor, 10 tampilan atau proses website, dan 2 pesan alur alternatif.
+
+### 4.4.2 Activity diagram fitur Akun {#4.4.2-activity-diagram-fitur-akun}
+
+![][image7]
+
+Gambar 7\. Activity Diagram Tampil data akun
+
+Gambar 7 menggambarkan alur tampil data akun pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Akun” dan berakhir ketika website “menampilkan halaman daftar akun”. Pada alur alternatif, pada percabangan “Data tersedia”, jika hasilnya belum tersedia, website menampilkan pesan data belum tersedia lalu alur berakhir. Jumlah simbol aksi pada diagram adalah 3, terdiri dari 1 aksi aktor, 1 tampilan atau proses website, dan 1 pesan alur alternatif. 
+
+*![][image8]*
+
+Gambar 8\. Activity Diagram Tambah data akun
+
+Gambar 8 menggambarkan alur tambah data akun pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Akun” dan berakhir ketika website “menampilkan halaman daftar akun beserta pesan data berhasil ditambahkan”. Pada alur alternatif, pada percabangan “Data valid”, jika hasilnya tidak valid, website menampilkan pesan data tidak valid atau username sudah dipakai lalu alur kembali ke “menampilkan halaman form tambah akun”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif. 
+
+*![][image9]*
+
+Gambar 9\. Activity Diagram Ubah data akun
+
+Gambar 9 menggambarkan alur ubah data akun pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Akun” dan berakhir ketika website “menampilkan halaman daftar akun beserta pesan data berhasil diubah”. Pada alur alternatif, pada percabangan “Data valid”, jika hasilnya tidak valid, website menampilkan pesan data tidak valid atau username sudah dipakai lalu alur kembali ke “menampilkan halaman form ubah akun berisi data lama”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif. 
+
+*![][image10]*
+
+Gambar 10\. Activity Diagram Hapus data akun
+
+Gambar 10 menggambarkan alur hapus data akun pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Akun” dan berakhir ketika website “menampilkan halaman daftar akun beserta pesan data berhasil dihapus”. Pada alur alternatif, pada percabangan “Konfirmasi hapus”, jika pengguna memilih batal, alur kembali ke “menampilkan halaman daftar akun”; pada percabangan “Akun sedang dipakai login”, jika hasilnya dipakai, website menampilkan pesan data tidak dapat dihapus lalu alur kembali ke “menampilkan halaman daftar akun”. Jumlah simbol aksi pada diagram adalah 9, terdiri dari 3 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif. 
+
+*![][image11]*
+
+Gambar 11\. Activity Diagram Reset password akun
+
+Gambar 11 menggambarkan alur reset password akun pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Akun” dan berakhir ketika website “menampilkan konfirmasi password berhasil diubah”. Pada alur alternatif, pada percabangan “Password valid”, jika hasilnya tidak valid, website menampilkan pesan password tidak sesuai ketentuan lalu alur kembali ke “menampilkan halaman form password baru”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+![][image12]
+
+Gambar 12\. Activity Diagram Cari data akun
+
+Gambar 12 menggambarkan alur cari data akun pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Akun” dan berakhir ketika website “menampilkan daftar akun yang sesuai”. Pada alur alternatif, pada percabangan “Data ditemukan”, jika hasilnya tidak ditemukan, website menampilkan pesan data tidak ditemukan lalu alur kembali ke “menampilkan halaman daftar akun”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 3 aksi aktor, 3 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+### 4.4.3 Activity diagram fitur Cabang {#4.4.3-activity-diagram-fitur-cabang}
+
+*![][image13]*
+
+Gambar 13\. Activity Diagram Tampil data cabang
+
+Gambar 13 menggambarkan alur tampil data cabang pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Cabang” dan berakhir ketika website “menampilkan halaman daftar cabang”. Pada alur alternatif, website menampilkan pesan lalu alur berakhir. Jumlah simbol aksi pada diagram adalah 3, terdiri dari 1 aksi aktor, 1 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+![][image14]
+
+Gambar 14\. Activity Diagram Tambah data cabang
+
+Gambar 14 menggambarkan alur tambah data cabang pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Cabang” dan berakhir ketika website “menampilkan halaman daftar cabang beserta pesan data berhasil ditambahkan”. Pada alur alternatif, pada percabangan “Data valid”, jika hasilnya tidak valid, website menampilkan pesan data tidak valid lalu alur kembali ke “menampilkan halaman form tambah cabang”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+*![][image15]*
+
+*G*ambar 15\. Activity Diagram Ubah data cabang
+
+Gambar 15 menggambarkan alur ubah data cabang pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Cabang” dan berakhir ketika website “menampilkan halaman daftar cabang beserta pesan data berhasil diubah”. Pada alur alternatif, pada percabangan “Data valid”, jika hasilnya tidak valid, website menampilkan pesan data tidak valid lalu alur kembali ke “menampilkan halaman form ubah cabang berisi data lama”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+![][image16]
+
+Gambar 16\. Activity Diagram Hapus data cabang
+
+Gambar 16 menggambarkan alur hapus data cabang pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Cabang” dan berakhir ketika website “menampilkan halaman daftar cabang beserta pesan data berhasil dihapus”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar cabang”. Jumlah simbol aksi pada diagram adalah 9, terdiri dari 3 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+*![][image17]*
+
+Gambar 17\. Activity Diagram Cari data cabang
+
+Gambar 17 menggambarkan alur cari data cabang pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Cabang” dan berakhir ketika website “menampilkan daftar cabang yang sesuai”. Pada alur alternatif, pada percabangan “Data ditemukan”, jika hasilnya tidak ditemukan, website menampilkan pesan data tidak ditemukan lalu alur kembali ke “menampilkan halaman daftar cabang”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 3 aksi aktor, 3 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+### 
+
+### 4.4.4 Activity diagram fitur Master Data dan Kalkulator Harga {#4.4.4-activity-diagram-fitur-master-data-dan-kalkulator-harga}
+
+![][image18]
+
+Gambar 18\. Activity Diagram Tampil data master (Owner)
+
+Gambar 18 menggambarkan alur tampil data master (Owner) pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Master Data” dan berakhir ketika website “menampilkan halaman daftar data pada kelompok terpilih”. Pada alur alternatif, website menampilkan pesan lalu alur berakhir. Jumlah simbol aksi pada diagram adalah 5, terdiri dari 2 aksi aktor, 2 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+![][image19]
+
+Gambar 19\. Activity Diagram Tambah data master (Owner)
+
+Gambar 19 menggambarkan alur tambah data master (Owner) pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Master Data” dan berakhir ketika website “menampilkan halaman daftar data beserta pesan data berhasil ditambahkan”. Pada alur alternatif, pada percabangan “Data valid”, jika hasilnya tidak valid, website menampilkan pesan data tidak valid atau nama sudah ada lalu alur kembali ke “menampilkan halaman form tambah data”. Jumlah simbol aksi pada diagram adalah 12, terdiri dari 5 aksi aktor, 6 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+![][image20]
+
+Gambar 20\. Activity Diagram Ubah data master (Owner)
+
+Gambar 20 menggambarkan alur ubah data master (Owner) pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Master Data” dan berakhir ketika website “menampilkan halaman daftar data beserta pesan data berhasil diubah”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman form ubah data berisi data lama”. Jumlah simbol aksi pada diagram adalah 12, terdiri dari 5 aksi aktor, 6 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+*![][image21]*
+
+Gambar 21\. Activity Diagram Hapus data master (Owner)
+
+Gambar 21 menggambarkan alur hapus data master (Owner) pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Master Data” dan berakhir ketika website “menampilkan halaman daftar data beserta pesan data berhasil dihapus”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar data pada kelompok terpilih”. Jumlah simbol aksi pada diagram adalah 11, terdiri dari 4 aksi aktor, 6 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+*![][image22]*
+
+Gambar 22\. Activity Diagram Cari data master (Owner)
+
+Gambar 22 menggambarkan alur cari data master (Owner) pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Master Data” dan berakhir ketika website “menampilkan daftar data yang sesuai”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar data pada kelompok terpilih”. Jumlah simbol aksi pada diagram adalah 9, terdiri dari 4 aksi aktor, 4 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+![][image23]
+
+Gambar 23\. Activity Diagram Hitung estimasi harga
+
+Gambar 23 menggambarkan alur hitung estimasi harga pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Kalkulator Harga” dan berakhir ketika website “menampilkan hasil estimasi beserta rincian perhitungan”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman form kalkulator harga”. Jumlah simbol aksi pada diagram adalah 9, terdiri dari 4 aksi aktor, 4 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+![][image24]
+
+Gambar 24\. Activity Diagram Simpan estimasi menjadi pesanan
+
+Gambar 24 menggambarkan alur simpan estimasi menjadi pesanan pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik tombol buat pesanan pada hasil estimasi” dan berakhir ketika website “menampilkan halaman daftar pesanan beserta pesan data berhasil ditambahkan”. Pada alur alternatif, pada percabangan “Data valid”, jika hasilnya tidak valid, website menampilkan pesan data tidak valid lalu alur kembali ke “menampilkan halaman form pesanan berisi data hasil estimasi”. Jumlah simbol aksi pada diagram adalah 8, terdiri dari 3 aksi aktor, 4 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+### 4.4.5 Activity diagram fitur Pesanan dan Data Customer {#4.4.5-activity-diagram-fitur-pesanan-dan-data-customer}
+
+*![][image25]*
+
+Gambar 25\. Activity Diagram Tampil data pesanan
+
+Gambar 25 menggambarkan alur tampil data pesanan pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pesanan” dan berakhir ketika website “menampilkan halaman daftar pesanan”. Pada alur alternatif, website menampilkan pesan lalu alur berakhir. Jumlah simbol aksi pada diagram adalah 3, terdiri dari 1 aksi aktor, 1 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+*![][image26]*
+
+Gambar 26\. Activity Diagram Tambah data pesanan
+
+Gambar 26 menggambarkan alur tambah data pesanan pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pesanan” dan berakhir ketika website “menampilkan halaman daftar pesanan beserta pesan data berhasil ditambahkan”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman form tambah pesanan”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+*![][image27]*
+
+Gambar 27\. Activity Diagram Ubah data pesanan
+
+Gambar 27 menggambarkan alur ubah data pesanan pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pesanan” dan berakhir ketika website “menampilkan halaman daftar pesanan beserta pesan data berhasil diubah”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman form ubah pesanan berisi data lama”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+*![][image28]*
+
+Gambar 28\. Activity Diagram Hapus data pesanan
+
+Gambar 28 menggambarkan alur hapus data pesanan pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pesanan” dan berakhir ketika website “menampilkan halaman daftar pesanan beserta pesan data berhasil dihapus”. Pada alur alternatif, pada percabangan “Konfirmasi hapus”, jika pengguna memilih batal, alur kembali ke “menampilkan halaman daftar pesanan”; pada percabangan “Pesanan memiliki data terkait”, jika hasilnya memiliki, website menampilkan pesan data tidak dapat dihapus lalu alur kembali ke “menampilkan halaman daftar pesanan”. Jumlah simbol aksi pada diagram adalah 9, terdiri dari 3 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+*![][image29]*
+
+Gambar 29\. Activity Diagram Catat pembayaran
+
+Gambar 29 menggambarkan alur catat pembayaran pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pesanan” dan berakhir ketika website “menampilkan halaman detail pesanan”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman form pembayaran”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif. 
+
+![][image30]
+
+Gambar 30\. Activity Diagram Cari dan filter data pesanan
+
+Gambar 30 menggambarkan alur cari dan filter data pesanan pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pesanan” dan berakhir ketika website “menampilkan daftar pesanan yang sesuai”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar pesanan”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 3 aksi aktor, 3 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+![][image31]
+
+Gambar 31\. Activity Diagram Tampil data customer
+
+Gambar 31 menggambarkan alur tampil data customer pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Data Customer” dan berakhir ketika website “menampilkan halaman daftar customer”. Pada alur alternatif, website menampilkan pesan lalu alur berakhir. Jumlah simbol aksi pada diagram adalah 3, terdiri dari 1 aksi aktor, 1 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+![][image32]
+
+Gambar 32\. Activity Diagram Tambah data customer
+
+Gambar 32 menggambarkan alur tambah data customer pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Data Customer” dan berakhir ketika website “menampilkan halaman daftar customer beserta pesan data berhasil ditambahkan”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman form tambah customer”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+![][image33]
+
+Gambar 33\. Activity Diagram Ubah data customer
+
+Gambar 33 menggambarkan alur ubah data customer pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Data Customer” dan berakhir ketika website “menampilkan halaman daftar customer beserta pesan data berhasil diubah”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman form ubah customer berisi data lama”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+![][image34]
+
+Gambar 34\. Activity Diagram Hapus data customer
+
+Gambar 34 menggambarkan alur hapus data customer pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Data Customer” dan berakhir ketika website “menampilkan halaman daftar customer beserta pesan data berhasil dihapus”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar customer”. Jumlah simbol aksi pada diagram adalah 9, terdiri dari 3 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+![][image35]
+
+Gambar 35\. Activity Diagram Cari data customer
+
+Gambar 35 menggambarkan alur cari data customer pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Data Customer” dan berakhir ketika website “menampilkan daftar customer yang sesuai”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar customer”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 3 aksi aktor, 3 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+### 
+
+### 4.4.6 Activity diagram fitur Pengadaan Kaos {#4.4.6-activity-diagram-fitur-pengadaan-kaos}
+
+*![][image36]*
+
+Gambar 36\. Activity Diagram Tampil data pengadaan kaos
+
+Gambar 36 menggambarkan alur tampil data pengadaan kaos pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pengadaan Kaos” dan berakhir ketika website “menampilkan halaman daftar pengadaan”. Pada alur alternatif, website menampilkan pesan lalu alur berakhir. Jumlah simbol aksi pada diagram adalah 3, terdiri dari 1 aksi aktor, 1 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+*![][image37]*
+
+Gambar 37\. Activity Diagram Tambah data pengadaan kaos
+
+Gambar 37 menggambarkan alur tambah data pengadaan kaos pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pengadaan Kaos” dan berakhir ketika website “menampilkan halaman daftar pengadaan beserta pesan data berhasil ditambahkan”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman form tambah pengadaan”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+*![][image38]*
+
+Gambar 38\. Activity Diagram Ubah data pengadaan kaos
+
+Gambar 38 menggambarkan alur ubah data pengadaan kaos pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pengadaan Kaos” dan berakhir ketika website “menampilkan halaman daftar pengadaan beserta pesan data berhasil diubah”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman form ubah pengadaan berisi data lama”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+*![][image39]*
+
+Gambar 39\. Activity Diagram Hapus data pengadaan kaos
+
+Gambar 39 menggambarkan alur hapus data pengadaan kaos pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pengadaan Kaos” dan berakhir ketika website “menampilkan halaman daftar pengadaan beserta pesan data berhasil dihapus”. Pada alur alternatif, jika pengguna memilih batal maka alur kembali ke “menampilkan halaman daftar pengadaan”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 3 aksi aktor, 4 tampilan atau proses website, dan 0 pesan alur alternatif.
+
+*![][image40]*
+
+Gambar 40\. Activity Diagram Ubah status pengadaan
+
+Gambar 40 menggambarkan alur ubah status pengadaan pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pengadaan Kaos” dan berakhir ketika website “menampilkan halaman daftar pengadaan beserta pesan status berhasil diubah”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan pilihan status (Dipesan atau Diterima)”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+*![][image41]*
+
+Gambar 41\. Activity Diagram Cari data pengadaan kaos
+
+Gambar 41 menggambarkan alur cari data pengadaan kaos pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pengadaan Kaos” dan berakhir ketika website “menampilkan daftar pengadaan yang sesuai”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar pengadaan”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 3 aksi aktor, 3 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+### 
+
+### 4.4.7 Activity diagram fitur Invoice dan WOP {#4.4.7-activity-diagram-fitur-invoice-dan-wop}
+
+*![][image42]*
+
+Gambar 42\. Activity Diagram Tampil data invoice
+
+Gambar 42 menggambarkan alur tampil data invoice pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Invoice dan WOP” dan berakhir ketika website “menampilkan halaman daftar pesanan beserta status invoice”. Pada alur alternatif, website menampilkan pesan lalu alur berakhir. Jumlah simbol aksi pada diagram adalah 3, terdiri dari 1 aksi aktor, 1 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+![][image43]
+
+Gambar 43\. Activity Diagram Buat invoice PDF
+
+Gambar 43 menggambarkan alur buat invoice PDF pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Invoice dan WOP” dan berakhir ketika website “menampilkan halaman pratinjau invoice”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar pesanan”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 2 aksi aktor, 4 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+![][image44]
+
+Gambar 44\. Activity Diagram Kirim invoice
+
+Gambar 44 menggambarkan alur kirim invoice pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Invoice dan WOP” dan berakhir ketika website “menampilkan konfirmasi pengiriman”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar pesanan”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 2 aksi aktor, 4 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+![][image45]
+
+Gambar 45\. Activity Diagram Cetak WOP
+
+Gambar 45 menggambarkan alur cetak WOP pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Invoice dan WOP” dan berakhir ketika website “mencetak WOP”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar pesanan”. Jumlah simbol aksi pada diagram adalah 9, terdiri dari 3 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+![][image46]
+
+Gambar 46\. Activity Diagram Cari data invoice
+
+Gambar 46 menggambarkan alur cari data invoice pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Invoice dan WOP” dan berakhir ketika website “menampilkan daftar invoice yang sesuai”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar pesanan”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 3 aksi aktor, 3 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+### 
+
+### 
+
+### 
+
+### 4.4.8 Activity diagram fitur Dashboard dan Rekap Laporan {#4.4.8-activity-diagram-fitur-dashboard-dan-rekap-laporan}
+
+*![][image47]*
+
+Gambar 47\. Activity Diagram Tampil ringkasan dashboard
+
+Gambar 47 menggambarkan alur tampil ringkasan dashboard pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Dashboard” dan berakhir ketika website “menampilkan halaman dashboard berisi jumlah pesanan, total penjualan, total piutang, dan pesanan mendekati deadline”. Pada alur alternatif, website menampilkan pesan lalu alur berakhir. Jumlah simbol aksi pada diagram adalah 3, terdiri dari 1 aksi aktor, 1 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+![][image48]
+
+Gambar 48\. Activity Diagram Tampil rekap laporan
+
+Gambar 48 menggambarkan alur tampil rekap laporan pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Rekap Laporan” dan berakhir ketika website “menampilkan halaman rekap penjualan, piutang, dan keuangan”. Pada alur alternatif, website menampilkan pesan lalu alur berakhir. Jumlah simbol aksi pada diagram adalah 3, terdiri dari 1 aksi aktor, 1 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+![][image49]
+
+Gambar 49\. Activity Diagram Filter laporan
+
+Gambar 49 menggambarkan alur filter laporan pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Rekap Laporan” dan berakhir ketika website “menampilkan laporan sesuai cabang dan bulan”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman rekap penjualan, piutang, dan keuangan”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 3 aksi aktor, 3 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+### 4.4.9 Activity diagram fitur Landing Page dan Daftar Member 
+
+![][image50]  
+Gambar 50\. Activity Diagram Tampil landing page  
+	Gambar 50 menggambarkan alur tampil landing page pada website oleh Customer. Alur dimulai dari aksi aktor “Buka landing page” dan berakhir ketika website “menampilkan halaman landing page”. Tidak terdapat alur alternatif pada fungsi ini. Jumlah simbol aksi pada diagram adalah 2, terdiri dari 1 aksi aktor, 1 tampilan atau proses website, dan 0 pesan alur alternatif.
+
+![][image51]  
+Gambar 51\. Activity Diagram Daftar member  
+Gambar 51 menggambarkan alur daftar member pada website oleh Customer. Alur dimulai dari aksi aktor “Buka landing page” dan berakhir ketika website “menampilkan konfirmasi pendaftaran member berhasil beserta informasi potongan harga”. Pada alur alternatif, pada percabangan “Data valid dan nomor belum terdaftar”, jika hasilnya tidak valid, website menampilkan pesan data tidak valid atau nomor WhatsApp sudah terdaftar lalu alur kembali ke “menampilkan form pendaftaran member”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
+
+## 
+
+## 4.5 Kebutuhan Database {#4.5-kebutuhan-database}
+
+### 4.5.1 Entity Relationship Diagram {#4.5.1-entity-relationship-diagram}
+
+![][image52]
+
+	Gambar 52\. Physical Data Model (PDM) Entity Relationship Diagram pada Sistem Manajemen Internal PrintCraft
+
+### 4.5.2 Class Diagrams {#4.5.2-class-diagrams}
+
+	4.5.2.1 Logic Class Fitur Landing Page dan Daftar Member (PC-003)
+
+1\. Jumlah class/file yang ada di salah satu fitur project :   
+	1\. Fitur Landing Page dan Daftar Member (PC-003) menggunakan Laravel (MVC).  
+2\. Komponen file yang digunakan berjumlah 7, yaitu:
+
+1. Konfigurasi Database: \`config/database.php\`.  
+2. Model: \`DaftarMember\`.  
+3. Controller: \`LandingPageController\` dan \`DaftarMemberController\`.  
+4. View (file Blade): \`view\_landing\_page\`, \`form\_member\`, dan \`view\_konfirmasi\_member\`.  
+   3\. Class \`LandingPage\` tidak dibuat karena landing page hanya merupakan halaman View yang menampilkan informasi statis PrintCraft dan tautan menuju form pendaftaran member. Oleh karena itu, landing page tidak membutuhkan Model maupun tabel khusus pada Database.  
+   4\. Class \`Index\` tidak dibuat karena routing dan entry point aplikasi telah disediakan oleh Laravel.
+
+2\. Menentukan logic class
+
+1. Jumlah file View mengikuti halaman pada use case deskripsi (Tabel 15), yaitu 3 file View (tampil landing page, form daftar, konfirmasi), maka logic class fitur ini:  
+   1. Database dikonfigurasi satu kali melalui \`config/database.php\` mengikuti mekanisme koneksi database Laravel. Pada diagram, konfigurasi ini direpresentasikan secara konseptual sebagai komponen \`Database\` yang memiliki variabel \`db\` bertipe \`array\` dan \`nama\_database\` bertipe \`String\`, serta function \`koneksi(nama\_database)\`. Dalam implementasi Laravel, koneksi dikelola oleh konfigurasi dan layanan database Laravel, bukan dengan membuat class Database khusus untuk fitur ini.   
+   2. \`DaftarMember\` (Model) menjadi satu-satunya Model pada fitur ini dan bertanggung jawab atas proses yang membutuhkan akses data. Model ini menangani pengecekan nomor WhatsApp, pengambilan kategori Member dari master data, penyimpanan data Customer baru, dan pengambilan informasi potongan harga kategori Member.  
+   3. \`LandingPageController\` hanya memiliki function untuk menampilkan View landing page. Controller ini tidak membutuhkan Model karena konten landing page bersifat statis dan tidak diambil dari Database.  
+   4. \`DaftarMemberController\` mengatur alur pendaftaran member dengan memanggil Model \`DaftarMember\`, menerima request dari form, menentukan hasil proses, serta menampilkan halaman konfirmasi.  
+   5. Seluruh View berupa file Blade yang bertugas menampilkan halaman dan menerima interaksi pengguna. View mengirimkan request melalui route Laravel dan tidak mengakses Database secara langsung.  
+   6. Data pendaftaran member disimpan sebagai data Customer dengan kategori Member. Oleh karena itu, fitur ini tidak memerlukan tabel \`landing\_page\` maupun Model \`LandingPage\`. Data kategori dan potongan harga menggunakan data master yang telah tersedia pada tabel \`master\_data\`.
+
+   2\. Data member disimpan sebagai data Customer dengan kategori Member, sehingga fitur ini tidak memerlukan class model tambahan.
+
+3\. Variabel dan function
+
+1. Rincian Variabel   
+   1. Database (konfigurasi): memiliki 2 variabel konseptual dan 1 function konseptual.  
+   2. \`DaftarMember\` (Model): memiliki 6 atribut data dan 6 function.  
+   3. \`LandingPageController\` (Controller): tidak memiliki variabel dan memiliki 1 function.  
+   4. \`DaftarMemberController\` (Controller): tidak memiliki variabel dan memiliki 3 function.  
+   5. \`view\_landing\_page\` (View): tidak memiliki variabel dan memiliki 1 function.  
+   6. \`form\_member\` (View): tidak memiliki variabel dan memiliki 1 function.  
+   7. \`view\_konfirmasi\_member\` (View): tidak memiliki variabel dan memiliki 1 function.  
+2. 	Rincian Function   
+1. Database  
+1. Variabel: db (array), printcraft\_db (String)
+
+2. Function:   
+   a. Koneksi (printcraft\_db) : merepresentasikan proses pembukaan koneksi ke Database berdasarkan konfigurasi Laravel. Function ini bersifat konseptual pada diagram, karena implementasi koneksi dikelola oleh konfigurasi dan layanan Database Laravel.
+
+2. DaftarMember (class model)  
+   1. Variabel: id\_customer (int), nama (String), nomor\_whatsapp (String), email (String), alamat (String), id\_kategori\_customer (int).
+
+      2. Function:  
+1. \`validasiData(data)\`: memeriksa kelengkapan dan kesesuaian data yang dikirimkan melalui form pendaftaran sebelum data diproses lebih lanjut. Function mengembalikan hasil validasi.   
+2. \`nomorWhatsappTerdaftar(nomor\_whatsapp)\`: mengecek ke Database apakah nomor WhatsApp telah digunakan oleh Customer lain. Function mengembalikan nilai boolean.  
+3. \`ambilKategoriMember()\`: mengambil ID kategori Customer dengan nama \`Member\` dari tabel \`master\_data\`.  
+4. \`simpanMember(data\_member)\`: menyimpan data pendaftaran sebagai data baru pada tabel \`customer\` dan mengembalikan \`id\_customer\` yang terbentuk.  
+5. \`ambilInfoPotonganMember(id\_kategori\_customer)\`: mengambil informasi potongan harga berdasarkan kategori Member dari tabel \`master\_data\`.  
+6. \`buatDataMember(data, id\_kategori\_customer)\`: membentuk struktur data Customer berdasarkan data yang telah divalidasi dan menambahkan ID kategori Member. Function mengembalikan data yang siap disimpan.  
+> > > 3. LandingPageController (class controller)  
+   1. Function:  
+      \`index()\`: menampilkan \`view\_landing\_page\` sebagai halaman awal website. Function ini tidak memanggil Model karena konten landing page bersifat statis.
+
+> > > 4. DaftarMemberController (class controller)  
+   1. Function:  
+1. \`create()\`: menampilkan \`form\_member\` sebagai halaman pendaftaran member sesuai kebutuhan fungsional Daftar Member.  
+2. \`store(request)\`: menerima data dari form, menjalankan validasi melalui \`DaftarMember.validasiData()\`, mengecek nomor WhatsApp melalui \`nomorWhatsappTerdaftar()\`, mengambil kategori Member melalui \`ambilKategoriMember()\`, membentuk data melalui \`buatDataMember()\`, kemudian menyimpan data melalui \`simpanMember()\`. Jika validasi gagal atau nomor telah terdaftar, sistem mengembalikan pengguna ke form disertai pesan kesalahan. Jika berhasil, sistem mengarahkan pengguna ke halaman konfirmasi.  
+3. \`berhasil(id\_customer)\`: mengambil data Customer yang baru didaftarkan beserta informasi potongan harga berdasarkan kategori Member melalui Model \`DaftarMember\`, kemudian menampilkan \`view\_konfirmasi\_member\`.  
+5. view\_landing\_page (class view)  
+   1. Function:  
+      a. \`daftarMember()\`: merepresentasikan aksi pengguna ketika menekan tombol daftar member dan mengakses route \`GET /daftar-member\` yang menjalankan \`DaftarMemberController::create()\`.  
+6. form\_member (class view)  
+   1. Function:  
+      a. \`prosesDaftar()\`: merepresentasikan aksi pengguna ketika mengirimkan form pendaftaran melalui route \`POST /daftar-member\` yang menjalankan \`DaftarMemberController::store()\`.  
+7. view\_konfirmasi\_member (class view)  
+   1. Function:  
+      a. \`tampilKonfirmasi()\`: menampilkan hasil pendaftaran member melalui route \`GET /daftar-member/berhasil\` yang menjalankan \`DaftarMemberController::berhasil()\`.
+
+   4\. Relasi class
+
+1.  DaftarMember dan Database (koneksi) : 
+
+   a. Relasi berupa dependency satu arah dari \`DaftarMember\` menuju Database karena Model \`DaftarMember\` menggunakan koneksi Database untuk melakukan pengecekan nomor WhatsApp, mengambil kategori Member, menyimpan data Customer, dan mengambil informasi potongan harga.
+
+   b. Hanya Model \`DaftarMember\` yang mengakses Database secara langsung pada fitur PC-003. Controller dan View tidak mengakses Database secara langsung.
+
+1. LandingPageController dan LandingPage; DaftarMemberController dan DaftarMember  
+   a. Relasi dependency (1 ke 1\) di mana perubahan pada class model akan berpengaruh pada function controller yang memanggil function tersebut.
+
+   b. DaftarMemberController memanggil LandingPage untuk cek, simpan, dan ambil data, serta memanggil DaftarMember untuk validasi dan pembentukan data.
+
+2. Setiap class view dan class controller tujuannya (lihat rincian function view).
+
+   a. Relasi dependency (1 ke 1). Suatu aksi pada class view akan memanggil function tertentu pada class controller.
+
+   b. View tidak berhubungan langsung dengan Database.
+
+3. DaftarMember dan KategoriCustomer (PC-002)
+
+   a. Relasi asosiasi (\* ke 1). Setiap customer/member memiliki satu kategori dari master data.
+
+   b. Relasi ini masih ada di diagram. Jika kategori customer ditunda, id\_kategori\_customer dan relasi ini dihapus..
+
+4. DaftarMember dan Pesanan (PC-003)
+
+   a. Relasi asosiasi (1 ke 0..\*). Satu customer dapat memiliki banyak pesanan, dan setiap pesanan hanya milik satu customer.
+
+5. DaftarMember dan Login/Akun (PC-001)  
+   a. Tidak ada relasi karena Customer adalah aktor eksternal yang tidak memiliki akun login dan tidak diwajibkan untuk login saat mendaftar member.  
+   b. Tidak ada foreign key, method, maupun dependency antara DaftarMember dan class Login/Ak
+
+![][image53]
+
+Gambar 53\. Class Diagram Fitur Landing Page dan Daftar Member (PC-00
+
+## 4.6 Sequence Diagram {#4.6-sequence-diagram}
+
+#### 4.6.1 Sequence Diagram Fitur Landing Page (PC-003)
+
+![][image54]
+
+Gambar 54\. Sequence Diagram Tampil Landing PageGambar 54 menampilkan sequence diagram fitur landing page website PrintCraft. Customer berinteraksi dengan `view_landing_page` saat mengakses halaman utama website.Saat halaman diakses, `view_landing_page` memanggil fungsi `daftarMember()` melalui route `GET /` menuju `LandingPageController`, yang kemudian menjalankan *self-call* `index()`. Karena konten landing page bersifat statis dan tidak memerlukan data dari database, `LandingPageController` langsung mengembalikan tampilan `view_landing_page` kepada Customer. Pesan *return* berhenti di `view_landing_page` karena pengguna hanya melihat tampilan layar.
+
+#### 4.6.2 Sequence Diagram Fitur Daftar Member (PC-003)
+
+![][image55]
+
+Gambar 55\. Sequence Diagram Daftar Member
+
+Gambar 55 menampilkan sequence diagram fitur pendaftaran member pada website PrintCraft. Customer berinteraksi dengan `view_landing_page` dan `form_member` untuk melakukan pendaftaran.Proses diawali saat Customer menekan tombol *Daftar Member* pada `view_landing_page`. Tampilan tersebut memanggil fungsi `daftarMember()` melalui route `GET /daftar-member` ke `DaftarMemberController`, yang menjalankan fungsi `create()` lalu menampilkan `form_member`. Setelah form tampil, Customer mengisi data (nama, nomor WhatsApp, email, dan alamat) lalu menekan tombol *Daftar*. `form_member` kemudian memanggil fungsi `prosesDaftar()` melalui route `POST /daftar-member` ke `DaftarMemberController` untuk menjalankan fungsi `store(request)`.
+
+`DaftarMemberController` selanjutnya memanggil fungsi pada Model `DaftarMember` secara berurutan, yaitu `validasiData(data)` untuk mengecek kelengkapan form, `nomorWhatsappTerdaftar(nomor_whatsapp)` untuk memeriksa keunikan nomor di Database, `ambilKategoriMember()` untuk mengambil ID kategori *Member* dari tabel `master_data`, `buatDataMember(data, id_kategori_customer)` untuk menyusun data Customer, `simpanMember(data_member)` untuk menyimpan data baru ke tabel `customer` dan menghasilkan `id_customer`, serta `ambilInfoPotonganMember(id_kategori_customer)` untuk mengambil informasi diskon. Setiap pemanggilan fungsi pada Model yang membutuhkan data diteruskan ke Database dan dikembalikan hasilnya.Pada kondisi *true* (validasi sukses dan nomor belum terdaftar), `DaftarMemberController` melakukan *self-call* `berhasil(id_customer)` lalu mengarahkan ke `view_konfirmasi_member` yang menjalankan *self-call* `tampilKonfirmasi()`. Sebaliknya, pada kondisi *false* (validasi gagal atau nomor terdaftar), `DaftarMemberController` mengembalikan Customer ke `form_member` disertai pesan error. Seluruh pesan *return* berhenti di layar tampilan yang dilihat oleh pengguna.
+
+5\. Kebutuhan Non-Fungsional Produk atau Aplikasi
+
+1. ## Kebutuhan Produk {#kebutuhan-produk}
+
+   1. ### Usability {#usability}
+
+1. Menggunakan layout aplikasi Softro SaaS modern yang intuitif dan mudah dipahami oleh pengguna, dengan menu navigasi utama berada pada sidebar sisi kiri (lebar 256 px / fixed) pada desktop dan berubah menjadi drawer menu ringkas pada layar kecil. Struktur halaman formulir, tabel data, dan kartu detail dibuat konsisten di setiap fitur.  
+2. Letak tombol mudah dicari dan diidentifikasi secara hierarkis:
+   - Tombol aksi utama (Login, Simpan, Buat Pesanan, Buat Invoice) menggunakan warna Vibrant Violet **#7C3AED** (hover: #6D28D9) dengan sudut membulat modern (`rounded-xl`) dan berada konsisten di sudut kanan bawah form atau header tabel.
+   - Tombol Batal/Sekunder menggunakan border netral Slate (`border-slate-200/80`) berlatar putih dengan teks Slate 700 (#334155).
+   - Tombol Hapus destruktif menggunakan warna Rose Red **#E11D48 / #DC2626** dan selalu didahului dialog konfirmasi eksplisit (*Nielsen H5: Error Prevention*).
+   - Tombol Kirim Invoice dan Konfirmasi Pelunasan menggunakan aksen Emerald Green **#059669 / #16A34A**.  
+3. Penulisan menu jelas dan terstruktur dengan ikonografi presisi *Lucide Icons*, menggunakan istilah konsisten: Overview Flowchart, Dashboard Konsolidasi, Dashboard Cabang, Manajemen Akun, Cabang Workshop, Master Komponen, Kalkulator Harga, Data Pesanan, Pelanggan & Member, Pengadaan Kaos, Faktur Invoice, Work Order (WOP), dan Rekap Keuangan.  
+4. Menu yang tampil disesuaikan dengan peran pengguna (*Role-Based Access Control*). Owner melihat seluruh menu multi-cabang; Admin Cabang tidak melihat menu Akun, Cabang, dan Master Data serta hanya melihat data cabangnya sendiri dengan kalkulator margin terkunci 30%; Customer hanya mengakses landing page publik dan form pendaftaran member tanpa login.  
+5. Tipografi berjenjang profesional menggunakan kombinasi Google Fonts: font *Manrope* untuk display dan judul utama, font *Inter* untuk antarmuka teks umum (ukuran minimal 14 px, kontras tinggi terhadap latar #F8FAFC), serta font *JetBrains Mono* untuk nomor order, kode transaksi, dan kalkulasi nilai mata uang Rupiah.  
+6. Terdapat pesan error yang jelas dan komunikatif (*Nielsen H9*), disajikan dalam Bahasa Indonesia yang lugas di bawah kolom yang bermasalah (contoh: "Nomor WhatsApp wajib diawali angka 08 atau 62" atau "Jumlah pesanan minimal 12 pcs").  
+7. Umpan balik sistem (*Nielsen H1*) menggunakan *Floating Toast Notification* di sudut kanan atas dengan latar Dark Slate (#0F172A), ikon status berwarna (hijau untuk sukses, merah untuk gagal), dan teks solutif yang memudar otomatis.  
+8. Aplikasi responsif dan nyaman digunakan pada desktop/laptop (lebar standar 1440 px, minimal 1024 px) maupun smartphone (lebar minimal 360 px), dengan area target sentuh (*tap target*) tombol minimal 44×44 px.  
+9. Format data terstandarisasi: seluruh nilai mata uang ditampilkan dalam format Rupiah bulat tanpa sen menggunakan font monospace (contoh: `Rp 1.250.000`), dan tanggal menggunakan format standar Indonesia `DD-MM-YYYY`.  
+10. Status pembayaran dan tahapan pengerjaan mudah dibedakan secara visual menggunakan sistem *Soft Badge Pills*: DP 50% beraksen Amber (#F59E0B / bg-amber-50), Lunas beraksen Emerald (#10B981 / bg-emerald-50), Piutang lewat batas beraksen Rose (#EF4444 / bg-rose-50), dan deadline mendekati batas (≤ 3 hari) beraksen Orange (#F97316 / bg-orange-50).  
+11. Aksi berisiko (penghapusan akun, cabang, master data, pesanan, dan customer) selalu memunculkan modal konfirmasi dialog dengan latar belakang redup (*backdrop blur*) sebelum data terhapus permanen.  
+12. Dokumen cetak Invoice dan Work Order Production (SPK) siap cetak dalam ukuran standar A4. Khusus lembar WOP bengkel produksi tidak menampilkan nominal harga, total biaya, maupun rincian pembayaran sesuai klausul SRS 2.5.j.  
+
+### Efficiency {#efficiency}
+
+       1. #### Performance
+
+1. Waktu Muat Halaman: Aplikasi dirancang untuk memberikan waktu muat yang wajar pada layanan web hosting komersial standar. Halaman landing page, form login, dan dashboard utama ditargetkan tampil maksimal 3–5 detik pada koneksi internet stabil (minimal 2 Mbps). Halaman daftar data seperti Pesanan, Data Customer, dan Invoice juga ditargetkan tampil dalam rentang waktu yang sama dengan memanfaatkan fitur paginasi bawaan Laravel (maksimal 25 baris per halaman).  
+2. Proses Kalkulator Harga: Sesuai tujuan proyek untuk mempercepat estimasi dari 15 menit menjadi kurang dari 2 menit, proses perhitungan harga (saat tombol Hitung ditekan) di sistem ditargetkan selesai dan menampilkan rincian maksimal dalam 2 detik. Hal ini memastikan Admin dapat memproses pesanan dengan sangat cepat tanpa menunggu loading server.  
+3. Keamanan dan Gagal Login: Jika pengguna salah memasukkan username atau password, sistem akan menampilkan pesan error maksimal dalam 1 detik. Untuk menjaga keamanan dari akses tidak sah, dibatasi maksimal 5 kali percobaan gagal dalam kurun waktu 15 menit. Jika melewati batas tersebut, akun akan dikunci sementara selama 15 menit dan Admin/Owner harus menunggu masa tenggang berakhir sebelum bisa mencoba login kembali.  
+4. Pembuatan Dokumen (Invoice & WOP): Proses pembuatan file PDF untuk invoice dan Work Order Print (WOP) menggunakan library *barryvdh/laravel-dompdf* ditargetkan selesai dan menampilkan pratinjau maksimal dalam 5 detik per dokumen. Hal ini untuk memastikan Admin tidak terhambat saat harus mencetak WOP untuk segera diberikan ke bagian produksi.  
+5. Kegagalan Integrasi Pihak Ketiga (WhatsApp/Email): Sesuai analisis risiko proyek, pengiriman invoice sangat bergantung pada API pihak ketiga. Sistem akan menunggu respons maksimal 10 detik. Jika API gagal atau *timeout*, sistem tidak akan *hang* (macet), melainkan langsung menampilkan status "Gagal". Sebagai mitigasi, aplikasi tetap menyediakan opsi unduh PDF secara manual agar Admin dapat mengirimkannya sendiri via WhatsApp Web atau email biasa.  
+6. Operasional dan Sesi Pengguna: Aplikasi harus dapat diakses kapan saja selama layanan hosting *uptime*. Karena menggunakan *shared hosting*, target ketersediaan disesuaikan secara realistis pada angka 99% per bulan di luar jadwal *maintenance*. Sesi login pengguna akan berakhir otomatis jika tidak ada aktivitas (idle) selama 30 menit untuk mencegah penyalahgunaan akses, dan aplikasi tidak memiliki mode offline.  
+7. Beban Pengguna Bersamaan: Mengingat skala operasional Duta Media saat ini, aplikasi ditargetkan mampu melayani minimal 20 pengguna aktif secara bersamaan (Owner, Admin pusat, dan Admin cabang) tanpa mengalami penurunan performa yang berarti atau *error* pada database.  
+8. Pemrosesan Laporan: Halaman Rekap Laporan (penjualan, piutang, keuangan) yang ditarik berdasarkan filter cabang dan bulan, ditargetkan muncul maksimal dalam 5 detik. Jika data transaksi sudah sangat menumpuk (di atas 10.000 baris), pengembang telah menyiapkan indeks database agar query tetap berjalan cepat.
+
+   2. #### Space (Kapasitas Penyimpanan & Jaringan)
+
+1. **Kapasitas Penyimpanan Server (Disk Storage):** Server hosting berbasis web minimal menyediakan alokasi ruang penyimpanan sebesar **10 GB SSD** untuk menampung *source code* framework Laravel, aset frontend antarmuka, serta direktori penyimpanan arsip dokumen PDF (*Faktur Invoice* dan *Work Order Production*) yang diterbitkan sistem.
+2. **Kapasitas Basis Data (Database Space):** Alokasi ruang basis data MySQL minimal **1 GB**, yang dirancang mampu menampung riwayat transaksi pesanan, katalog master data, pengadaan vendor, dan data customer hingga puluhan ribu transaksi tanpa penurunan kecepatan query.
+3. **Memori Operasional Server (RAM):** Server web minimal memiliki alokasi **RAM 2 GB** (direkomendasikan 4 GB) untuk menjamin kelancaran kompilasi *view* Blade, kalkulasi formula HPP live, dan eksekusi library *barryvdh/laravel-dompdf* saat melakukan *rendering* dokumen cetak A4.
+4. **Kapasitas Bandwidth & Jaringan:** Hosting minimal menyediakan kuota *bandwidth* sebesar **100 GB per bulan** dengan kecepatan transfer data minimal **10 Mbps**, guna memastikan responsivitas akses dashboard multi-cabang serta pengunduhan berkas invoice PDF oleh pelanggan berlangsung tanpa kendala *buffering*.
+
+      3. #### Security (Keamanan Sistem & Data)
+
+1. **Enkripsi Kata Sandi:** Seluruh kata sandi (*password*) pengguna internal (Owner dan Admin Cabang) dienkripsi satu arah menggunakan algoritma *Bcrypt* dengan *cost factor* standar 10 pada kolom `password_hash`, sehingga kata sandi asli tidak dapat dibaca oleh pihak pengembang maupun pengelola database.
+2. **Kontrol Akses Berbasis Peran (*Role-Based Access Control*):** Mengimplementasikan *middleware* autentikasi pada rute web Laravel (`auth`, `role:owner`, `role:admin`). Admin Cabang secara ketat dibatasi hanya dapat mengakses dan memodifikasi data pada unit cabangnya sendiri, serta dilarang mengakses modul akun, manajemen cabang, dan master data pusat. Customer tidak memiliki akun dan tidak diizinkan masuk ke area portal internal.
+3. **Proteksi Serangan Siber Web:**
+   - **Cross-Site Request Forgery (CSRF):** Setiap formulir pengiriman data (`POST`, `PUT`, `DELETE`) wajib menyertakan token `@csrf` bawaan Laravel untuk mencegah manipulasi sesi transaksi dari situs berbahaya luar.
+   - **SQL Injection:** Seluruh kueri basis data memanfaatkan *Eloquent ORM* dan *Query Builder* berbasis *PDO Prepared Statements* dengan *parameter binding*, sehingga masukan teks pengguna tidak dapat dieksekusi sebagai perintah injeksi SQL.
+   - **Cross-Site Scripting (XSS):** Seluruh data keluaran yang dirender pada antarmuka web disaring otomatis melalui sintaks kurung kurawal ganda Blade (`{{ $data }}`) untuk mencegah penyusupan skrip JavaScript berbahaya.
+4. **Pembatasan Percobaan Login (*Rate Limiting*):** Diterapkan pembatasan maksimal 5 kali kegagalan login berturut-turut dalam kurun waktu 15 menit. Jika batas terlampaui, sistem otomatis mengunci akses login dari IP/perangkat tersebut selama 15 menit untuk mengantisipasi serangan *brute force*.
+5. **Enkripsi Saluran Komunikasi:** Seluruh pertukaran data antara browser pengguna dan web server wajib melalui protokol aman HTTPS yang terenkripsi menggunakan sertifikat SSL/TLS 1.3.
+
+2. # Kebutuhan Teknis Implementasi Coding {#kebutuhan-teknis-implementasi-coding}
+
+   ## Ketentuan Data {#ketentuan-data}
+
+Penjabaran batasan tipe dan format data operasional sistem PrintCraft mencakup seluruh modul fungsional sebagai berikut:
+
+1. **Modul Autentikasi & Akun Petugas:**
+   - **Username:** Wajib menggunakan huruf kecil dan angka, panjang 4–30 karakter, tanpa spasi atau karakter khusus kecuali garis bawah (`_`), dan harus unik di database.
+   - **Password:** Minimal 8 karakter dengan kombinasi huruf dan angka. Disimpan dalam bentuk hash Bcrypt 60 karakter.
+   - **Email:** Format alamat email standar internasional (`user@domain.ext`), unik untuk setiap akun petugas.
+   - **Peran:** Bernilai salah satu dari enum `Owner` atau `Admin`.
+2. **Modul Cabang Workshop:**
+   - **Nama Cabang:** Teks alfanumerik panjang maksimal 100 karakter.
+   - **Nomor Telepon Cabang:** Deret angka panjang 10–15 digit.
+   - **Alamat Cabang:** Teks deskriptif alamat fisik workshop.
+3. **Modul Master Data & Parameter Biaya:**
+   - **Nama Bahan & Nama Sablon:** Teks alfabetis panjang maksimal 100 karakter.
+   - **Tarif Sablon & HPP Kaos Polos:** Angka bilangan bulat positif (`integer ge 0`) dalam satuan Rupiah tanpa sen.
+   - **Biaya Tambahan Ukuran Jumbo (*Surcharge*):** Angka bilangan bulat Rupiah (`integer ge 0`).
+   - **Margin Keuntungan:** Angka bulat persentase 10%–100% (default 30%).
+4. **Modul Transaksi Pesanan & Customer:**
+   - **Nomor Pesanan:** Format kode terstandarisasi `ORD-YYYY-XXX` (contoh: `ORD-2026-101`), bersifat unik.
+   - **Nomor WhatsApp Customer:** Format nomor seluler Indonesia (diawali `08` atau `628`), panjang 10–14 digit angka.
+   - **Jumlah Pesanan (Qty):** Bilangan bulat positif minimal 12 pcs (standar pesanan konveksi).
+   - **Nilai Rupiah (Harga Dasar, Diskon, Total Harga):** Bilangan bulat dalam mata uang Rupiah tanpa pecahan desimal/sen.
+   - **Batas Waktu (Deadline):** Format tanggal valid (`DD-MM-YYYY`) yang bernilai lebih besar dari tanggal pembuatan pesanan.
+   - **Status Pesanan:** Bernilai salah satu dari enum tahapan workshop: `Menunggu Bahan`, `Produksi Sablon`, `Selesai Sablon`, `Siap Diambil`, atau `Selesai`.
+5. **Modul Pembayaran & Kasir:**
+   - **Tahapan Pembayaran:** Pilihan enum `DP 50%` atau `Pelunasan`.
+   - **Nominal Bayar:** Angka bulat positif dalam Rupiah, bernilai maksimal sebesar sisa tagihan pesanan.
+   - **Metode Pembayaran:** Teks metode transaksi (`Tunai`, `Transfer Bank`, atau `QRIS`).
+6. **Modul Pengadaan Kaos Polos (PO Vendor):**
+   - **Nomor PO:** Format kode unik `PO-YYYY-XXX` (contoh: `PO-2026-088`).
+   - **Pemasok:** Teks nama vendor/supplier kaos polos pihak ketiga maksimal 100 karakter.
+   - **Status Pengadaan:** Pilihan enum logistik: `Dipesan ke Vendor`, `Dalam Pengiriman`, atau `Tiba di Cabang`.
+7. **Modul Invoice & WOP:**
+   - **Nomor Invoice:** Format kode unik penagihan `INV-YYYY-XXX`.
+   - **Nomor WOP:** Format kode unik instruksi kerja workshop `WOP-YYYY-XXX`.
+   - **Dokumen WOP:** Tidak memuat kolom harga, biaya, maupun nominal pembayaran (SRS 2.5.j).
+
+   ). Jika keliru, tampil pesan *"Nomor WhatsApp wajib diawali angka 08 atau 62"*.
+   - **Validasi Duplikasi Member:** Mengecek ke tabel `customer`. Jika nomor WhatsApp sudah tercatat, sistem menampilkan pesan *"Nomor WhatsApp ini sudah terdaftar sebagai Member Duta Media"*.
+5. **Validasi Tindakan Destruktif & Hapus Data:**
+   - **Pencegahan Error (*Error Prevention*):** Menekan tombol Hapus pada akun, cabang, master data, pesanan, atau customer selalu memunculkan dialog modal konfirmasi dengan rincian data yang akan dihapus.
+   - **Validasi Integritas Relasi Data:** Sistem menolak penghapusan data master atau cabang yang masih memiliki relasi transaksi aktif pada tabel pesanan, dengan pesan *"Data tidak dapat dihapus karena masih digunakan pada pesanan aktif"*. 
 
 **Kontribusi Anggota Kelompok :** 
 
