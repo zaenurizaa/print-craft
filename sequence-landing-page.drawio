@@ -1,0 +1,100 @@
+<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
+  <diagram id="seq-landing-page" name="Sequence Tampil Landing Page">
+    <mxGraphModel dx="1000" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Actor: Customer Top -->
+        <mxCell id="act_customer_top" value="Customer" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="85" y="40" width="30" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Lifeline Boundary: view_landing_page Top -->
+        <mxCell id="ll_vlp_top" value="view_landing_page" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="270" y="50" width="60" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Lifeline Control: LandingPageController Top -->
+        <mxCell id="ll_ctrl_top" value="LandingPageController" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="510" y="45" width="45" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Lifeline dashed lines -->
+        <!-- Customer Lifeline -->
+        <mxCell id="line_cust" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="act_customer_bottom" target="act_customer_top">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- view_landing_page Lifeline -->
+        <mxCell id="line_vlp" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_vlp_bottom" target="ll_vlp_top">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- LandingPageController Lifeline -->
+        <mxCell id="line_ctrl" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_ctrl_bottom" target="ll_ctrl_top">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Message 1: Buka website -->
+        <mxCell id="msg1" value="Buka website" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+          <mxGeometry x="-0.05" y="-12" relative="1" as="geometry">
+            <mxPoint x="100" y="160" as="sourcePoint" />
+            <mxPoint x="300" y="160" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Message 2: daftarMember() / route GET / -->
+        <mxCell id="msg2" value="daftarMember() / route GET /" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+          <mxGeometry x="-0.05" y="-12" relative="1" as="geometry">
+            <mxPoint x="300" y="210" as="sourcePoint" />
+            <mxPoint x="532" y="210" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Self-call: index() -->
+        <mxCell id="msg3_self" value="index()" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+          <mxGeometry x="0.2" y="-15" relative="1" as="geometry">
+            <mxPoint x="532" y="250" as="sourcePoint" />
+            <mxPoint x="532" y="280" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="580" y="250" />
+              <mxPoint x="580" y="280" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Message 4: return (view_landing_page) -->
+        <mxCell id="msg4_return" value="return (view_landing_page)" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.5;endFill=0;" edge="1" parent="1">
+          <mxGeometry x="-0.05" y="-12" relative="1" as="geometry">
+            <mxPoint x="532" y="320" as="sourcePoint" />
+            <mxPoint x="300" y="320" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Actor: Customer Bottom -->
+        <mxCell id="act_customer_bottom" value="Customer" style="shape=umlActor;verticalLabelPosition=top;verticalAlign=bottom;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="85" y="370" width="30" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Lifeline Boundary: view_landing_page Bottom -->
+        <mxCell id="ll_vlp_bottom" value="view_landing_page" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+          <mxGeometry x="270" y="380" width="60" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Lifeline Control: LandingPageController Bottom -->
+        <mxCell id="ll_ctrl_bottom" value="LandingPageController" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+          <mxGeometry x="510" y="375" width="45" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Caption -->
+        <mxCell id="caption_fig54" value="&lt;b&gt;Gambar 54. Sequence Diagram Tampil Landing Page&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="150" y="460" width="370" height="30" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

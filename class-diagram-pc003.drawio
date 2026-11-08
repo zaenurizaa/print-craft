@@ -1,0 +1,127 @@
+<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
+  <diagram id="class-diagram-pc003" name="Class Diagram PC-003">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Database Class -->
+        <mxCell id="cls_db" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;Database&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ db: array&lt;br/&gt;+ nama_database: String&lt;hr size=&quot;1&quot;/&gt;+ koneksi(nama_database)" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="60" y="60" width="200" height="95" as="geometry" />
+        </mxCell>
+
+        <!-- DaftarMember Model Class -->
+        <mxCell id="cls_model" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;DaftarMember&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ id_customer: int&lt;br/&gt;+ nama: String&lt;br/&gt;+ nomor_whatsapp: String&lt;br/&gt;+ email: String&lt;br/&gt;+ alamat: String&lt;br/&gt;+ id_kategori_customer: int&lt;hr size=&quot;1&quot;/&gt;+ validasiData(data)&lt;br/&gt;+ buatDataMember(data, id_kategori_customer)&lt;br/&gt;+ nomorWhatsappTerdaftar(nomor_whatsapp)&lt;br/&gt;+ ambilKategoriMember()&lt;br/&gt;+ simpanMember(data_member)&lt;br/&gt;+ ambilInfoPotonganMember(id_kategori_customer)" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="440" y="60" width="310" height="230" as="geometry" />
+        </mxCell>
+
+        <!-- External: KategoriCustomer (PC-002) -->
+        <mxCell id="cls_ext_kategori" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;KategoriCustomer (PC-002)&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="840" y="60" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- External: Pesanan (PC-003) -->
+        <mxCell id="cls_ext_pesanan" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;Pesanan (PC-003)&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="840" y="215" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- LandingPageController Class -->
+        <mxCell id="cls_lp_ctrl" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;LandingPageController&lt;/b&gt;&lt;br/&gt;&amp;lt;&amp;lt;Controller&amp;gt;&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ index()" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="60" y="520" width="190" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- DaftarMemberController Class -->
+        <mxCell id="cls_dm_ctrl" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;DaftarMemberController&lt;/b&gt;&lt;br/&gt;&amp;lt;&amp;lt;Controller&amp;gt;&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ create()&lt;br/&gt;+ store(request)&lt;br/&gt;+ berhasil(id_customer)" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="455" y="505" width="280" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- view_landing_page Class -->
+        <mxCell id="cls_v_lp" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;view_landing_page&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ daftarMember()" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="70" y="760" width="170" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- form_member Class -->
+        <mxCell id="cls_f_member" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;form_member&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ prosesDaftar()" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="480" y="760" width="170" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- view_konfirmasi_member Class -->
+        <mxCell id="cls_v_konfirm" value="&lt;p style=&quot;margin:0px;text-align:center;&quot;&gt;&lt;b&gt;view_konfirmasi_member&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;+ tampilKonfirmasi()" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="730" y="760" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Caption -->
+        <mxCell id="caption_fig53" value="&lt;b&gt;Gambar 53. Class Diagram Fitur Landing Page dan Daftar Member (PC-003)&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="280" y="860" width="500" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Association: DaftarMember -> KategoriCustomer -->
+        <mxCell id="rel_kat" value="1" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.2;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="cls_model" target="cls_ext_kategori">
+          <mxGeometry x="0.8" y="-10" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_kat_star" value="*" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="rel_kat">
+          <mxGeometry x="-0.85" y="-12" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Association: DaftarMember -> Pesanan -->
+        <mxCell id="rel_pesanan" value="0..*" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.8;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="cls_model" target="cls_ext_pesanan">
+          <mxGeometry x="0.8" y="-10" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_pesanan_1" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="rel_pesanan">
+          <mxGeometry x="-0.85" y="-12" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Dependency: DaftarMember -> Database -->
+        <mxCell id="dep_db" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0;exitY=0.3;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_model" target="cls_db">
+          <mxGeometry x="0.05" y="15" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Dependency: DaftarMemberController -> DaftarMember -->
+        <mxCell id="dep_ctrl_model" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_dm_ctrl" target="cls_model">
+          <mxGeometry x="-0.1" y="-15" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Dependency: LandingPageController -> view_landing_page -->
+        <mxCell id="dep_lp_view" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_lp_ctrl" target="cls_v_lp">
+          <mxGeometry x="-0.1" y="-15" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Dependency: DaftarMemberController -> view_landing_page -->
+        <mxCell id="dep_dm_vlp" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0;exitY=0.9;exitDx=0;exitDy=0;entryX=1;entryY=0.2;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_dm_ctrl" target="cls_v_lp">
+          <mxGeometry x="0.1" y="15" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Dependency: DaftarMemberController -> form_member -->
+        <mxCell id="dep_dm_fm" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.4;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_dm_ctrl" target="cls_f_member">
+          <mxGeometry x="-0.1" y="-15" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Dependency: DaftarMemberController -> view_konfirmasi_member -->
+        <mxCell id="dep_dm_vkonfirm" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.8;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_dm_ctrl" target="cls_v_konfirm">
+          <mxGeometry x="-0.1" y="-15" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
