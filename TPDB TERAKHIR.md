@@ -1201,41 +1201,224 @@ Gambar 10\. Class Diagram Fitur Dashboard dan rekap laporan
 
 6. ## Sequence Diagram
 
-   1\. Sequence diagram tampil landing page
+Sequence diagram memodelkan alur interaksi antar-objek berdasarkan urutan waktu (*lifeline*) pada setiap fitur PrintCraft. Sesuai arsitektur **Laravel (MVC)**, alur sequence mengintegrasikan interaksi antara:
+- **Class View (Lifeline Boundary):** File Blade antarmuka yang berinteraksi langsung dengan pengguna dan mengeksekusi *request* rute HTTP.
+- **Class Controller (Lifeline Control):** Pengendali rute dan logika aplikasi yang menerima *request*, memvalidasi, dan mengarahkan aliran data.
+- **Class Model (Lifeline Entity):** Pengelola logika data bisnis dan kueri *Eloquent ORM*.
+- **Class Database (Lifeline Database):** Komponen koneksi basis data MySQL (`config/database.php`).
+
+Pesan *return* (*dashed arrow*) berhenti pada form antarmuka layar pengguna (Boundary) karena pengguna menerima respon secara visual melalui layar perangkat.
+
+---
+
+### 6.1 Sequence Diagram Fitur Landing Page (PC-003)
+
+Berdasarkan rincian use case deskripsi kolom aplikasi, pemetaan aktivitas use case deskripsi dan function class diagram dijabarkan :
+1. Aktor (Customer) membuka alamat website PrintCraft pada peramban web (*browser*).
+2. Aktor (Customer) membuka website kemudian `view_landing_page` akan mengeksekusi request route `GET /` yang memanggil function `daftarMember()` pada antarmuka. Function tersebut memanggil method `index()` yang terdapat pada `LandingPageController`. Kemudian akan menampilkan isi dari function `index()` ke aktor yaitu merender visualisasi halaman utama landing page pada layar `view_landing_page`. Karena konten bersifat statis, Controller tidak memanggil Model maupun Database.
+
+**Komponen yang terlibat :**
+1. Aktor (Customer)
+2. Class View / Boundary (`view_landing_page`)
+3. Class Controller / Control (`LandingPageController`)
 
 ![][image16]
 
-Gambar 11\. Sequence Diagram Fitur Landing Page 
+**Gambar 11. Sequence Diagram Fitur Landing Page**  
+Gambar 11 merupakan sequence diagram tampil landing page website PrintCraft. Customer berinteraksi secara langsung dengan form `view_landing_page` untuk melakukan buka website. Customer melakukan buka website maka pada form `view_landing_page` akan menjalankan request fungsi `daftarMember()` via route `GET /` untuk dihubungkan ke controller `LandingPageController`, sehingga pada controller `LandingPageController` akan dijalankan *self-call* fungsi `index()` yang akan menampilkan antarmuka visualisasi beranda ke pengguna Customer. Respon pesan return berhenti di tampilan `view_landing_page`.
 
-2\. Sequence diagram tampil daftar member 
+---
 
- ![][image17]
+### 6.2 Sequence Diagram Fitur Daftar Member (PC-003)
 
-Gambar 12\. Sequence Diagram Fitur daftar member dan simpan
+Berdasarkan rincian use case deskripsi kolom aplikasi, pemetaan aktivitas use case deskripsi dan function class diagram dijabarkan :
+1. Aktor (Customer) membuka landing page, kemudian pada `view_landing_page` Customer mengklik tombol "Daftar Member".
+2. `view_landing_page` akan mengeksekusi function `daftarMember()` via route `GET /daftar-member`. Function ini memanggil method `create()` pada `DaftarMemberController`. Kemudian Controller menampilkan isi dari `create()` ke aktor yaitu menampilkan visualisasi form pendaftaran member (`form_member`) di layar perangkat Customer.
+3. Setelah halaman `form_member` tampil, aktor (Customer) mengisikan data diri (nama, nomor WhatsApp, email, dan alamat), kemudian mengklik tombol "Daftar".
+4. Aktor (Customer) mengklik tombol "Daftar", kemudian `form_member` akan mengeksekusi function `prosesDaftar()` via route `POST /daftar-member`. Function ini memanggil method `store(request)` pada `DaftarMemberController`.
+5. Method `store(request)` pada `DaftarMemberController` terhubung dengan function dan variabel yang terdapat pada Model `DaftarMember`, lalu secara berurutan:
+   - Menjalankan function `validasiData(data)` pada Model `DaftarMember` untuk memvalidasi kelengkapan isian form, kemudian di-return ke Controller.
+   - Menjalankan function `nomorWhatsappTerdaftar(nomor_whatsapp)` pada Model `DaftarMember` yang mengecek data nomor ponsel ke database melalui koneksi `Database` (`printcraft_db`), kemudian di-return status keunikannya.
+6. Aplikasi melakukan pengecekan kondisi percabangan (*Alt Fragment*):
+   - **Kondisi Valid dan Nomor Belum Terdaftar [True]:**
+     a. `DaftarMemberController` memanggil function `ambilKategoriMember()` pada Model.  
+     b. `DaftarMemberController` memanggil function `buatDataMember(data, id_kategori_customer)` pada Model.  
+     c. `DaftarMemberController` memanggil function `simpanMember(data_member)` pada Model untuk menyimpan data baru ke tabel `customer` di `Database` (return `id_customer`).  
+     d. `DaftarMemberController` memanggil function `ambilInfoPotonganMember(id_kategori_customer)` pada Model untuk membaca besaran diskon.  
+     e. `DaftarMemberController` menjalankan *self-call* `berhasil(id_customer)` dan mengarahkan navigasi ke `view_konfirmasi_member`.  
+     f. Pada `view_konfirmasi_member` dijalankan *self-call* `tampilKonfirmasi()` untuk merender konfirmasi pendaftaran berhasil beserta kartu potongan harga ke layar Customer.  
+   - **Kondisi Data Tidak Valid atau Nomor WhatsApp Sudah Terdaftar [False]:**
+     `DaftarMemberController` membatalkan penyimpanan dan mengembalikan pesan error (`return pesan error`) ke tampilan `form_member` untuk diperbaiki pengguna.
 
-3\. Sequence diagram Login 
+**Komponen yang terlibat :**
+1. Aktor (Customer)
+2. Class View / Boundary (`view_landing_page`)
+3. Class View / Boundary (`form_member`)
+4. Class Controller / Control (`DaftarMemberController`)
+5. Class Model / Entity (`DaftarMember`)
+6. Class Database/koneksi (`Database`)
+7. Class View / Boundary (`view_konfirmasi_member`)
+
+![][image17]
+
+**Gambar 12. Sequence Diagram Fitur Daftar Member dan Simpan**  
+Gambar 12 merupakan sequence diagram pendaftaran member website PrintCraft. Customer berinteraksi secara langsung dengan `view_landing_page` dan `form_member` untuk melakukan registrasi member. Customer mengklik tombol daftar member maka pada form `view_landing_page` akan memanggil fungsi `daftarMember()` ke `DaftarMemberController` yang menjalankan fungsi `create()` untuk menampilkan `form_member`. Customer mengisi data dan klik daftar, maka form mengeksekusi fungsi `prosesDaftar()` ke controller untuk menjalankan `store(request)`. Controller memanggil model `DaftarMember` untuk validasi isian dan pengecekan nomor WhatsApp ke Database. Jika valid dan nomor belum terdaftar, controller menyimpan data member baru, membaca potongan harga, dan mengarahkan ke `view_konfirmasi_member` yang menjalankan `tampilKonfirmasi()`. Jika gagal, controller mengembalikan pesan error ke `form_member`.
+
+---
+
+### 6.3 Sequence Diagram Fitur Login Pengguna (PC-001)
+
+Berdasarkan rincian use case deskripsi kolom aplikasi, pemetaan aktivitas use case deskripsi dan function class diagram dijabarkan :
+1. Aktor (Owner, Admin) membuka peramban web dan mengakses URL login PrintCraft.
+2. Form `view_login` memanggil request `GET /login` ke `AuthController` yang mengeksekusi method `showLoginForm()`. Method tersebut menampilkan antarmuka formulir login ke layar `view_login` pengguna.
+3. Setelah form login tampil, aktor mengisikan username dan password, kemudian mengklik tombol "Login".
+4. Form `view_login` mengeksekusi request `POST /login` ke method `login(request)` pada `AuthController`. Method `login(request)` memanggil Model `Akun` dengan function `cekKredensial(username, password)`. Model mengecek ke tabel `akun` melalui koneksi `Database`, memverifikasi kecocokan hash Bcrypt, dan me-return data user beserta perannya.
+5. Aplikasi melakukan pengecekan validasi kredensial:
+   - Jika username dan password valid, `AuthController` menginisiasi `session(role, id_cabang)` dan mengarahkan pengguna ke halaman `view_dashboard` sesuai peran (Owner melihat multi-cabang, Admin melihat cabang workshopnya).
+   - Jika username atau password salah, `AuthController` mengembalikan respon galat `return error` ke form `view_login` disertai pesan "Username atau password salah".
+
+**Komponen yang terlibat :**
+1. Aktor (Owner, Admin)
+2. Class View / Boundary (`view_login`)
+3. Class Controller / Control (`AuthController`)
+4. Class Model / Entity (`Akun`)
+5. Class Database/koneksi (`Database`)
+6. Class View / Boundary (`view_dashboard`)
 
 ![][image18]
 
-Gambar 13\. Sequence Diagram Fitur login owner / admin
+**Gambar 13. Sequence Diagram Fitur Login Owner / Admin**  
+Gambar 13 merupakan sequence diagram login pengguna website PrintCraft. Owner atau Admin berinteraksi langsung dengan `view_login` untuk melakukan buka halaman login, isi username dan password, serta klik tombol login. Form `view_login` menghubungkan request ke controller `AuthController` melalui fungsi `showLoginForm()` dan `login(request)`. Controller memverifikasi kredensial ke model `Akun` dan basis data. Jika kredensial valid, sesi login dibuat dan diarahkan ke `view_dashboard`. Jika salah, pesan kesalahan dikembalikan ke `view_login`.
 
-4\. Sequence diagram Pengadaan stok kaos
+---
+
+### 6.4 Sequence Diagram Fitur Kelola Akun dan Cabang (PC-001)
+
+Berdasarkan rincian use case deskripsi kolom aplikasi, pemetaan aktivitas use case deskripsi dan function class diagram dijabarkan :
+1. Aktor (Owner) mengklik menu "Manajemen Akun" atau "Cabang Workshop" pada sidebar antarmuka.
+2. View `view_daftar_master` memanggil request `GET /akun` atau `GET /cabang` ke `MasterPenggunaController` yang mengeksekusi method `index()`. Method tersebut membaca daftar record dari Model `Akun` atau `Cabang` ke `Database` dan merender halaman daftar data.
+3. Untuk menambah data baru, Owner mengklik tombol "Tambah", mengisi formulir pada modal `form_input_master`, lalu mengklik tombol "Simpan".
+4. View `form_input_master` mengeksekusi request `POST /simpan` ke `MasterPenggunaController` dengan method `store(request)`. Controller memanggil method `simpanData(data)` pada Model untuk menyimpan data baru ke `Database`.
+5. Untuk menghapus data, Owner mengklik tombol "Hapus" dan mengonfirmasi dialog. View mengirimkan request `DELETE` ke method `destroy(id)` pada Controller, yang mengecek integritas relasi foreign key pada Model sebelum mengeksekusi penghapusan di `Database`.
+6. Controller mengembalikan respon sukses (*toast notification*) ke tampilan daftar data.
+
+**Komponen yang terlibat :**
+1. Aktor (Owner)
+2. Class View / Boundary (`view_daftar_master`, `form_input_master`)
+3. Class Controller / Control (`MasterPenggunaController`)
+4. Class Model / Entity (`Akun`, `Cabang`)
+5. Class Database/koneksi (`Database`)
+
+---
+
+### 6.5 Sequence Diagram Fitur Master Data dan Kalkulator Harga (PC-002)
+
+Berdasarkan rincian use case deskripsi kolom aplikasi, pemetaan aktivitas use case deskripsi dan function class diagram dijabarkan :
+1. Aktor (Owner, Admin) membuka menu "Kalkulator Harga" pada sistem.
+2. View `view_kalkulator` mengirimkan request `GET /kalkulator` ke `KalkulatorController` yang mengeksekusi method `index()`. Method ini mengambil daftar bahan kain, ukuran, dan jenis sablon aktif dari Model `MasterData` ke `Database`, lalu menampilkan form kalkulator dengan nilai parameter biaya terbaru.
+3. Aktor mengisikan jumlah pcs, memilih bahan kain, memilih jenis sablon, dan status member, kemudian menekan tombol "Hitung Estimasi".
+4. View `view_kalkulator` memanggil fungsi `hitungEstimasi()` pada `KalkulatorController`.
+5. `KalkulatorController` mengeksekusi formula perhitungan: mengambil HPP dasar bahan, tarif sablon, surcharge ukuran jumbo, mengalikan persentase margin keuntungan (terkunci 30% untuk admin cabang), dan memotong diskon member jika berlaku.
+6. Controller mengembalikan rincian kalkulasi harga (*HPP, Margin, Total Estimasi, Harga per Pcs*) ke tampilan `view_kalkulator` secara *real-time*.
+
+**Komponen yang terlibat :**
+1. Aktor (Owner, Admin)
+2. Class View / Boundary (`view_kalkulator`)
+3. Class Controller / Control (`KalkulatorController`)
+4. Class Model / Entity (`MasterData`, `Bahan`, `JenisSablon`)
+5. Class Database/koneksi (`Database`)
+
+---
+
+### 6.6 Sequence Diagram Fitur Transaksi Pesanan dan Data Customer (PC-003)
+
+Berdasarkan rincian use case deskripsi kolom aplikasi, pemetaan aktivitas use case deskripsi dan function class diagram dijabarkan :
+1. Aktor (Owner, Admin) membuka menu "Data Pesanan" lalu menekan tombol "Buat Pesanan Baru".
+2. View `form_pesanan` memanggil method `create()` pada `PesananController` untuk memuat opsi customer, spesifikasi kain, sablon, dan cabang workshop.
+3. Aktor mengisikan spesifikasi pesanan (customer, bahan kain, ukuran, jumlah pcs minimal 12, deadline minimal H+3, catatan desain, dan DP minimal 50%), lalu menekan tombol "Simpan Pesanan".
+4. View `form_pesanan` mengeksekusi request `POST /pesanan` ke method `store(request)` pada `PesananController`.
+5. `PesananController` memanggil Model `Pesanan` dan `Customer` untuk memvalidasi kelengkapan data, membentuk nomor pesanan terstandarisasi (`ORD-YYYY-XXX`), menyimpan record transaksi pesanan ke `Database`, dan menyimpan pencatatan pembayaran DP pada Model `Pembayaran`.
+6. Controller mengembalikan respon sukses dan mengarahkan pengguna ke `view_daftar_pesanan` dengan status awal "Menunggu Bahan".
+
+**Komponen yang terlibat :**
+1. Aktor (Owner, Admin)
+2. Class View / Boundary (`form_pesanan`, `view_daftar_pesanan`)
+3. Class Controller / Control (`PesananController`)
+4. Class Model / Entity (`Pesanan`, `Customer`, `Pembayaran`)
+5. Class Database/koneksi (`Database`)
+
+---
+
+### 6.7 Sequence Diagram Fitur Pengadaan Stok Kaos (PC-004)
+
+Berdasarkan rincian use case deskripsi kolom aplikasi, pemetaan aktivitas use case deskripsi dan function class diagram dijabarkan :
+1. Aktor (Owner, Admin) membuka menu "Pengadaan Kaos" untuk memproses kebutuhan kaos polos dari pesanan yang masuk.
+2. View `view_pengadaan` memanggil request `GET /pengadaan` ke `PengadaanController` yang menjalankan `index()` untuk menampilkan riwayat PO vendor.
+3. Aktor menekan tombol "Buat PO Baru", memilih pesanan terkait, mengisikan nama supplier vendor dan jumlah pcs, lalu menekan tombol "Kirim PO".
+4. View `form_pengadaan` mengeksekusi request `POST /pengadaan` ke method `store(request)` pada `PengadaanController`.
+5. `PengadaanController` memanggil Model `PengadaanKaos` untuk mengenerate nomor `PO-YYYY-XXX` dan menyimpan data pengadaan dengan status awal "Dipesan ke Vendor" ke dalam `Database`.
+6. Ketika kaos polos tiba di workshop, aktor mengubah status pengadaan menjadi "Tiba di Cabang". Controller mengeksekusi method `updateStatus(id)` pada Model dan otomatis memperbarui status transaksi pesanan menjadi "Produksi Sablon".
+
+**Komponen yang terlibat :**
+1. Aktor (Owner, Admin)
+2. Class View / Boundary (`view_pengadaan`, `form_pengadaan`)
+3. Class Controller / Control (`PengadaanController`)
+4. Class Model / Entity (`PengadaanKaos`, `Pesanan`)
+5. Class Database/koneksi (`Database`)
 
 ![][image19]
 
-Gambar 14\. Sequence Diagram Fitur pengadaan stok kaos
+**Gambar 14. Sequence Diagram Fitur Pengadaan Stok Kaos**  
+Gambar 14 merupakan sequence diagram pengadaan stok kaos polos ke vendor pihak ketiga. Petugas workshop berinteraksi dengan form pengadaan untuk menerbitkan purchase order (PO) berdasarkan nomor pesanan sablon. Form pengadaan mengirimkan data ke controller `PengadaanController` untuk divalidasi dan disimpan ke tabel pengadaan via model `PengadaanKaos`. Ketika status diperbarui menjadi tiba di cabang, sistem mengalirkan status pesanan ke tahap produksi sablon.
 
-5\. Sequence diagram Buat dan invoice pdf
+---
+
+### 6.8 Sequence Diagram Fitur Cetak Invoice dan WOP (PC-005)
+
+Berdasarkan rincian use case deskripsi kolom aplikasi, pemetaan aktivitas use case deskripsi dan function class diagram dijabarkan :
+1. Aktor (Owner, Admin) membuka detail pesanan dan menekan tombol "Cetak Invoice" atau "Cetak WOP".
+2. View `view_detail_pesanan` mengirimkan request `GET /pesanan/{id}/invoice` atau `GET /pesanan/{id}/wop` ke `DokumenController`.
+3. `DokumenController` mengeksekusi method `cetakInvoice(id)` atau `cetakWOP(id)`. Controller memanggil Model `Pesanan` dan `Pembayaran` untuk mengambil data transaksi lengkap dari `Database`.
+4. Untuk dokumen WOP, Controller secara ketat memfilter data agar kolom harga, tarif, dan rincian pembayaran dihilangkan sesuai klausul batasan produksi.
+5. Controller memanggil library *barryvdh/laravel-dompdf* via method `generatePDF(view, data)` untuk merender template Blade ukuran A4 menjadi dokumen berkas PDF.
+6. Dokumen PDF yang terbentuk dikembalikan (*stream PDF*) dan ditampilkan pada pratinjau browser pengguna untuk dicetak ke mesin printer fisik atau diunduh manual.
+
+**Komponen yang terlibat :**
+1. Aktor (Owner, Admin)
+2. Class View / Boundary (`view_detail_pesanan`, `view_pdf_preview`)
+3. Class Controller / Control (`DokumenController`)
+4. Class Model / Entity (`Pesanan`, `Pembayaran`)
+5. Library Cetak: `Dompdf`
+6. Class Database/koneksi (`Database`)
 
 ![][image20]
 
-Gambar 15\. Sequence Diagram Fitur buat invoice pdf
+**Gambar 15. Sequence Diagram Fitur Buat Invoice PDF**  
+Gambar 15 merupakan sequence diagram pembuatan dokumen invoice dan lembar kerja produksi (WOP) dalam format PDF. Pengguna mengklik cetak invoice/WOP pada layar detail pesanan. Permintaan diproses oleh controller `DokumenController` dengan memanggil data pesanan dan riwayat pembayaran pada basis data. Controller kemudian merender template dokumen ke dalam library PDF dan mengembalikan pratinjau berkas PDF siap cetak kepada pengguna.
 
-6\. Sequence diagram Dashboard dan rekap laporan 
+---
+
+### 6.9 Sequence Diagram Fitur Dashboard dan Rekap Laporan (PC-006)
+
+Berdasarkan rincian use case deskripsi kolom aplikasi, pemetaan aktivitas use case deskripsi dan function class diagram dijabarkan :
+1. Aktor (Owner, Admin) mengakses menu "Dashboard" atau "Rekap Keuangan".
+2. View `view_laporan` mengirimkan request `GET /laporan` dengan parameter filter cabang dan filter rentang bulan transaksi ke `LaporanController`.
+3. `LaporanController` mengeksekusi method `filterLaporan(cabang_id, periode)`. Controller memverifikasi hak akses pengguna (Owner berhak memilih seluruh cabang, sedangkan Admin hanya dapat melihat data cabangnya sendiri).
+4. `LaporanController` mengeksekusi kueri agregasi pendapatan, piutang, dan jumlah pesanan melalui Model `Pesanan` dan `Pembayaran` ke `Database`.
+5. Database mengembalikan kumpulan data rekapan transaksi.
+6. Controller mengembalikan data hasil agregasi ke `view_laporan` untuk ditampilkan dalam bentuk ringkasan kartu statistik pendapatan, grafik tren penjualan bulanan, dan tabel rincian transaksi.
+
+**Komponen yang terlibat :**
+1. Aktor (Owner, Admin)
+2. Class View / Boundary (`view_dashboard`, `view_laporan`)
+3. Class Controller / Control (`LaporanController`, `DashboardController`)
+4. Class Model / Entity (`Pesanan`, `Pembayaran`, `Cabang`)
+5. Class Database/koneksi (`Database`)
 
 ![][image21]
 
-Gambar 16\. Sequence Diagram Fitur dashboard dan rekap laporan
+**Gambar 16. Sequence Diagram Fitur Dashboard dan Rekap Laporan**  
+Gambar 16 merupakan sequence diagram fitur dashboard dan rekap laporan keuangan. Pengguna memilih filter cabang dan periode laporan pada halaman `view_laporan`. Form meneruskan parameter filter ke controller `LaporanController`. Controller mengeksekusi kalkulasi agregasi data penjualan dan piutang pada basis data melalui model, lalu mengembalikan data terstruktur ke tampilan antarmuka untuk disajikan dalam bentuk diagram visual dan tabel rekapitulasi.
 
 [image1]: <data:image/png;base64,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>
 
