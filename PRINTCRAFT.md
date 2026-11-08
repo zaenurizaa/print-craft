@@ -20,7 +20,7 @@ Universitas Amikom Yogyakarta
 
 DAFTAR ISI
 
-[1. Pendahuluan	5](#pendahuluan)
+[1\. Pendahuluan	5](#pendahuluan)
 
 [1.2 Deskripsi Umum Dokumen	6](#1.2-deskripsi-umum-dokumen)
 
@@ -86,9 +86,13 @@ DAFTAR ISI
 
 [4.6 Sequence Diagram	89](#4.6-sequence-diagram)
 
-[4.6.1 Sequence Diagram Fitur Landing Page (PC-003)	89](#4.6.1-sequence-diagram-fitur-landing-page-pc-003)
+[4.6.1 Logic Sequence Diagram Fitur Landing Page (PC-003)	89](#4.6.1-logic-sequence-diagram-fitur-landing-page-pc-003)
 
-[4.6.2 Sequence Diagram Fitur Daftar Member (PC-003)	89](#4.6.2-sequence-diagram-fitur-daftar-member-pc-003)
+[4.6.2 Gambar Sequence Diagram Fitur Landing Page (PC-003)	89](#4.6.2-gambar-sequence-diagram-fitur-landing-page-pc-003)
+
+[4.6.3 Logic Sequence Diagram Fitur Daftar Member (PC-003)	89](#4.6.3-logic-sequence-diagram-fitur-daftar-member-pc-003)
+
+[4.6.4 Gambar Sequence Diagram Fitur Daftar Member (PC-003)	89](#4.6.4-gambar-sequence-diagram-fitur-daftar-member-pc-003)
 
 [1\. Kebutuhan Non-Fungsional Produk atau Aplikasi	90](#heading=h.23ckvvd)
 
@@ -287,51 +291,43 @@ c. Daftar pesan kesalahan beserta cara penanganannya.
 
 ## 3.1 Karakteristik Tampilan Pengguna {#3.1-karakteristik-tampilan-pengguna}
 
-Perancangan antarmuka pengguna sistem PrintCraft mengadopsi **Softro SaaS Design System** modern berbasis komponen Tailwind CSS, dipadukan dengan tipografi hierarkis Google Fonts (*Manrope*, *Inter*, dan *JetBrains Mono*) serta ikonografi presisi *Lucide Icons*. Seluruh layar dirancang dengan mematuhi prinsip **10 Usability Heuristics Jakob Nielsen** untuk menjamin efisiensi kerja, kejelasan status sistem, pencegahan kesalahan, dan konsistensi visual di seluruh alur operasional konveksi.
+1. Ukuran layar responsif. 
 
-1. **Ukuran Layar Responsif (*Responsive Viewport Specification*)**
-   - **Tampilan Desktop (Utama):** Dirancang optimal pada resolusi standar **1440 px** (lebar minimum 1024 px) dengan tata kelola ruang lapang, visual hierarchy bertingkat, dan *fixed multi-panel layout*.
-   - **Tampilan Smartphone (Mobile):** Responsif hingga lebar layar smartphone minimal **360 px** (optimal pada 390 px–420 px). Layout otomatis mereflow menjadi kartu vertikal tunggal (*stacked cards*), sidebar berubah menjadi drawer menu ringkas, dan ukuran target sentuh (*tap target*) memenuhi standar aksesibilitas minimal 44×44 px.
+   Ukuran layar responsif Tampilan utama dirancang optimal untuk desktop atau laptop (lebar standar 1440 px, minimal 1024 px) dengan tata kelola ruang multi-panel lapang. Aplikasi dapat diakses secara responsif dari smartphone (lebar minimal 360 px), di mana tata letak otomatis mereflow menjadi kartu vertikal tunggal, menu navigasi berubah menjadi drawer ringkas, dan ukuran target sentuh tombol memenuhi standar minimal 44×44 px. 
 
-2. **Tata Letak & Arsitektur Navigasi (*Softro SaaS 2-Column Dashboard*)**
-   - **Sidebar Navigasi Kiri (*Fixed Sidebar* 256 px / `w-64`):** Menampilkan identitas logo brand PrintCraft Duta Media, navigasi menu hierarkis dengan active state violet tint (`#EEF2FF`) dan border indikator tebal (`#7C3AED`), scrollbar tersembunyi yang mulus (*custom sleek scrollbar*), serta profil drawer petugas aktif di bagian bawah sidebar.
-   - **Header Atas (*Sticky Header* 64 px):** Memuat kolom pencarian global *real-time* (pencarian nomor pesanan, pelanggan, atau cabang), badge status peran yang sedang aktif, tombol aksi cepat (+ Order Baru), serta menu avatar pengguna.
-   - **Pemisahan Menu Berdasarkan Peran (*Role-Based Access Control*):**
-     - **Owner (Pusat):** Memiliki hak akses penuh (*multi-cabang*) terhadap 16 layar internal: *Dashboard Multicabang, Manajemen Akun User, Manajemen Cabang, Master Data Biaya & Tarif, Kalkulator Harga Custom Live (margin dinamis), Data Seluruh Pesanan, Detail Pesanan & Milestone Produksi, Input Pesanan Baru, CRM Database Pelanggan, Pengadaan Kaos Polos Vendor, Invoice Resmi, Work Order Production (SPK Workshop),* dan *Rekap Laporan Finansial Konsolidasi*.
-     - **Admin Cabang:** Dibatasi secara ketat hanya pada operasional unit cabang yang ditugaskan (7 layar operasional): *Dashboard Cabang, Kalkulator Kasir Cabang (margin terkunci 30%), Data Pesanan Cabang, Detail Pesanan Cabang, Input Pesanan Cabang, Pengadaan Kaos Cabang,* dan *Rekap Laporan Kasir Cabang*. Admin tidak memiliki akses ke menu Akun, Cabang, Master Data, dan Finansial Pusat.
-     - **Customer (Publik Tanpa Login):** Akses mandiri melalui 3 layar publik: *Landing Page Informasi & Simulasi Harga Kaos, Form Pendaftaran Member Online,* dan *Kartu Virtual Member Prioritas*.
+2. Tata letak 
 
-3. **Standar Komponen Tombol (*Action Buttons - Softro SaaS Violet Palette*)**
-   - **Tombol Aksi Utama (*Primary Action*):** Menggunakan warna Vibrant Violet **`#7C3AED`** (*hover*: `#6D28D9`, active: `#5B21B6`) dengan sudut membulat modern (`rounded-xl`), efek *subtle elevation shadow* (`shadow-sm` / `shadow-violet-200`), teks semi-bold kontras tinggi (putih), serta ikon penjelas di sisi kiri/kanan teks. Ditempatkan secara konsisten di sudut kanan bawah formulir atau header tabel.
-   - **Tombol Sekunder & Batal (*Secondary / Cancel Action*):** Menggunakan border halus *Slate Neutral* (`border-slate-200/80`) dengan latar belakang netral (`bg-white`, *hover*: `bg-slate-50`) dan warna teks Slate 700 (`#334155`), menggantikan gaya abu-abu kusam lama agar tetap menyatu harmonis.
-   - **Tombol Aksi Destruktif (*Destructive Action - Hapus*):** Menggunakan warna Rose Red **`#E11D48`** / **`#DC2626`** (`bg-rose-600`, *hover*: `bg-rose-700`). Sesuai standar Nielsen H5 (*Error Prevention*), tombol ini **wajib** memicu dialog modal konfirmasi eksplisit dengan latar belakang redup (*backdrop blur* `bg-slate-950/60`) sebelum eksekusi penghapusan permanen.
-   - **Tombol Sukses & Distribusi (*Success / Send Invoice*):** Menggunakan aksen Emerald Green **`#059669`** / **`#16A34A`** (`bg-emerald-600`, *hover*: `bg-emerald-700`) untuk aksi cetak PDF, kirim invoice via WhatsApp/Email, dan konfirmasi pelunasan kasir.
+   Menu navigasi utama berada pada sidebar sisi kiri (lebar 256 px / fixed) pada desktop dan berubah menjadi menu ringkas pada layar kecil. Header atas (tinggi 64 px / sticky) memuat kolom pencarian global real-time dan profil pengguna aktif. Menu yang tampil disesuaikan dengan peran pengguna: a. Owner melihat seluruh menu multi-cabang: Dashboard Konsolidasi, Rekap Keuangan, Manajemen Akun, Cabang Workshop, Master Komponen, Kalkulator Harga, Data Pesanan, Pelanggan & Member, Pengadaan Kaos, Faktur Invoice, serta Work Order (WOP). b. Admin Cabang tidak melihat menu Akun, Cabang, dan Master Data, hanya melihat menu Kalkulator Harga (margin terkunci 30%), serta dibatasi hanya dapat melihat dan mengelola data transaksi pada cabangnya sendiri. c. Customer mengakses landing page publik mandiri dan formulir pendaftaran member tanpa perlu login ke sistem. 
 
-4. **Hierarki Visual & Penanda Status (*Badge Pills System*)**
-   Menggantikan warna solid kusam dengan *Soft Badge Pills* berbingkai tipis dan latar belakang bernuansa lembut (*tinted soft background*) guna kenyamanan visual mata:
-   - **Status DP 50%:** Aksen Amber/Yellow lembut (`bg-amber-50 text-amber-700 border border-amber-200/60`).
-   - **Status Lunas / Selesai:** Aksen Emerald Green (`bg-emerald-50 text-emerald-700 border border-emerald-200/60`).
-   - **Status Piutang Lewat Deadline / Gagal:** Aksen Rose Red tegas (`bg-rose-50 text-rose-700 border border-rose-200/60`).
-   - **Deadline Mendekati Batas (≤ 3 Hari):** Aksen Orange peringatan (`bg-orange-50 text-orange-700 border border-orange-200/60`) dengan ikon jam pasir (*hourglass*).
-   - **Kategori Member Prioritas:** Aksen Softro Violet (`bg-violet-50 text-violet-700 border border-violet-200/60`) dengan lencana bintang/mahkota.
+3. Standar tombol  
+1. Tombol aksi utama (Login, Simpan, Buat Pesanan, Buat Invoice) berwarna Vibrant Violet \#7C3AED (hover: \#6D28D9) dengan sudut membulat modern (rounded-xl), berbayang halus, dan berada konsisten di sudut kanan bawah form atau header tabel.  
+2. Tombol Batal dan aksi sekunder menggunakan garis tepi halus (border) warna Slate \#E2E8F0 dengan latar belakang putih dan teks Slate 700 (\#334155).  
+3. Tombol Hapus berwarna Rose Red \#DC2626 dan selalu didahului dialog modal konfirmasi eksplisit sebelum data dihapus permanen.  
+4. Tombol Kirim Invoice dan Konfirmasi Pelunasan berwarna Emerald Green \#16A34A.   
+4. Highlight status  
+1. Status pembayaran: DP 50% beraksen kuning/amber lembut (bg-amber-50, text-amber-700)  
+2. Lunas beraksen hijau lembut (bg-emerald-50, text-emerald-700), dan piutang setelah melewati deadline beraksen merah lembut (bg-rose-50, text-rose-700).  
+3. Deadline pesanan yang mendekati batas (≤ 3 hari) atau melewati batas diberi penanda warna oranye (bg-orange-50, text-orange-700).  
+4. Status keanggotaan Member Customer diberi lencana warna violet lembut (bg-violet-50, text-violet-700).
 
-5. **Format Pesan Notifikasi, Error, & Feedback Sistem (*Nielsen H1 & H9*)**
-   - **Toast Notification Mengambang (*Floating Toast*):** Tampil di sudut kanan atas layar (`top-6 right-6`) dengan animasi *slide-in*, latar belakang *Dark Slate* (`bg-slate-900`) berbayang halus, ikon status berwarna (hijau untuk sukses, merah untuk eror), serta teks Bahasa Indonesia yang lugas dan solutif.
-   - **Validasi Formulir Kontekstual (*Inline Field Validation*):** Pesan eror tampil tepat di bawah kolom input bersangkutan dengan teks merah (`text-rose-600`) dan highlight border merah muda (`border-rose-400`), seperti: *"Nomor WhatsApp wajib diawali angka 08 atau 62"*.
+5.   
+5. Format pesan error dan notifikasi
 
-6. **Format Tipografi & Standardisasi Data (*Precision Typography*)**
-   - **Tipografi Tampilan (*Display Font*):** Menggunakan font *Manrope* bobot *Bold* dan *ExtraBold* untuk judul utama, nama modul, dan header kartu.
-   - **Tipografi Antarmuka (*Interface & Body Font*):** Menggunakan font *Inter* bobot *Regular*, *Medium*, dan *SemiBold* untuk teks paragraf, label formulir, data tabel, dan navigasi.
-   - **Nilai Mata Uang (Rupiah):** Diformat standar Rupiah dengan pemisah ribuan titik (contoh: `Rp 1.250.000`), menggunakan font *JetBrains Mono* bobot *bold* (`font-mono font-bold`) untuk presisi pembacaan akuntansi konveksi.
-   - **Format Tanggal & Waktu:** Ditampilkan dalam format standar Indonesia `DD-MM-YYYY` (contoh: `24-10-2026`).
-   - **Nomor Transaksi & Order ID:** Menggunakan kode alfanumerik terstandarisasi dengan font monospace (contoh: `ORD-2026-101`, `INV-2026-089`, `WOP-2026-044`).
+   Format pesan error dan notifikasi Umpan balik sistem disajikan melalui Floating Toast Notification di sudut kanan atas layar berlatar gelap Dark Slate (\#0F172A) dengan ikon status berwarna dan teks Bahasa Indonesia yang solutif. Pesan error validasi formulir tampil tepat di bawah kolom yang bermasalah dengan teks merah (\#DC2626), contohnya: “Jumlah pesanan minimal 12 pcs” atau “Nomor WhatsApp wajib diawali angka 08 atau 62”
 
-7. **Standardisasi Dokumen Cetak (Invoice & Work Order Production)**
-   - **Invoice Penagihan:** Dokumen berukuran A4 siap cetak dan ekspor PDF resmi, memuat rincian harga per pcs, total biaya sablon, diskon member (bila ada), riwayat pembayaran DP, dan sisa tagihan piutang dengan stempel status lunas/DP.
-   - **Work Order Production (SPK Workshop):** Format cetak instruksi produksi A4 khusus staf operator sablon dan penjahit. **Sesuai ketentuan fungsional SRS 2.5.j, lembar WOP tidak menampilkan nominal harga, total rupiah, maupun sisa pembayaran**, melainkan hanya memuat spesifikasi teknis: nama bahan kaos, ukuran & jumlah pcs, jenis tinta sablon, posisi/titik sablon, catatan teknis, mockup visual, dan barcode pelacakan.
+6. Format data
 
-8. **Landing Page Publik & Pengalaman Tanpa Akun (*Customer Self-Service*)**
-   - Halaman publik dirancang *clean* dan modern dengan tata letak studio asimetris profesional tanpa memerlukan autentikasi login bagi pelanggan. Memuat formulir simulasi kalkulator harga kaos mandiri yang terintegrasi di sisi hero, tabel ringkas katalog spesifikasi kain & sablon, tombol **Daftar Member Online** dengan aksen Softro Violet (`#7C3AED`), serta tautan diskrit terproteksi khusus staf internal menuju portal login petugas.
+   Format data Mata uang ditampilkan dalam format standar Rupiah bilangan bulat tanpa sen (contoh: Rp 1.250.000) menggunakan font JetBrains Mono untuk presisi pembacaan akuntansi konveksi. Tanggal ditampilkan dalam format DD-MM-YYYY, dan kode transaksi menggunakan penomoran alfanumerik terstandarisasi (contoh: ORD-2026-101, PO-2026-088, INV-2026-089, WOP-2026-044). 
+
+   
+
+7. Cetak invoice dan WOP
+
+   Cetak invoice dan WOP Menggunakan format file PDF siap cetak pada ukuran kertas A4 standar. Sesuai batasan fungsional (SRS 2.5.j), dokumen Work Order Production (WOP) bengkel tidak menampilkan nominal harga, total biaya, maupun rincian pembayaran. 
+
+8. Landing Page
+
+   Landing Page Halaman publik yang dapat diakses pelanggan tanpa login, menampilkan kalkulator estimasi harga kaos mandiri terintegrasi, katalog bahan kain dan teknik sablon, tombol Daftar Member Online berwarna Vibrant Violet \#7C3AED, serta tautan terproteksi menuju portal login staf internal. 
 
 ## 3.2 Karakteristik Hardware {#3.2-karakteristik-hardware}
 
@@ -1445,7 +1441,281 @@ Gambar 51 menggambarkan alur daftar member pada website oleh Customer. Alur dimu
 
 ![][image52]
 
-	Gambar 52\. Physical Data Model (PDM) Entity Relationship Diagram pada Sistem Manajemen Internal PrintCraft
+	Gambar 52. Physical Data Model (PDM) Entity Relationship Diagram pada Sistem Manajemen Internal PrintCraft
+
+#### 4.5.1.1 Struktur Tabel Basis Data (Physical Schema)
+
+Berikut adalah spesifikasi fisik dan kamus data dari 11 tabel relasional utama sistem PrintCraft:
+
+**Tabel 16. Struktur Tabel `cabang`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_cabang` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `nama_cabang` | VARCHAR | 100 | Not Null (contoh: Cabang Gejayan) |
+| 3 | `alamat` | TEXT | - | Not Null |
+| 4 | `no_telepon` | VARCHAR | 20 | Nullable (format nomor seluler/workshop) |
+| 5 | `created_at` | TIMESTAMP | - | Default CURRENT_TIMESTAMP |
+| 6 | `updated_at` | TIMESTAMP | - | Default CURRENT_TIMESTAMP ON UPDATE |
+
+**Tabel 17. Struktur Tabel `akun`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_akun` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `id_cabang` | INT | 11 | Foreign Key -> `cabang(id_cabang)`, Nullable (Null untuk Owner Pusat) |
+| 3 | `username` | VARCHAR | 50 | Unique, Not Null |
+| 4 | `password_hash` | VARCHAR | 255 | Not Null (Enkripsi Bcrypt cost 10) |
+| 5 | `nama_lengkap` | VARCHAR | 100 | Not Null |
+| 6 | `email` | VARCHAR | 100 | Unique, Not Null |
+| 7 | `role` | ENUM | - | 'Owner', 'Admin', Not Null |
+| 8 | `status_aktif` | TINYINT | 1 | Default 1 (1: Aktif, 0: Dinonaktifkan) |
+| 9 | `created_at` | TIMESTAMP | - | Default CURRENT_TIMESTAMP |
+
+**Tabel 18. Struktur Tabel `customer`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_customer` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `nama_customer` | VARCHAR | 100 | Not Null |
+| 3 | `no_whatsapp` | VARCHAR | 20 | Unique, Not Null (Format: 08/628) |
+| 4 | `email` | VARCHAR | 100 | Nullable |
+| 5 | `alamat` | TEXT | - | Nullable |
+| 6 | `status_member` | ENUM | - | 'Reguler', 'Member', Default 'Reguler' |
+| 7 | `created_at` | TIMESTAMP | - | Default CURRENT_TIMESTAMP |
+
+**Tabel 19. Struktur Tabel `bahan`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_bahan` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `nama_bahan` | VARCHAR | 100 | Not Null (contoh: Cotton Combed 30s) |
+| 3 | `keterangan` | TEXT | - | Nullable (Spesifikasi gramasi kain) |
+
+**Tabel 20. Struktur Tabel `ukuran`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_ukuran` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `nama_ukuran` | VARCHAR | 20 | Not Null (S, M, L, XL, XXL, 3XL) |
+| 3 | `tambahan_biaya` | INT | 11 | Not Null, Default 0 (Surcharge Rupiah bulat) |
+
+**Tabel 21. Struktur Tabel `jenis_sablon`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_sablon` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `nama_sablon` | VARCHAR | 100 | Not Null (contoh: Plastisol Doff, DTF) |
+| 3 | `area_cetak` | VARCHAR | 50 | Not Null (A3, A4, Logo Dada) |
+| 4 | `tarif_per_pcs` | INT | 11 | Not Null (Nominal Rupiah bulat per titik/pcs) |
+
+**Tabel 22. Struktur Tabel `harga_beli_kaos`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_harga` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `id_bahan` | INT | 11 | Foreign Key -> `bahan(id_bahan)` |
+| 3 | `id_ukuran` | INT | 11 | Foreign Key -> `ukuran(id_ukuran)` |
+| 4 | `harga_beli` | INT | 11 | Not Null (HPP dasar vendor dalam Rupiah) |
+
+**Tabel 23. Struktur Tabel `potongan_member`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_potongan` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `nama_program` | VARCHAR | 100 | Not Null (Diskon Member Prioritas) |
+| 3 | `persen_diskon` | DECIMAL | 5,2 | Not Null (contoh: 5.00%) |
+| 4 | `minimal_order` | INT | 11 | Not Null, Default 12 (Syarat minimal pcs) |
+| 5 | `status_aktif` | TINYINT | 1 | Default 1 |
+
+**Tabel 24. Struktur Tabel `pesanan`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_pesanan` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `nomor_pesanan` | VARCHAR | 30 | Unique, Not Null (Format: `ORD-YYYY-XXX`) |
+| 3 | `id_cabang` | INT | 11 | Foreign Key -> `cabang(id_cabang)` |
+| 4 | `id_akun` | INT | 11 | Foreign Key -> `akun(id_akun)` (Petugas input) |
+| 5 | `id_customer` | INT | 11 | Foreign Key -> `customer(id_customer)` |
+| 6 | `id_bahan` | INT | 11 | Foreign Key -> `bahan(id_bahan)` |
+| 7 | `id_ukuran` | INT | 11 | Foreign Key -> `ukuran(id_ukuran)` |
+| 8 | `id_sablon` | INT | 11 | Foreign Key -> `jenis_sablon(id_sablon)` |
+| 9 | `jumlah` | INT | 11 | Not Null, Minimal 12 (Satuan pcs) |
+| 10 | `catatan_desain` | TEXT | - | Nullable |
+| 11 | `deadline` | DATE | - | Not Null (Minimal H+3) |
+| 12 | `harga_dasar` | INT | 11 | Not Null (HPP kain + sablon + surcharge) |
+| 13 | `margin_persen` | DECIMAL | 5,2 | Not Null, Default 30.00% |
+| 14 | `potongan` | INT | 11 | Not Null, Default 0 (Diskon member Rupiah) |
+| 15 | `total_harga` | INT | 11 | Not Null (Grand total Rupiah bulat) |
+| 16 | `status_pesanan` | ENUM | - | 'Menunggu Bahan', 'Produksi Sablon', 'Selesai Sablon', 'Siap Diambil', 'Selesai' |
+| 17 | `created_at` | TIMESTAMP | - | Default CURRENT_TIMESTAMP |
+
+**Tabel 25. Struktur Tabel `pembayaran`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_pembayaran` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `id_pesanan` | INT | 11 | Foreign Key -> `pesanan(id_pesanan)` |
+| 3 | `id_akun` | INT | 11 | Foreign Key -> `akun(id_akun)` (Kasir pencatat) |
+| 4 | `tanggal_bayar` | TIMESTAMP | - | Default CURRENT_TIMESTAMP |
+| 5 | `jenis_pembayaran` | ENUM | - | 'DP 50%', 'Pelunasan', Not Null |
+| 6 | `jumlah_bayar` | INT | 11 | Not Null (Rupiah bulat, > 0) |
+| 7 | `metode_pembayaran`| ENUM | - | 'Tunai', 'Transfer Bank', 'QRIS', Not Null |
+| 8 | `keterangan` | VARCHAR | 255 | Nullable (Nomor referensi / bank pengirim) |
+
+**Tabel 26. Struktur Tabel `pengadaan_kaos`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_pengadaan` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `nomor_po` | VARCHAR | 30 | Unique, Not Null (Format: `PO-YYYY-XXX`) |
+| 3 | `id_cabang` | INT | 11 | Foreign Key -> `cabang(id_cabang)` |
+| 4 | `id_pesanan` | INT | 11 | Foreign Key -> `pesanan(id_pesanan)` |
+| 5 | `id_bahan` | INT | 11 | Foreign Key -> `bahan(id_bahan)` |
+| 6 | `id_ukuran` | INT | 11 | Foreign Key -> `ukuran(id_ukuran)` |
+| 7 | `nama_supplier` | VARCHAR | 100 | Not Null (Vendor penyedia kaos polos) |
+| 8 | `jumlah` | INT | 11 | Not Null |
+| 9 | `total_biaya` | INT | 11 | Not Null (Nominal tagihan pengadaan vendor) |
+| 10 | `status_pengadaan`| ENUM | - | 'Dipesan ke Vendor', 'Dalam Pengiriman', 'Tiba di Cabang' |
+| 11 | `tanggal_pesan` | DATE | - | Not Null |
+| 12 | `tanggal_tiba` | DATE | - | Nullable |
+
+#### 4.5.1.1 Struktur Tabel Basis Data (Physical Schema)
+
+Berikut adalah spesifikasi fisik dan kamus data dari 11 tabel relasional utama sistem PrintCraft:
+
+**Tabel 16. Struktur Tabel `cabang`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_cabang` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `nama_cabang` | VARCHAR | 100 | Not Null (contoh: Cabang Gejayan) |
+| 3 | `alamat` | TEXT | - | Not Null |
+| 4 | `no_telepon` | VARCHAR | 20 | Nullable (format nomor seluler/workshop) |
+| 5 | `created_at` | TIMESTAMP | - | Default CURRENT_TIMESTAMP |
+| 6 | `updated_at` | TIMESTAMP | - | Default CURRENT_TIMESTAMP ON UPDATE |
+
+**Tabel 17. Struktur Tabel `akun`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_akun` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `id_cabang` | INT | 11 | Foreign Key -> `cabang(id_cabang)`, Nullable (Null untuk Owner Pusat) |
+| 3 | `username` | VARCHAR | 50 | Unique, Not Null |
+| 4 | `password_hash` | VARCHAR | 255 | Not Null (Enkripsi Bcrypt cost 10) |
+| 5 | `nama_lengkap` | VARCHAR | 100 | Not Null |
+| 6 | `email` | VARCHAR | 100 | Unique, Not Null |
+| 7 | `role` | ENUM | - | 'Owner', 'Admin', Not Null |
+| 8 | `status_aktif` | TINYINT | 1 | Default 1 (1: Aktif, 0: Dinonaktifkan) |
+| 9 | `created_at` | TIMESTAMP | - | Default CURRENT_TIMESTAMP |
+
+**Tabel 18. Struktur Tabel `customer`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_customer` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `nama_customer` | VARCHAR | 100 | Not Null |
+| 3 | `no_whatsapp` | VARCHAR | 20 | Unique, Not Null (Format: 08/628) |
+| 4 | `email` | VARCHAR | 100 | Nullable |
+| 5 | `alamat` | TEXT | - | Nullable |
+| 6 | `status_member` | ENUM | - | 'Reguler', 'Member', Default 'Reguler' |
+| 7 | `created_at` | TIMESTAMP | - | Default CURRENT_TIMESTAMP |
+
+**Tabel 19. Struktur Tabel `bahan`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_bahan` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `nama_bahan` | VARCHAR | 100 | Not Null (contoh: Cotton Combed 30s) |
+| 3 | `keterangan` | TEXT | - | Nullable (Spesifikasi gramasi kain) |
+
+**Tabel 20. Struktur Tabel `ukuran`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_ukuran` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `nama_ukuran` | VARCHAR | 20 | Not Null (S, M, L, XL, XXL, 3XL) |
+| 3 | `tambahan_biaya` | INT | 11 | Not Null, Default 0 (Surcharge Rupiah bulat) |
+
+**Tabel 21. Struktur Tabel `jenis_sablon`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_sablon` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `nama_sablon` | VARCHAR | 100 | Not Null (contoh: Plastisol Doff, DTF) |
+| 3 | `area_cetak` | VARCHAR | 50 | Not Null (A3, A4, Logo Dada) |
+| 4 | `tarif_per_pcs` | INT | 11 | Not Null (Nominal Rupiah bulat per titik/pcs) |
+
+**Tabel 22. Struktur Tabel `harga_beli_kaos`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_harga` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `id_bahan` | INT | 11 | Foreign Key -> `bahan(id_bahan)` |
+| 3 | `id_ukuran` | INT | 11 | Foreign Key -> `ukuran(id_ukuran)` |
+| 4 | `harga_beli` | INT | 11 | Not Null (HPP dasar vendor dalam Rupiah) |
+
+**Tabel 23. Struktur Tabel `potongan_member`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_potongan` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `nama_program` | VARCHAR | 100 | Not Null (Diskon Member Prioritas) |
+| 3 | `persen_diskon` | DECIMAL | 5,2 | Not Null (contoh: 5.00%) |
+| 4 | `minimal_order` | INT | 11 | Not Null, Default 12 (Syarat minimal pcs) |
+| 5 | `status_aktif` | TINYINT | 1 | Default 1 |
+
+**Tabel 24. Struktur Tabel `pesanan`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_pesanan` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `nomor_pesanan` | VARCHAR | 30 | Unique, Not Null (Format: `ORD-YYYY-XXX`) |
+| 3 | `id_cabang` | INT | 11 | Foreign Key -> `cabang(id_cabang)` |
+| 4 | `id_akun` | INT | 11 | Foreign Key -> `akun(id_akun)` (Petugas input) |
+| 5 | `id_customer` | INT | 11 | Foreign Key -> `customer(id_customer)` |
+| 6 | `id_bahan` | INT | 11 | Foreign Key -> `bahan(id_bahan)` |
+| 7 | `id_ukuran` | INT | 11 | Foreign Key -> `ukuran(id_ukuran)` |
+| 8 | `id_sablon` | INT | 11 | Foreign Key -> `jenis_sablon(id_sablon)` |
+| 9 | `jumlah` | INT | 11 | Not Null, Minimal 12 (Satuan pcs) |
+| 10 | `catatan_desain` | TEXT | - | Nullable |
+| 11 | `deadline` | DATE | - | Not Null (Minimal H+3) |
+| 12 | `harga_dasar` | INT | 11 | Not Null (HPP kain + sablon + surcharge) |
+| 13 | `margin_persen` | DECIMAL | 5,2 | Not Null, Default 30.00% |
+| 14 | `potongan` | INT | 11 | Not Null, Default 0 (Diskon member Rupiah) |
+| 15 | `total_harga` | INT | 11 | Not Null (Grand total Rupiah bulat) |
+| 16 | `status_pesanan` | ENUM | - | 'Menunggu Bahan', 'Produksi Sablon', 'Selesai Sablon', 'Siap Diambil', 'Selesai' |
+| 17 | `created_at` | TIMESTAMP | - | Default CURRENT_TIMESTAMP |
+
+**Tabel 25. Struktur Tabel `pembayaran`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_pembayaran` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `id_pesanan` | INT | 11 | Foreign Key -> `pesanan(id_pesanan)` |
+| 3 | `id_akun` | INT | 11 | Foreign Key -> `akun(id_akun)` (Kasir pencatat) |
+| 4 | `tanggal_bayar` | TIMESTAMP | - | Default CURRENT_TIMESTAMP |
+| 5 | `jenis_pembayaran` | ENUM | - | 'DP 50%', 'Pelunasan', Not Null |
+| 6 | `jumlah_bayar` | INT | 11 | Not Null (Rupiah bulat, > 0) |
+| 7 | `metode_pembayaran`| ENUM | - | 'Tunai', 'Transfer Bank', 'QRIS', Not Null |
+| 8 | `keterangan` | VARCHAR | 255 | Nullable (Nomor referensi / bank pengirim) |
+
+**Tabel 26. Struktur Tabel `pengadaan_kaos`**
+
+| No | Kolom | Tipe Data | Panjang | Keterangan / Constraint |
+| :---: | :--- | :--- | :---: | :--- |
+| 1 | `id_pengadaan` | INT | 11 | Primary Key, Auto Increment |
+| 2 | `nomor_po` | VARCHAR | 30 | Unique, Not Null (Format: `PO-YYYY-XXX`) |
+| 3 | `id_cabang` | INT | 11 | Foreign Key -> `cabang(id_cabang)` |
+| 4 | `id_pesanan` | INT | 11 | Foreign Key -> `pesanan(id_pesanan)` |
+| 5 | `id_bahan` | INT | 11 | Foreign Key -> `bahan(id_bahan)` |
+| 6 | `id_ukuran` | INT | 11 | Foreign Key -> `ukuran(id_ukuran)` |
+| 7 | `nama_supplier` | VARCHAR | 100 | Not Null (Vendor penyedia kaos polos) |
+| 8 | `jumlah` | INT | 11 | Not Null |
+| 9 | `total_biaya` | INT | 11 | Not Null (Nominal tagihan pengadaan vendor) |
+| 10 | `status_pengadaan`| ENUM | - | 'Dipesan ke Vendor', 'Dalam Pengiriman', 'Tiba di Cabang' |
+| 11 | `tanggal_pesan` | DATE | - | Not Null |
+| 12 | `tanggal_tiba` | DATE | - | Nullable |
 
 ### 4.5.2 Class Diagrams {#4.5.2-class-diagrams}
 
@@ -1563,17 +1833,17 @@ Gambar 53\. Class Diagram Fitur Landing Page dan Daftar Member (PC-00
 
 ![][image54]
 
-Gambar 54\. Sequence Diagram Tampil Landing PageGambar 54 menampilkan sequence diagram fitur landing page website PrintCraft. Customer berinteraksi dengan `view_landing_page` saat mengakses halaman utama website.Saat halaman diakses, `view_landing_page` memanggil fungsi `daftarMember()` melalui route `GET /` menuju `LandingPageController`, yang kemudian menjalankan *self-call* `index()`. Karena konten landing page bersifat statis dan tidak memerlukan data dari database, `LandingPageController` langsung mengembalikan tampilan `view_landing_page` kepada Customer. Pesan *return* berhenti di `view_landing_page` karena pengguna hanya melihat tampilan layar.
+Gambar 54\. Sequence Diagram Tampil Landing Page.  
+Gambar 54 menampilkan sequence diagram fitur landing page website PrintCraft. Customer berinteraksi dengan view\_landing\_page saat mengakses halaman utama website.Saat halaman diakses, view\_landing\_page memanggil fungsi daftarMember() melalui route GET / menuju LandingPageController, yang kemudian menjalankan *self-call* index(). Karena konten landing page bersifat statis dan tidak memerlukan data dari database, LandingPageController langsung mengembalikan tampilan view\_landing\_page kepada Customer. Pesan *return* berhenti di view\_landing\_page karena pengguna hanya melihat tampilan layar.
+
+#### 
 
 #### 4.6.2 Sequence Diagram Fitur Daftar Member (PC-003)
 
 ![][image55]
 
-Gambar 55\. Sequence Diagram Daftar Member
-
-Gambar 55 menampilkan sequence diagram fitur pendaftaran member pada website PrintCraft. Customer berinteraksi dengan `view_landing_page` dan `form_member` untuk melakukan pendaftaran.Proses diawali saat Customer menekan tombol *Daftar Member* pada `view_landing_page`. Tampilan tersebut memanggil fungsi `daftarMember()` melalui route `GET /daftar-member` ke `DaftarMemberController`, yang menjalankan fungsi `create()` lalu menampilkan `form_member`. Setelah form tampil, Customer mengisi data (nama, nomor WhatsApp, email, dan alamat) lalu menekan tombol *Daftar*. `form_member` kemudian memanggil fungsi `prosesDaftar()` melalui route `POST /daftar-member` ke `DaftarMemberController` untuk menjalankan fungsi `store(request)`.
-
-`DaftarMemberController` selanjutnya memanggil fungsi pada Model `DaftarMember` secara berurutan, yaitu `validasiData(data)` untuk mengecek kelengkapan form, `nomorWhatsappTerdaftar(nomor_whatsapp)` untuk memeriksa keunikan nomor di Database, `ambilKategoriMember()` untuk mengambil ID kategori *Member* dari tabel `master_data`, `buatDataMember(data, id_kategori_customer)` untuk menyusun data Customer, `simpanMember(data_member)` untuk menyimpan data baru ke tabel `customer` dan menghasilkan `id_customer`, serta `ambilInfoPotonganMember(id_kategori_customer)` untuk mengambil informasi diskon. Setiap pemanggilan fungsi pada Model yang membutuhkan data diteruskan ke Database dan dikembalikan hasilnya.Pada kondisi *true* (validasi sukses dan nomor belum terdaftar), `DaftarMemberController` melakukan *self-call* `berhasil(id_customer)` lalu mengarahkan ke `view_konfirmasi_member` yang menjalankan *self-call* `tampilKonfirmasi()`. Sebaliknya, pada kondisi *false* (validasi gagal atau nomor terdaftar), `DaftarMemberController` mengembalikan Customer ke `form_member` disertai pesan error. Seluruh pesan *return* berhenti di layar tampilan yang dilihat oleh pengguna.
+Gambar 55\. Sequence Diagram Daftar Member  
+Gambar 55 menampilkan sequence diagram fitur pendaftaran member pada website PrintCraft. Customer berinteraksi dengan view\_landing\_page dan form\_member untuk melakukan pendaftaran.Proses diawali saat Customer menekan tombol *Daftar Member* pada view\_landing\_page. Tampilan tersebut memanggil fungsi daftarMember() melalui route GET /daftar-member ke DaftarMemberController, yang menjalankan fungsi create() lalu menampilkan form\_member. Setelah form tampil, Customer mengisi data (nama, nomor WhatsApp, email, dan alamat) lalu menekan tombol *Daftar*. form\_member kemudian memanggil fungsi prosesDaftar() melalui route POST /daftar-member ke DaftarMemberController untuk menjalankan fungsi store(request). DaftarMemberController selanjutnya memanggil fungsi pada Model DaftarMember secara berurutan, yaitu validasiData(data) untuk mengecek kelengkapan form, nomorWhatsappTerdaftar(nomor\_whatsapp) untuk memeriksa keunikan nomor di Database, ambilKategoriMember() untuk mengambil ID kategori *Member* dari tabel master\_data, buatDataMember(data, id\_kategori\_customer) untuk menyusun data Customer, simpanMember(data\_member) untuk menyimpan data baru ke tabel customer dan menghasilkan id\_customer, serta ambilInfoPotonganMember(id\_kategori\_customer) untuk mengambil informasi diskon. Setiap pemanggilan fungsi pada Model yang membutuhkan data diteruskan ke Database dan dikembalikan hasilnya. Pada kondisi *true* (validasi sukses dan nomor belum terdaftar), DaftarMemberController melakukan *self-call* berhasil (id\_customer) lalu mengarahkan ke view\_konfirmasi\_member yang menjalankan *self-call* tampilKonfirmasi(). Sebaliknya, pada kondisi *false* (validasi gagal atau nomor terdaftar), DaftarMemberController mengembalikan Customer ke form\_member disertai pesan error. Seluruh pesan *return* berhenti di layar tampilan yang dilihat oleh pengguna.
 
 5\. Kebutuhan Non-Fungsional Produk atau Aplikasi
 
@@ -1581,24 +1851,23 @@ Gambar 55 menampilkan sequence diagram fitur pendaftaran member pada website Pri
 
    1. ### Usability {#usability}
 
-1. Menggunakan layout aplikasi Softro SaaS modern yang intuitif dan mudah dipahami oleh pengguna, dengan menu navigasi utama berada pada sidebar sisi kiri (lebar 256 px / fixed) pada desktop dan berubah menjadi drawer menu ringkas pada layar kecil. Struktur halaman formulir, tabel data, dan kartu detail dibuat konsisten di setiap fitur.  
-2. Letak tombol mudah dicari dan diidentifikasi secara hierarkis:
-   - Tombol aksi utama (Login, Simpan, Buat Pesanan, Buat Invoice) menggunakan warna Vibrant Violet **#7C3AED** (hover: #6D28D9) dengan sudut membulat modern (`rounded-xl`) dan berada konsisten di sudut kanan bawah form atau header tabel.
-   - Tombol Batal/Sekunder menggunakan border netral Slate (`border-slate-200/80`) berlatar putih dengan teks Slate 700 (#334155).
-   - Tombol Hapus destruktif menggunakan warna Rose Red **#E11D48 / #DC2626** dan selalu didahului dialog konfirmasi eksplisit (*Nielsen H5: Error Prevention*).
-   - Tombol Kirim Invoice dan Konfirmasi Pelunasan menggunakan aksen Emerald Green **#059669 / #16A34A**.  
-3. Penulisan menu jelas dan terstruktur dengan ikonografi presisi *Lucide Icons*, menggunakan istilah konsisten: Overview Flowchart, Dashboard Konsolidasi, Dashboard Cabang, Manajemen Akun, Cabang Workshop, Master Komponen, Kalkulator Harga, Data Pesanan, Pelanggan & Member, Pengadaan Kaos, Faktur Invoice, Work Order (WOP), dan Rekap Keuangan.  
-4. Menu yang tampil disesuaikan dengan peran pengguna (*Role-Based Access Control*). Owner melihat seluruh menu multi-cabang; Admin Cabang tidak melihat menu Akun, Cabang, dan Master Data serta hanya melihat data cabangnya sendiri dengan kalkulator margin terkunci 30%; Customer hanya mengakses landing page publik dan form pendaftaran member tanpa login.  
-5. Tipografi berjenjang profesional menggunakan kombinasi Google Fonts: font *Manrope* untuk display dan judul utama, font *Inter* untuk antarmuka teks umum (ukuran minimal 14 px, kontras tinggi terhadap latar #F8FAFC), serta font *JetBrains Mono* untuk nomor order, kode transaksi, dan kalkulasi nilai mata uang Rupiah.  
-6. Terdapat pesan error yang jelas dan komunikatif (*Nielsen H9*), disajikan dalam Bahasa Indonesia yang lugas di bawah kolom yang bermasalah (contoh: "Nomor WhatsApp wajib diawali angka 08 atau 62" atau "Jumlah pesanan minimal 12 pcs").  
-7. Umpan balik sistem (*Nielsen H1*) menggunakan *Floating Toast Notification* di sudut kanan atas dengan latar Dark Slate (#0F172A), ikon status berwarna (hijau untuk sukses, merah untuk gagal), dan teks solutif yang memudar otomatis.  
-8. Aplikasi responsif dan nyaman digunakan pada desktop/laptop (lebar standar 1440 px, minimal 1024 px) maupun smartphone (lebar minimal 360 px), dengan area target sentuh (*tap target*) tombol minimal 44×44 px.  
-9. Format data terstandarisasi: seluruh nilai mata uang ditampilkan dalam format Rupiah bulat tanpa sen menggunakan font monospace (contoh: `Rp 1.250.000`), dan tanggal menggunakan format standar Indonesia `DD-MM-YYYY`.  
-10. Status pembayaran dan tahapan pengerjaan mudah dibedakan secara visual menggunakan sistem *Soft Badge Pills*: DP 50% beraksen Amber (#F59E0B / bg-amber-50), Lunas beraksen Emerald (#10B981 / bg-emerald-50), Piutang lewat batas beraksen Rose (#EF4444 / bg-rose-50), dan deadline mendekati batas (≤ 3 hari) beraksen Orange (#F97316 / bg-orange-50).  
-11. Aksi berisiko (penghapusan akun, cabang, master data, pesanan, dan customer) selalu memunculkan modal konfirmasi dialog dengan latar belakang redup (*backdrop blur*) sebelum data terhapus permanen.  
-12. Dokumen cetak Invoice dan Work Order Production (SPK) siap cetak dalam ukuran standar A4. Khusus lembar WOP bengkel produksi tidak menampilkan nominal harga, total biaya, maupun rincian pembayaran sesuai klausul SRS 2.5.j.  
+1. Menggunakan layout antarmuka modern yang intuitif dan mudah dipahami, dengan navigasi utama berada pada sidebar sisi kiri (lebar 256 px) pada desktop dan berubah menjadi menu ringkas pada smartphone. Struktur halaman formulir, tabel data, dan kartu detail dibuat konsisten di setiap fitur.  
+2. Letak tombol mudah dicari dan diidentifikasi: tombol aksi utama berwarna Vibrant Violet \#7C3AED berada di kanan bawah form atau header tabel; tombol Batal berlatar putih dengan border netral Slate; tombol Hapus berwarna Rose Red \#DC2626 dan selalu didahului dialog konfirmasi; tombol Kirim Invoice berwarna Emerald Green \#16A34A.  
+3. Penulisan menu jelas dan konsisten dengan istilah alur kerja konveksi: Overview Flowchart, Dashboard Konsolidasi, Dashboard Cabang, Manajemen Akun, Cabang Workshop, Master Komponen, Kalkulator Harga, Data Pesanan, Pelanggan & Member, Pengadaan Kaos, Faktur Invoice, Work Order (WOP), dan Rekap Keuangan.  
+4. Menu disesuaikan dengan peran pengguna (Role-Based Access Control): Owner memiliki hak akses seluruh cabang; Admin Cabang hanya mengakses data cabangnya dengan margin terkunci 30%; Customer hanya mengakses landing page dan form Daftar Member tanpa login akun.  
+5. Tipografi berjenjang dan nyaman dibaca, memadukan font Manrope untuk judul/display, font Inter untuk teks antarmuka (ukuran minimal 14 px), dan font JetBrains Mono untuk kalkulasi mata uang Rupiah bulat dan nomor order.  
+6. Terdapat pesan error yang jelas dan komunikatif dalam Bahasa Indonesia, misalnya “Jumlah pesanan minimal 12 pcs” atau “Nomor WhatsApp wajib diawali angka 08 atau 62”.  
+7. Umpan balik sistem berhasil dan gagal ditampilkan secara mengambang (Floating Toast) di sudut kanan atas layar serta validasi kontekstual tepat di bawah kolom input yang bersangkutan.  
+8. Aplikasi responsif dan nyaman digunakan pada desktop/laptop (minimal 1024 px) maupun smartphone (minimal 360 px), dengan area target sentuh tombol minimal 44×44 px.  
+9. Format data konsisten: mata uang ditampilkan dalam format Rupiah bulat tanpa sen (contoh Rp 1.250.000) dan tanggal berformat DD-MM-YYYY.  
+10. Status pembayaran dan progres kerja mudah dibedakan melalui warna soft badge: DP 50% kuning/amber (\#F59E0B), Lunas hijau (\#10B981), piutang melewati deadline merah (\#EF4444), dan deadline mendekati batas oranye (\#F97316).  
+11. Aksi berisiko seperti penghapusan data akun, cabang, master data, pesanan, dan customer selalu memunculkan modal dialog konfirmasi eksplisit sebelum data dihapus permanen.  
+12. Invoice dan WOP dihasilkan dalam format PDF siap cetak ukuran A4, di mana lembar WOP workshop tidak memuat rincian nominal harga.  
+13. Form mudah diisi dan divalidasi dengan jelas: kolom wajib diisi ditandai, petunjuk format nomor WhatsApp Indonesia dan format angka ditampilkan, serta validasi muncul saat data tidak sesuai.  
+14. Pengguna dapat menggunakan navigasi dasar dengan keyboard, elemen yang aktif memiliki indikator fokus, dan label form terhubung dengan input agar mudah dioperasikan.  
+15. Aplikasi menampilkan indikator loading, pesan data belum tersedia, dan pesan data tidak ditemukan agar pengguna selalu memahami status halaman.
 
-### Efficiency {#efficiency}
+    2. ### Efficiency {#efficiency}
 
        1. #### Performance
 
@@ -1611,23 +1880,20 @@ Gambar 55 menampilkan sequence diagram fitur pendaftaran member pada website Pri
 7. Beban Pengguna Bersamaan: Mengingat skala operasional Duta Media saat ini, aplikasi ditargetkan mampu melayani minimal 20 pengguna aktif secara bersamaan (Owner, Admin pusat, dan Admin cabang) tanpa mengalami penurunan performa yang berarti atau *error* pada database.  
 8. Pemrosesan Laporan: Halaman Rekap Laporan (penjualan, piutang, keuangan) yang ditarik berdasarkan filter cabang dan bulan, ditargetkan muncul maksimal dalam 5 detik. Jika data transaksi sudah sangat menumpuk (di atas 10.000 baris), pengembang telah menyiapkan indeks database agar query tetap berjalan cepat.
 
-   2. #### Space (Kapasitas Penyimpanan & Jaringan)
+   2. #### Space
 
-1. **Kapasitas Penyimpanan Server (Disk Storage):** Server hosting berbasis web minimal menyediakan alokasi ruang penyimpanan sebesar **10 GB SSD** untuk menampung *source code* framework Laravel, aset frontend antarmuka, serta direktori penyimpanan arsip dokumen PDF (*Faktur Invoice* dan *Work Order Production*) yang diterbitkan sistem.
-2. **Kapasitas Basis Data (Database Space):** Alokasi ruang basis data MySQL minimal **1 GB**, yang dirancang mampu menampung riwayat transaksi pesanan, katalog master data, pengadaan vendor, dan data customer hingga puluhan ribu transaksi tanpa penurunan kecepatan query.
-3. **Memori Operasional Server (RAM):** Server web minimal memiliki alokasi **RAM 2 GB** (direkomendasikan 4 GB) untuk menjamin kelancaran kompilasi *view* Blade, kalkulasi formula HPP live, dan eksekusi library *barryvdh/laravel-dompdf* saat melakukan *rendering* dokumen cetak A4.
-4. **Kapasitas Bandwidth & Jaringan:** Hosting minimal menyediakan kuota *bandwidth* sebesar **100 GB per bulan** dengan kecepatan transfer data minimal **10 Mbps**, guna memastikan responsivitas akses dashboard multi-cabang serta pengunduhan berkas invoice PDF oleh pelanggan berlangsung tanpa kendala *buffering*.
+1. Kapasitas Penyimpanan Server: Hosting web minimal menyediakan alokasi ruang penyimpanan sebesar 10 GB SSD untuk menampung berkas aplikasi framework Laravel, aset antarmuka, serta arsip dokumen PDF (Invoice dan WOP) yang diterbitkan sistem.  
+2. Kapasitas Basis Data: Alokasi ruang database MySQL minimal 1 GB, dirancang mampu menampung riwayat transaksi pesanan, katalog master data, pengadaan vendor, dan data pelanggan hingga puluhan ribu transaksi tanpa penurunan kecepatan kueri.  
+3. Memori Operasional Server (RAM): Server minimal memiliki alokasi RAM 2 GB (rekomendasi 4 GB) untuk menjamin kelancaran kompilasi template Blade, kalkulasi HPP otomatis, dan rendering dokumen PDF via library barryvdh/laravel-dompdf.  
+4. Kapasitas Bandwidth: Hosting minimal menyediakan kuota bandwidth sebesar 100 GB per bulan dengan kecepatan transfer data minimal 10 Mbps agar akses multi-cabang dan pengunduhan invoice PDF berlangsung stabil. 
 
-      3. #### Security (Keamanan Sistem & Data)
+   3. #### Security 
 
-1. **Enkripsi Kata Sandi:** Seluruh kata sandi (*password*) pengguna internal (Owner dan Admin Cabang) dienkripsi satu arah menggunakan algoritma *Bcrypt* dengan *cost factor* standar 10 pada kolom `password_hash`, sehingga kata sandi asli tidak dapat dibaca oleh pihak pengembang maupun pengelola database.
-2. **Kontrol Akses Berbasis Peran (*Role-Based Access Control*):** Mengimplementasikan *middleware* autentikasi pada rute web Laravel (`auth`, `role:owner`, `role:admin`). Admin Cabang secara ketat dibatasi hanya dapat mengakses dan memodifikasi data pada unit cabangnya sendiri, serta dilarang mengakses modul akun, manajemen cabang, dan master data pusat. Customer tidak memiliki akun dan tidak diizinkan masuk ke area portal internal.
-3. **Proteksi Serangan Siber Web:**
-   - **Cross-Site Request Forgery (CSRF):** Setiap formulir pengiriman data (`POST`, `PUT`, `DELETE`) wajib menyertakan token `@csrf` bawaan Laravel untuk mencegah manipulasi sesi transaksi dari situs berbahaya luar.
-   - **SQL Injection:** Seluruh kueri basis data memanfaatkan *Eloquent ORM* dan *Query Builder* berbasis *PDO Prepared Statements* dengan *parameter binding*, sehingga masukan teks pengguna tidak dapat dieksekusi sebagai perintah injeksi SQL.
-   - **Cross-Site Scripting (XSS):** Seluruh data keluaran yang dirender pada antarmuka web disaring otomatis melalui sintaks kurung kurawal ganda Blade (`{{ $data }}`) untuk mencegah penyusupan skrip JavaScript berbahaya.
-4. **Pembatasan Percobaan Login (*Rate Limiting*):** Diterapkan pembatasan maksimal 5 kali kegagalan login berturut-turut dalam kurun waktu 15 menit. Jika batas terlampaui, sistem otomatis mengunci akses login dari IP/perangkat tersebut selama 15 menit untuk mengantisipasi serangan *brute force*.
-5. **Enkripsi Saluran Komunikasi:** Seluruh pertukaran data antara browser pengguna dan web server wajib melalui protokol aman HTTPS yang terenkripsi menggunakan sertifikat SSL/TLS 1.3.
+1. Enkripsi Kata Sandi: Seluruh password pengguna internal (Owner dan Admin Cabang) dienkripsi satu arah menggunakan algoritma hashing Bcrypt dengan cost factor minimal 10 pada kolom password\_hash basis data.  
+2. Kontrol Akses Berbasis Peran: Mengimplementasikan middleware autentikasi Laravel (auth, role:owner, role:admin) untuk mengisolasi hak akses per cabang. Customer tidak memiliki akun dan tidak diizinkan mengakses area portal internal.  
+3. Proteksi Siber Web: a. CSRF Protection: Setiap pengiriman formulir web (POST, PUT, DELETE) wajib menyertakan token CSRF untuk mencegah manipulasi sesi transaksi dari situs luar. b. SQL Injection Prevention: Kueri database memanfaatkan Eloquent ORM dan PDO Prepared Statements dengan parameter binding. c. XSS Protection: Seluruh data keluaran yang dirender antarmuka disaring otomatis menggunakan sintaks kurung kurawal ganda Blade ({{ }}).  
+4. Pembatasan Percobaan Login (Rate Limiting): Diterapkan pembatasan maksimal 5 kali percobaan login gagal dalam 15 menit. Jika terlampaui, sistem otomatis mengunci akses login selama 15 menit untuk mencegah serangan brute force.  
+5. Enkripsi Komunikasi: Seluruh komunikasi antara browser pengguna dan web server wajib melalui protokol HTTPS dengan sertifikat SSL/TLS 1.3.
 
 2. # Kebutuhan Teknis Implementasi Coding {#kebutuhan-teknis-implementasi-coding}
 
@@ -1636,25 +1902,25 @@ Gambar 55 menampilkan sequence diagram fitur pendaftaran member pada website Pri
 Penjabaran batasan tipe dan format data operasional sistem PrintCraft mencakup seluruh modul fungsional sebagai berikut:
 
 1. **Modul Autentikasi & Akun Petugas:**
-   - **Username:** Wajib menggunakan huruf kecil dan angka, panjang 4–30 karakter, tanpa spasi atau karakter khusus kecuali garis bawah (`_`), dan harus unik di database.
-   - **Password:** Minimal 8 karakter dengan kombinasi huruf dan angka. Disimpan dalam bentuk hash Bcrypt 60 karakter.
-   - **Email:** Format alamat email standar internasional (`user@domain.ext`), unik untuk setiap akun petugas.
-   - **Peran:** Bernilai salah satu dari enum `Owner` atau `Admin`.
+   - **Username:** Wajib menggunakan huruf kecil dan angka, panjang 4–30 karakter, tanpa spasi atau karakter khusus kecuali garis bawah (`_`), dan harus unik di basis data.
+   - **Password:** Minimal 8 karakter dengan kombinasi huruf dan angka. Disimpan dalam bentuk hash Bcrypt dengan panjang 60 karakter.
+   - **Email:** Format alamat email standar internasional (`user@domain.ext`), bersifat unik untuk setiap akun petugas.
+   - **Peran (Role):** Bernilai salah satu dari enum `Owner` atau `Admin`.
 2. **Modul Cabang Workshop:**
-   - **Nama Cabang:** Teks alfanumerik panjang maksimal 100 karakter.
+   - **Nama Cabang:** Teks alfanumerik panjang maksimal 100 karakter (contoh: "Cabang Gejayan Workshop").
    - **Nomor Telepon Cabang:** Deret angka panjang 10–15 digit.
    - **Alamat Cabang:** Teks deskriptif alamat fisik workshop.
 3. **Modul Master Data & Parameter Biaya:**
    - **Nama Bahan & Nama Sablon:** Teks alfabetis panjang maksimal 100 karakter.
-   - **Tarif Sablon & HPP Kaos Polos:** Angka bilangan bulat positif (`integer ge 0`) dalam satuan Rupiah tanpa sen.
-   - **Biaya Tambahan Ukuran Jumbo (*Surcharge*):** Angka bilangan bulat Rupiah (`integer ge 0`).
-   - **Margin Keuntungan:** Angka bulat persentase 10%–100% (default 30%).
+   - **Tarif Sablon & HPP Kaos Polos:** Angka bilangan bulat positif (`integer >= 0`) dalam satuan Rupiah tanpa sen.
+   - **Biaya Tambahan Ukuran Jumbo (Surcharge):** Angka bilangan bulat Rupiah (`integer >= 0`).
+   - **Margin Keuntungan:** Angka bulat persentase 10%–100% (default 30% terkunci untuk Admin).
 4. **Modul Transaksi Pesanan & Customer:**
    - **Nomor Pesanan:** Format kode terstandarisasi `ORD-YYYY-XXX` (contoh: `ORD-2026-101`), bersifat unik.
    - **Nomor WhatsApp Customer:** Format nomor seluler Indonesia (diawali `08` atau `628`), panjang 10–14 digit angka.
    - **Jumlah Pesanan (Qty):** Bilangan bulat positif minimal 12 pcs (standar pesanan konveksi).
    - **Nilai Rupiah (Harga Dasar, Diskon, Total Harga):** Bilangan bulat dalam mata uang Rupiah tanpa pecahan desimal/sen.
-   - **Batas Waktu (Deadline):** Format tanggal valid (`DD-MM-YYYY`) yang bernilai lebih besar dari tanggal pembuatan pesanan.
+   - **Batas Waktu (Deadline):** Format tanggal valid (`DD-MM-YYYY`) yang berjarak minimal 3 hari kerja dari tanggal pembuatan pesanan.
    - **Status Pesanan:** Bernilai salah satu dari enum tahapan workshop: `Menunggu Bahan`, `Produksi Sablon`, `Selesai Sablon`, `Siap Diambil`, atau `Selesai`.
 5. **Modul Pembayaran & Kasir:**
    - **Tahapan Pembayaran:** Pilihan enum `DP 50%` atau `Pelunasan`.
@@ -1664,17 +1930,17 @@ Penjabaran batasan tipe dan format data operasional sistem PrintCraft mencakup s
    - **Nomor PO:** Format kode unik `PO-YYYY-XXX` (contoh: `PO-2026-088`).
    - **Pemasok:** Teks nama vendor/supplier kaos polos pihak ketiga maksimal 100 karakter.
    - **Status Pengadaan:** Pilihan enum logistik: `Dipesan ke Vendor`, `Dalam Pengiriman`, atau `Tiba di Cabang`.
-7. **Modul Invoice & WOP:**
+7. **Modul Dokumen Invoice & WOP:**
    - **Nomor Invoice:** Format kode unik penagihan `INV-YYYY-XXX`.
    - **Nomor WOP:** Format kode unik instruksi kerja workshop `WOP-YYYY-XXX`.
-   - **Dokumen WOP:** Tidak memuat kolom harga, biaya, maupun nominal pembayaran (SRS 2.5.j).
+   - **Dokumen WOP:** Tidak memuat kolom harga, biaya, maupun nominal pembayaran sesuai klausul batasan produk SRS 2.5.j.
 
    ## Validasi {#validasi}
 
 Penjabaran ketentuan validasi sistem PrintCraft untuk mencegah inkonsistensi data (*Nielsen H5: Error Prevention*) serta memberikan pesan galat kontekstual (*Nielsen H9*):
 
 1. **Validasi Modul Autentikasi & Akun:**
-   - **Validasi Keberadaan Pengguna:** Memvalidasi kombinasi username dan password. Jika salah, sistem mengembalikan pesan *"Username atau password salah"* tanpa membocorkan akun mana yang keliru.
+   - **Validasi Keberadaan Pengguna:** Memvalidasi kombinasi username dan password. Jika salah, sistem mengembalikan pesan *"Username atau password salah"* tanpa membocorkan kredensial spesifik mana yang keliru.
    - **Validasi Keunikan Data:** Memvalidasi bahwa username dan email baru yang didaftarkan belum pernah digunakan oleh akun lain di tabel `akun`.
    - **Validasi Format Isian:** Memastikan email berformat valid dan password memenuhi syarat minimal 8 karakter.
 2. **Validasi Formulir Pesanan Baru:**
@@ -1682,1686 +1948,16 @@ Penjabaran ketentuan validasi sistem PrintCraft untuk mencegah inkonsistensi dat
    - **Validasi Jumlah Minimal Order:** Nilai jumlah pesanan diverifikasi harus berupa angka bilangan bulat minimal 12. Jika kurang, tampil pesan *"Jumlah pesanan minimal 12 pcs"*.
    - **Validasi Logika Deadline:** Tanggal deadline wajib berjarak minimal 3 hari kerja dari tanggal input pesanan. Jika diinput mundur atau hari ini, sistem menolak dengan pesan *"Batas waktu pengerjaan tidak valid"*.
 3. **Validasi Transaksi Pembayaran:**
-   - **Validasi Nilai Pembayaran:** Nominal uang bayar yang diinput kasir harus berupa angka $> 0$.
+   - **Validasi Nilai Pembayaran:** Nominal uang bayar yang diinput kasir harus berupa angka > 0.
    - **Validasi Batas Pelunasan:** Nominal bayar tidak boleh melebihi sisa tagihan pesanan. Jika lebih, tampil pesan *"Nominal pembayaran melebihi sisa piutang pesanan"*.
    - **Validasi Status Lunas Otomatis:** Ketika akumulasi pembayaran telah sama dengan `total_harga`, sistem otomatis mengunci status pesanan menjadi Lunas dan menonaktifkan tombol tambah bayar.
 4. **Validasi Pendaftaran Member Online:**
-   - **Validasi Format Nomor WhatsApp:** Memvalidasi nomor ponsel diawali digit `08` atau `628` dengan panjang 10–14 digit (regex `^(08|628)[0-9]{8,12}**Software Requirement Specification**
-
-**for**
-
-***PrintCraft:*** **Sistem Manajemen Internal dan Kalkulator Harga Custom untuk Vendor Konveksi & Sablon**
-
-Dipersiapkan Oleh
-
-24.12.3197 Ahmad Zaenuri Zafa Muzaky
-
-24.12.3373 Nailah Putri Alidya
-
-Program Studi Sistem Informasi
-
-Fakultas Ilmu Komputer
-
-Universitas Amikom Yogyakarta
-
-2026
-
-DAFTAR ISI
-
-[1. Pendahuluan	5](#pendahuluan)
-
-[1.2 Deskripsi Umum Dokumen	6](#1.2-deskripsi-umum-dokumen)
-
-[1.3 Definisi dan Istilah	6](#1.3-definisi-dan-istilah)
-
-[1.4 Referensi	8](#1.4-referensi)
-
-[2\. Deskripsi Produk atau Website	9](#2.-deskripsi-produk-atau-website)
-
-[2.1 Deskripsi Umum Produk atau Website	9](#2.1-deskripsi-umum-produk-atau-website)
-
-[2.2 Kategori Pengguna Produk atau Website	10](#2.2-kategori-pengguna-produk-atau-website)
-
-[2.3 Fitur Website	10](#2.3-fitur-website)
-
-[2.4 Karakteristik Pengguna Website	11](#2.4-karakteristik-pengguna-website)
-
-[2.5 Batasan Produk atau Website	11](#2.5-batasan-produk-atau-website)
-
-[2.6 Dokumentasi Pengguna	13](#2.6-dokumentasi-pengguna)
-
-[3\. Kebutuhan Eksternal Website	14](#heading=h.lnxbz9)
-
-[3.1 Karakteristik Tampilan Pengguna	14](#3.1-karakteristik-tampilan-pengguna)
-
-[3.2 Karakteristik Hardware	15](#3.2-karakteristik-hardware)
-
-[3.3 Karakteristik Software	16](#3.3-karakteristik-software)
-
-[3.4 Karakteristik Komunikasi	17](#3.4-karakteristik-komunikasi)
-
-[4\. Kebutuhan Fungsional Website	17](#4.-kebutuhan-fungsional-website)
-
-[4.1 Kebutuhan Fungsional	17](#4.1-kebutuhan-fungsional)
-
-[4.2 Use case Diagram	23](#4.2-use-case-diagram)
-
-[4.3 Use case Deskripsi	25](#4.3-use-case-deskripsi)
-
-[4.4 Activity Diagram	41](#4.4-activity-diagram)
-
-[4.4.1 Activity diagram fitur Login	42](#4.4.1-activity-diagram-fitur-login)
-
-[4.4.2 Activity diagram fitur Akun	45](#4.4.2-activity-diagram-fitur-akun)
-
-[4.4.3 Activity diagram fitur Cabang	50](#4.4.3-activity-diagram-fitur-cabang)
-
-[4.4.4 Activity diagram fitur Master Data dan Kalkulator Harga	56](#4.4.4-activity-diagram-fitur-master-data-dan-kalkulator-harga)
-
-[4.4.5 Activity diagram fitur Pesanan dan Data Customer	63](#4.4.5-activity-diagram-fitur-pesanan-dan-data-customer)
-
-[4.4.6 Activity diagram fitur Pengadaan Kaos	74](#4.4.6-activity-diagram-fitur-pengadaan-kaos)
-
-[4.4.7 Activity diagram fitur Invoice dan WOP	80](#4.4.7-activity-diagram-fitur-invoice-dan-wop)
-
-[4.4.8 Activity diagram fitur Dashboard dan Rekap Laporan	85](#4.4.8-activity-diagram-fitur-dashboard-dan-rekap-laporan)
-
-[4.5 Kebutuhan Database	89](#4.5-kebutuhan-database)
-
-[4.5.1 Entity Relationship Diagram	89](#4.5.1-entity-relationship-diagram)
-
-[4.5.2 Class Diagrams	89](#4.5.2-class-diagrams)
-
-[4.6 Sequence Diagram	89](#4.6-sequence-diagram)
-
-[4.6.1 Sequence Diagram Fitur Landing Page (PC-003)	89](#4.6.1-sequence-diagram-fitur-landing-page-pc-003)
-
-[4.6.2 Sequence Diagram Fitur Daftar Member (PC-003)	89](#4.6.2-sequence-diagram-fitur-daftar-member-pc-003)
-
-[1\. Kebutuhan Non-Fungsional Produk atau Aplikasi	90](#heading=h.23ckvvd)
-
-[Kebutuhan Produk	90](#kebutuhan-produk)
-
-[1.1.1 Usability	90](#usability)
-
-[1.1.2 Efficiency	90](#efficiency)
-
-[2\. Kebutuhan Teknis Implementasi Coding	90](#kebutuhan-teknis-implementasi-coding)
-
-[Ketentuan Data	90](#ketentuan-data)
-
-[Validasi	91](#validasi)
-
-RIWAYAT REVISI
-
-| Keterangan Revisi | Tanggal | Alasan Perubahan | Penanggungjawab  Revisi |
-| :---: | :---: | :---: | :---: |
-| Revisi 1 | 12-10-2026 | Penyusunan awal SRS: pendahuluan, deskripsi produk, kebutuhan eksternal, dan kebutuhan fungsional berdasarkan konsep proyek | Ahmad Zaenuri Zafa Muzaky, Nailah Putri Alidya |
-| Revisi 2 | 14-10-2026 | Perbaikan kebutuhan fungsional agar sesuai contoh, serta penambahan use case diagram dan use case deskripsi | Ahmad Zaenuri Zafa Muzaky, Nailah Putri Alidya |
-| Revisi 3 | 15-10-2026 | Perbaikan bagian pendahuluan sampai kebutuhan eksternal, penyesuaian kalimat. | Ahmad Zaenuri Zafa Muzaky, Nailah Putri Alidya |
-| Revisi 4 | 19-10-2026 | Penyempurnaan use case diagram (Owner dan Admin) dan use case deskripsi, serta pengecekan konsistensi antar bagian. | Ahmad Zaenuri Zafa Muzaky, Nailah Putri Alidya |
-| Revisi 5 | 20-10-2026  | Revisi Keseluruhan Dokumen | Ahmad Zaenuri Zafa Muzaky, Nailah Putri Alidya |
-| Revisi 6 | 25-10-2026 | Pemisahan fitur Akun dan Cabang, penambahan alur lupa password, penyesuaian istilah menjadi website, serta pengurutan fitur berdasarkan fitur pertama yang diakses pengguna | Ahmad Zaenuri Zafa Muzaky, Nailah Putri Alidya |
-| Revisi 7 | 01-11-2026  | Penambahan peran Customer (landing page dan daftar member) pada use case diagram, use case deskripsi, activity diagram, dan class diagram  | Ahmad Zaenuri Zafa Muzaky, Nailah Putri Alidya  |
-| Revisi 8 | 06-11-2026 | Revisi Class Diagram : hanya LandingPage yang berasosiasi dengan Database, function yang membaca atau menulis data dipindah dari DaftarMember ke LandingPage, Database ditambah variabel nama\_database (printcraft\_db) dan function koneksi(), serta parameter function disesuaikan dengan kolom variabel. | Ahmad Zaenuri Zafa Muzaky, Nailah Putri Alidya  |
-
-# 
-
-1. # Pendahuluan {#pendahuluan}
-
-Dokumen Software Requirement Specification (SRS) ini disusun sebagai landasan formal dalam pengembangan PrintCraft, yaitu sistem manajemen internal dan kalkulator harga custom berbasis web untuk vendor konveksi dan sablon. Dokumen ini merinci kebutuhan sistem dari sisi pengguna, batasan operasional, hingga kebutuhan eksternal dan fungsional produk. Sistematikanya mencakup pendahuluan, deskripsi produk, kebutuhan eksternal, fungsional, non-fungsional, serta teknis implementasi coding. Susunan ini dibuat agar seluruh pemangku kepentingan memperoleh pemahaman yang seragam. Tujuannya adalah menyelaraskan ruang lingkup dan target pengembangan PrintCraft mulai dari tahap perencanaan hingga pemeliharaan sistem.  
-1.1 Tujuan
-
-1. Tujuan bagi Klien (Owner Duta Media)   
-1. Menjadi media komunikasi kebutuhan operasional vendor konveksi dan sablon, sehingga sistem PrintCraft yang dibangun benar-benar sesuai dengan alur kerja nyata di lapangan.   
-2. Menjadi dasar kesepakatan mengenai fitur dan batasan sistem yang akan dikembangkan, sehingga klien memiliki gambaran yang jelas tentang sistem yang akan diterima.  
-   b. Tujuan bagi Product Owner   
-1. Menjadi dasar dalam menyusun product backlog dan memprioritaskan fitur PrintCraft yang akan dikerjakan pada setiap sprint.   
-2. Memastikan setiap kebutuhan pengguna terpetakan dengan jelas ke dalam fitur sistem PrintCraft.  
-   c. Tujuan bagi Scrum Master yaitu menjadi pedoman dalam memfasilitasi proses Scrum, memantau Sprint Backlog, serta memastikan setiap item backlog terpenuhi sesuai kesepakatan tim.
-
-   d. Tujuan bagi Development Team yaitu menjadi pedoman teknis dalam merancang arsitektur sistem PrintCraft, basis data, antarmuka, serta mengimplementasikan fitur-fitur PrintCraft sesuai kebutuhan fungsional dan non-fungsional yang telah disepakati menggunakan framework Laravel.
-
-## 1.2 Deskripsi Umum Dokumen {#1.2-deskripsi-umum-dokumen}
-
-Dokumen SRS PrintCraft ini disusun dengan sistematika sebagai berikut. 
-
-1. Pendahuluan berisi tujuan penyusunan, definisi dan istilah, serta referensi.  
-2. Deskripsi Produk berisi proses bisnis, kategori pengguna, fitur, karakteristik pengguna, batasan, dan dokumentasi pengguna.  
-3. Kebutuhan Eksternal berisi karakteristik tampilan, hardware, software, dan komunikasi.  
-4. Kebutuhan Fungsional berisi rincian kebutuhan fungsional, use case diagram dan deskripsinya, activity diagram, kebutuhan database (ERD dan class diagram), serta sequence diagram.  
-5. Kebutuhan Non-Fungsional berisi usability dan efficiency (performance, space, dan security).  
-6. Kebutuhan Teknis Implementasi Coding berisi ketentuan data dan validasi.
-
-   ## 1.3 Definisi dan Istilah {#1.3-definisi-dan-istilah}
-
-   Berikut definisi dan istilah yang digunakan dalam dokumen SRS PrintCraft, disajikan pada Tabel 1\.
-
-Tabel 1\. Definisi dan Istilah 
-
-| Istilah/Singkatan | Definisi | Sumber |
-| ----- | ----- | ----- |
-| SRS | Software Requirement Specification, yaitu dokumen spesifikasi kebutuhan perangkat lunak yang memuat apa yang harus dilakukan sistem beserta batasannya | \[1\] |
-| Scrum | Kerangka kerja agile untuk mengembangkan perangkat lunak secara iteratif dan bertahap | \[2\] |
-| Sprint | Periode kerja dengan durasi tetap dalam Scrum untuk menyelesaikan item backlog yang dipilih | \[2\] |
-| Product Backlog | Daftar seluruh fitur dalam bentuk user story yang diberi prioritas | \[2\] |
-| Sprint Backlog | Rincian tugas teknis dari item backlog yang dipilih untuk sprint berjalan | \[2\] |
-| API | Application Programming Interface, yaitu antarmuka pemrograman yang memungkinkan dua sistem saling bertukar data | \[3\] |
-| PHP | Bahasa pemrograman sisi server yang digunakan untuk membangun website | \[6\] |
-| MVC | Model-View-Controller, yaitu arsitektur perangkat lunak yang memisahkan model (data), tampilan, dan pengendali | \[4\] |
-| Laravel | Framework PHP open-source dengan arsitektur MVC | \[4\] |
-| UML | Unified Modeling Language, yaitu bahasa pemodelan standar untuk merancang sistem perangkat lunak | \[1\] |
-| Use Case Diagram | Diagram UML yang menggambarkan interaksi antara aktor dengan sistem | \[1\] |
-| Activity Diagram | Diagram UML yang menggambarkan alur aktivitas dalam sistem | \[1\] |
-| Sequence Diagram | Diagram UML yang menggambarkan interaksi antar objek dalam urutan waktu | \[1\] |
-| Class Diagram | Diagram UML yang menggambarkan struktur kelas dan hubungannya dalam sistem | \[1\] |
-| ERD | Entity Relationship Diagram, yaitu diagram yang menggambarkan hubungan antar entitas dalam basis data | \[1\] |
-| Whitebox Testing | Pengujian perangkat lunak yang memeriksa struktur internal kode program | \[1\] |
-| Blackbox Testing | Pengujian perangkat lunak yang memeriksa fungsionalitas tanpa melihat struktur internal | \[1\] |
-| Usability Testing | Pengujian yang mengukur kemudahan penggunaan sistem oleh pengguna | \[5\] |
-
-## 
-
-## 1.4 Referensi  {#1.4-referensi}
-
-\[1\] 	A. S. Rosa and M. Shalahuddin, *Rekayasa Perangkat Lunak Terstruktur dan Berorientasi Objek*. Bandung, Indonesia: Informatika, 2018\.
-
-\[2\] 	J. Partogi, *Manajemen Modern dengan Scrum: Sebuah Petualangan Baru di Abad 21 Menjadi Manajer Software Development Modern*, 1st ed. Yogyakarta, Indonesia: Andi, 2015\.
-
-\[3\] 	A. Lauret, *The Design of Web APIs*. Shelter Island, NY, USA: Manning Publications, 2019\.
-
-\[4\] 	M. Stauffer, *Laravel: Up & Running: A Framework for Building Modern PHP Apps*, 2nd ed. Sebastopol, CA, USA: O’Reilly Media, 2019\.
-
-\[5\] 	J. Nielsen, *Usability Engineering*. Boston, MA, USA: Academic Press, 1993\.
-
-\[6\] 	W3Schools, “PHP tutorial.” W3Schools.com. [https\://www\.w3schools.com/php/default.asp](https://www.w3schools.com/php/default.asp) (accessed Oct. 19, 2026).
-
-# 2\. Deskripsi Produk atau Website {#2.-deskripsi-produk-atau-website}
-
-## 2.1 Deskripsi Umum Produk atau Website {#2.1-deskripsi-umum-produk-atau-website}
-
-Customer menghubungi Admin untuk memesan produk konveksi dengan menyampaikan spesifikasi bahan, ukuran, sablon, jumlah, dan tenggat waktu. Selain itu, Customer juga dapat mendaftar sebagai member melalui landing page website untuk mendapatkan potongan harga. Admin kemudian menghitung estimasi harga berdasarkan spesifikasi pesanan dan status member (kategori customer). Setelah kesepakatan harga, Customer melakukan pembayaran (DP atau lunas), lalu Admin mencatat detail pesanan, status pembayaran, piutang, serta pembelian kaos dari pihak ketiga. Setelah pesanan tercatat, Admin mencetak WOP sebagai acuan PIC produksi, lalu membuat invoice dan mengirimkannya melalui WhatsApp dan/atau email. Owner bertugas memantau seluruh pesanan, piutang, dan transaksi dari semua cabang untuk keperluan audit.  
-Pengguna terdiri dari Owner, Admin, dan Customer. Customer bertindak sebagai aktor eksternal yang aksesnya sebatas pada landing page, pendaftaran member, dan penerimaan invoice. Laporan yang didapatkan oleh masing-masing pengguna yaitu: Owner memperoleh ringkasan dashboard serta rekap penjualan, piutang, dan keuangan dari semua cabang yang dapat difilter per cabang dan per bulan. Admin memperoleh estimasi harga, daftar pesanan, invoice PDF, WOP cetak, serta ringkasan dashboard dan rekap laporan pada cabang yang ditugaskan; sedangkan Customer memperoleh konfirmasi pendaftaran member beserta informasi potongan harga, dan invoice berformat PDF melalui WhatsApp dan email.
-
-## 2.2 Kategori Pengguna Produk atau Website {#2.2-kategori-pengguna-produk-atau-website}
-
-Pengguna PrintCraft dikelompokkan menjadi pengguna internal yang mengakses Website dan aktor eksternal yang tidak memiliki akun login.
-
-1. Pengguna internal (mengakses Website setelah login)   
-1. Owner 
-
-   Pemilik bisnis vendor konveksi dan sablon dengan akses penuh terhadap seluruh data dan laporan dari semua cabang.
-
-2. Admin 
-
-   Pengelola operasional harian yang mencatat pesanan, transaksi, dan pengadaan kaos pada cabang yang ditugaskan.
-
-2. Aktor eksternal ((tidak login ke Website)   
-1. Customer (Pelanggan)
-
-   Pihak yang memesan produk, dapat mendaftar sebagai member melalui landing page, dan menerima invoice PDF melalui WhatsApp dan email setelah diproses oleh Admin; tidak memiliki akun login.
-
-   ## 2.3 Fitur Website {#2.3-fitur-website}
-
-   Fitur PrintCraft dituliskan secara umum pada tabel berikut. ID fitur memakai kode PC (singkatan PrintCraft) dan diurutkan dari fitur yang pertama diakses pengguna (Login) sampai fitur yang terakhir diakses (Dashboard dan Rekap Laporan). Jumlah fitur utama adalah enam sesuai konsep proyek. Fitur pertama (PC-001) terdiri dari Login, Akun, dan Cabang. Fitur Landing Page dan Daftar Member dikelompokkan pada PC-003 karena data member tersimpan sebagai data customer dengan kategori Member. 
-
-Tabel 2\. Rincian Fitur (Berdasarkan ID Fitur)
-
-| Kategori Pengguna | ID Fitur | Fitur |
-| :---: | :---: | :---: |
-| Owner, Admin | PC-001 | Login |
-| Owner | PC-001 | Akun |
-| Owner | PC-001 | Cabang |
-| Owner, Admin | PC-002 | Master Data dan Kalkulator Harga |
-| Owner, Admin | PC-003 | Pesanan dan Data Customer |
-| Customer | PC-003 | Landing Page dan Daftar Member |
-| Owner, Admin | PC-004 | Pengadaan Kaos |
-| Owner, Admin | PC-005 | Invoice dan WOP |
-| Owner, Admin | PC-006 | Dashboard dan Rekap Laporan |
-
-## 2.4 Karakteristik Pengguna Website {#2.4-karakteristik-pengguna-website}
-
-Karakteristik pengguna PrintCraft, yang mencakup tugas, hak akses, dan kemampuan yang harus dimiliki, dijabarkan pada tabel berikut. Customer dimasukkan sebagai aktor eksternal karena tidak memiliki akun login, hanya mengakses landing page dan menerima invoice.
-
-Tabel 3\. Karakteristik Pengguna
-
-| Kategori Pengguna | Tugas | Hak Akses ke Website | Kemampuan yang harus dimiliki |
-| :---: | :---: | :---: | :---: |
-| Owner | Memantau operasional dan keuangan seluruh cabang secara jarak jauh melalui laporan per cabang dan per bulan; mengelola akun, cabang, dan master data | Seluruh fitur (PC-001 sampai PC-006) pada semua cabang | Membaca laporan penjualan, piutang, dan keuangan; menganalisis data antar cabang; mengoperasikan browser web |
-| Admin | Menghitung estimasi harga; mencatat pesanan, deadline, status pembayaran, dan piutang; mengelola data customer; mencatat pengadaan kaos; membuat dan mengirim invoice; mencetak WOP; memantau dashboard dan rekap laporan cabangnya |  PC-001 (hanya Login), PC-002 (hanya kalkulator harga), dan PC-003 sampai PC-006 pada cabang yang ditugaskan |  Entry data dengan teliti; memahami alur pesanan konveksi (bahan, ukuran, jenis sablon, DP atau Lunas); mengoperasikan browser web |
-| Customer (aktor eksternal) | Memesan produk, mendaftar member, dan menerima invoice | Hanya landing page (PC-003, Daftar Member); tidak dapat login ke sistem internal; menerima invoice PDF | Mengoperasikan browser web, menggunakan WhatsApp atau email, dan membuka file PDF |
-
-## 2.5 Batasan Produk atau Website {#2.5-batasan-produk-atau-website}
-
-Seluruh fitur PrintCraft dikerjakan, sehingga batasan berikut hanya mencakup teknologi, format data, dan hak akses.
-
-a. Framework  
-PrintCraft dibangun dengan PHP dan framework Laravel menggunakan arsitektur MVC.  
-b. Basis data  
-MySQL atau MariaDB sebagai basis data tunggal yang terpusat untuk seluruh cabang.  
-c. Platform  
-Website yang diakses lewat browser di komputer atau smartphone. Website tidak tersedia dalam bentuk aplikasi yang diinstal dan tidak ada mode offline, sehingga koneksi internet wajib tersedia.  
-d. Format data  
-Nilai uang diinput sebagai angka dibulatkan ke rupiah terdekat, nomor WhatsApp customer diinput dalam format nomor Indonesia, serta invoice dan WOP hanya dihasilkan dalam format PDF.  
-e. Hak akses pengguna  
-Customer tidak memiliki akun login, hanya dapat mengakses landing page untuk mendaftar member, dan menerima invoice PDF.  
-f. Hak akses fitur Akun, Cabang, dan Master Data  
-Hanya Owner yang dapat mengelolanya. Admin hanya memakai kalkulator harga.  
-g. Hak akses Dashboard dan Rekap Laporan  
-Owner melihat semua cabang, sedangkan Admin hanya melihat cabangnya sendiri.  
-h. Pembayaran   
-Sistem hanya mencatat status pembayaran (DP atau Lunas) beserta sisa piutang. Sistem tidak menyediakan pembayaran online dan tidak memverifikasi pembayaran secara otomatis.  
-i. Pengadaan kaos   
-Sistem hanya mencatat pembelian kaos dari pihak ketiga per pesanan. Sistem tidak mengelola stok gudang dan tidak memproses pemesanan langsung ke pemasok.  
-j. WOP (Work Order Print)    
-Dicetak tanpa nominal harga karena hanya menjadi acuan PIC produksi.  
-k. Invoice   
-Pengiriman hanya melalui WhatsApp dan email, dan keberhasilannya bergantung pada layanan API WhatsApp dan email pihak ketiga serta kebenaran nomor atau alamat tujuan.  
-l. Estimasi harga  
-Hasil kalkulator harga bergantung pada keakuratan master data yang diatur Owner.  
-m. Bahasa yang digunakan   
-Antarmuka dan pesan sistem hanya tersedia dalam Bahasa Indonesia.
-
-## 2.6 Dokumentasi Pengguna {#2.6-dokumentasi-pengguna}
-
-Dokumentasi pengguna yang akan diserahkan kepada klien (Owner Duta Media) saat serah terima adalah User Manual (Buku Panduan Pengguna) berformat PDF. Dokumen ini berisi:  
-a. Panduan login dan penggunaan website untuk Owner dan Admin.
-
-b. Langkah penggunaan setiap fitur, mulai dari kalkulator harga, pencatatan pesanan, pengadaan kaos, pembuatan dan pengiriman invoice, pencetakan WOP, hingga pembacaan dashboard dan rekap laporan.
-
-c. Daftar pesan kesalahan beserta cara penanganannya.
-
-3\. Kebutuhan Eksternal Website
-
-## 3.1 Karakteristik Tampilan Pengguna {#3.1-karakteristik-tampilan-pengguna}
-
-Perancangan antarmuka pengguna sistem PrintCraft mengadopsi **Softro SaaS Design System** modern berbasis komponen Tailwind CSS, dipadukan dengan tipografi hierarkis Google Fonts (*Manrope*, *Inter*, dan *JetBrains Mono*) serta ikonografi presisi *Lucide Icons*. Seluruh layar dirancang dengan mematuhi prinsip **10 Usability Heuristics Jakob Nielsen** untuk menjamin efisiensi kerja, kejelasan status sistem, pencegahan kesalahan, dan konsistensi visual di seluruh alur operasional konveksi.
-
-1. **Ukuran Layar Responsif (*Responsive Viewport Specification*)**
-   - **Tampilan Desktop (Utama):** Dirancang optimal pada resolusi standar **1440 px** (lebar minimum 1024 px) dengan tata kelola ruang lapang, visual hierarchy bertingkat, dan *fixed multi-panel layout*.
-   - **Tampilan Smartphone (Mobile):** Responsif hingga lebar layar smartphone minimal **360 px** (optimal pada 390 px–420 px). Layout otomatis mereflow menjadi kartu vertikal tunggal (*stacked cards*), sidebar berubah menjadi drawer menu ringkas, dan ukuran target sentuh (*tap target*) memenuhi standar aksesibilitas minimal 44×44 px.
-
-2. **Tata Letak & Arsitektur Navigasi (*Softro SaaS 2-Column Dashboard*)**
-   - **Sidebar Navigasi Kiri (*Fixed Sidebar* 256 px / `w-64`):** Menampilkan identitas logo brand PrintCraft Duta Media, navigasi menu hierarkis dengan active state violet tint (`#EEF2FF`) dan border indikator tebal (`#7C3AED`), scrollbar tersembunyi yang mulus (*custom sleek scrollbar*), serta profil drawer petugas aktif di bagian bawah sidebar.
-   - **Header Atas (*Sticky Header* 64 px):** Memuat kolom pencarian global *real-time* (pencarian nomor pesanan, pelanggan, atau cabang), badge status peran yang sedang aktif, tombol aksi cepat (+ Order Baru), serta menu avatar pengguna.
-   - **Pemisahan Menu Berdasarkan Peran (*Role-Based Access Control*):**
-     - **Owner (Pusat):** Memiliki hak akses penuh (*multi-cabang*) terhadap 16 layar internal: *Dashboard Multicabang, Manajemen Akun User, Manajemen Cabang, Master Data Biaya & Tarif, Kalkulator Harga Custom Live (margin dinamis), Data Seluruh Pesanan, Detail Pesanan & Milestone Produksi, Input Pesanan Baru, CRM Database Pelanggan, Pengadaan Kaos Polos Vendor, Invoice Resmi, Work Order Production (SPK Workshop),* dan *Rekap Laporan Finansial Konsolidasi*.
-     - **Admin Cabang:** Dibatasi secara ketat hanya pada operasional unit cabang yang ditugaskan (7 layar operasional): *Dashboard Cabang, Kalkulator Kasir Cabang (margin terkunci 30%), Data Pesanan Cabang, Detail Pesanan Cabang, Input Pesanan Cabang, Pengadaan Kaos Cabang,* dan *Rekap Laporan Kasir Cabang*. Admin tidak memiliki akses ke menu Akun, Cabang, Master Data, dan Finansial Pusat.
-     - **Customer (Publik Tanpa Login):** Akses mandiri melalui 3 layar publik: *Landing Page Informasi & Simulasi Harga Kaos, Form Pendaftaran Member Online,* dan *Kartu Virtual Member Prioritas*.
-
-3. **Standar Komponen Tombol (*Action Buttons - Softro SaaS Violet Palette*)**
-   - **Tombol Aksi Utama (*Primary Action*):** Menggunakan warna Vibrant Violet **`#7C3AED`** (*hover*: `#6D28D9`, active: `#5B21B6`) dengan sudut membulat modern (`rounded-xl`), efek *subtle elevation shadow* (`shadow-sm` / `shadow-violet-200`), teks semi-bold kontras tinggi (putih), serta ikon penjelas di sisi kiri/kanan teks. Ditempatkan secara konsisten di sudut kanan bawah formulir atau header tabel.
-   - **Tombol Sekunder & Batal (*Secondary / Cancel Action*):** Menggunakan border halus *Slate Neutral* (`border-slate-200/80`) dengan latar belakang netral (`bg-white`, *hover*: `bg-slate-50`) dan warna teks Slate 700 (`#334155`), menggantikan gaya abu-abu kusam lama agar tetap menyatu harmonis.
-   - **Tombol Aksi Destruktif (*Destructive Action - Hapus*):** Menggunakan warna Rose Red **`#E11D48`** / **`#DC2626`** (`bg-rose-600`, *hover*: `bg-rose-700`). Sesuai standar Nielsen H5 (*Error Prevention*), tombol ini **wajib** memicu dialog modal konfirmasi eksplisit dengan latar belakang redup (*backdrop blur* `bg-slate-950/60`) sebelum eksekusi penghapusan permanen.
-   - **Tombol Sukses & Distribusi (*Success / Send Invoice*):** Menggunakan aksen Emerald Green **`#059669`** / **`#16A34A`** (`bg-emerald-600`, *hover*: `bg-emerald-700`) untuk aksi cetak PDF, kirim invoice via WhatsApp/Email, dan konfirmasi pelunasan kasir.
-
-4. **Hierarki Visual & Penanda Status (*Badge Pills System*)**
-   Menggantikan warna solid kusam dengan *Soft Badge Pills* berbingkai tipis dan latar belakang bernuansa lembut (*tinted soft background*) guna kenyamanan visual mata:
-   - **Status DP 50%:** Aksen Amber/Yellow lembut (`bg-amber-50 text-amber-700 border border-amber-200/60`).
-   - **Status Lunas / Selesai:** Aksen Emerald Green (`bg-emerald-50 text-emerald-700 border border-emerald-200/60`).
-   - **Status Piutang Lewat Deadline / Gagal:** Aksen Rose Red tegas (`bg-rose-50 text-rose-700 border border-rose-200/60`).
-   - **Deadline Mendekati Batas (≤ 3 Hari):** Aksen Orange peringatan (`bg-orange-50 text-orange-700 border border-orange-200/60`) dengan ikon jam pasir (*hourglass*).
-   - **Kategori Member Prioritas:** Aksen Softro Violet (`bg-violet-50 text-violet-700 border border-violet-200/60`) dengan lencana bintang/mahkota.
-
-5. **Format Pesan Notifikasi, Error, & Feedback Sistem (*Nielsen H1 & H9*)**
-   - **Toast Notification Mengambang (*Floating Toast*):** Tampil di sudut kanan atas layar (`top-6 right-6`) dengan animasi *slide-in*, latar belakang *Dark Slate* (`bg-slate-900`) berbayang halus, ikon status berwarna (hijau untuk sukses, merah untuk eror), serta teks Bahasa Indonesia yang lugas dan solutif.
-   - **Validasi Formulir Kontekstual (*Inline Field Validation*):** Pesan eror tampil tepat di bawah kolom input bersangkutan dengan teks merah (`text-rose-600`) dan highlight border merah muda (`border-rose-400`), seperti: *"Nomor WhatsApp wajib diawali angka 08 atau 62"*.
-
-6. **Format Tipografi & Standardisasi Data (*Precision Typography*)**
-   - **Tipografi Tampilan (*Display Font*):** Menggunakan font *Manrope* bobot *Bold* dan *ExtraBold* untuk judul utama, nama modul, dan header kartu.
-   - **Tipografi Antarmuka (*Interface & Body Font*):** Menggunakan font *Inter* bobot *Regular*, *Medium*, dan *SemiBold* untuk teks paragraf, label formulir, data tabel, dan navigasi.
-   - **Nilai Mata Uang (Rupiah):** Diformat standar Rupiah dengan pemisah ribuan titik (contoh: `Rp 1.250.000`), menggunakan font *JetBrains Mono* bobot *bold* (`font-mono font-bold`) untuk presisi pembacaan akuntansi konveksi.
-   - **Format Tanggal & Waktu:** Ditampilkan dalam format standar Indonesia `DD-MM-YYYY` (contoh: `24-10-2026`).
-   - **Nomor Transaksi & Order ID:** Menggunakan kode alfanumerik terstandarisasi dengan font monospace (contoh: `ORD-2026-101`, `INV-2026-089`, `WOP-2026-044`).
-
-7. **Standardisasi Dokumen Cetak (Invoice & Work Order Production)**
-   - **Invoice Penagihan:** Dokumen berukuran A4 siap cetak dan ekspor PDF resmi, memuat rincian harga per pcs, total biaya sablon, diskon member (bila ada), riwayat pembayaran DP, dan sisa tagihan piutang dengan stempel status lunas/DP.
-   - **Work Order Production (SPK Workshop):** Format cetak instruksi produksi A4 khusus staf operator sablon dan penjahit. **Sesuai ketentuan fungsional SRS 2.5.j, lembar WOP tidak menampilkan nominal harga, total rupiah, maupun sisa pembayaran**, melainkan hanya memuat spesifikasi teknis: nama bahan kaos, ukuran & jumlah pcs, jenis tinta sablon, posisi/titik sablon, catatan teknis, mockup visual, dan barcode pelacakan.
-
-8. **Landing Page Publik & Pengalaman Tanpa Akun (*Customer Self-Service*)**
-   - Halaman publik dirancang *clean* dan modern dengan tata letak studio asimetris profesional tanpa memerlukan autentikasi login bagi pelanggan. Memuat formulir simulasi kalkulator harga kaos mandiri yang terintegrasi di sisi hero, tabel ringkas katalog spesifikasi kain & sablon, tombol **Daftar Member Online** dengan aksen Softro Violet (`#7C3AED`), serta tautan diskrit terproteksi khusus staf internal menuju portal login petugas.
-
-## 3.2 Karakteristik Hardware {#3.2-karakteristik-hardware}
-
-	Customer tidak membutuhkan hardware khusus, cukup smartphone atau komputer untuk membuka landing page, WhatsApp, email, dan file PDF.
-
-1. Hardware untuk pengguna (Owner dan Admin) 
-
-   Perangkat yang dibutuhkan memiliki spesifikasi minimal sebagai berikut. Komputer atau laptop menggunakan prosesor dual-core 1,6 GHz, RAM 4 GB, dan layar 1366×768; perangkat ini menjadi perangkat utama bagi Admin dan Owner. Smartphone menggunakan Android 8.0 atau iOS 13 ke atas dengan RAM 2 GB, digunakan untuk pemantauan Owner dari jarak jauh. Printer harus mendukung kertas A4 untuk mencetak invoice dan WOP. Koneksi internet minimal 2 Mbps diperlukan untuk mengakses website yang berjalan di hosting.
-
-2. Hardware untuk pengembangan (sesuai Project Charter)  
-
-   Browser (Google Chrome, Mozilla Firefox, atau Microsoft Edge versi minimal 100, atau Safari versi minimal 15\) untuk membuka landing page; WhatsApp (versi terbaru) dan atau layanan email, serta pembaca PDF, untuk menerima dan membuka invoice.atau AMD Ryzen 3, RAM minimal 8 GB, dan penyimpanan SSD 1TB.
-
-3. Server (hosting) 
-
-   Layanan web hosting komersial dengan penyimpanan minimal 5 GB.
-
-## 3.3 Karakteristik Software {#3.3-karakteristik-software}
-
-a. Software untuk pengguna (Owner dan Admin)
-
-> > > Software pendukung yang dibutuhkan untuk mengoperasikan website PrintCraft meliputi browser dan pembaca PDF. Browser yang didukung adalah Google Chrome versi minimal 100 sebagai browser utama, Mozilla Firefox versi minimal 100 dan Microsoft Edge versi minimal 100 sebagai browser alternatif, serta Safari versi minimal 15 untuk perangkat Apple. Pembaca PDF seperti Adobe Acrobat Reader DC 2022 atau penampil PDF bawaan browser digunakan untuk membuka dan mencetak invoice dan WOP. Tidak diperlukan software office atau library tambahan yang harus diinstal pengguna.
-
-b. Software untuk customer  
-
-> > > WhatsApp (versi terbaru) dan atau aplikasi email, serta pembaca PDF, untuk menerima dan membuka invoice.
-
-c. Software untuk pengembangan dan server
-
-> > > Software pendukung pengembangan dan server meliputi PHP versi 8.2 sebagai bahasa pemrograman backend, Laravel versi 11+ sebagai framework MVC, MySQL versi 8.0 atau MariaDB versi 10.6 sebagai basis data, Composer versi 2.x sebagai pengelola dependensi PHP, serta Node.js dan npm versi 18 sebagai pengelola aset frontend. Server lokal pengembangan menggunakan XAMPP atau Docker versi terbaru, dengan Visual Studio Code versi terbaru sebagai penyunting kode, Draw.io atau Visual Paradigm versi terbaru untuk pemodelan UML dan ERD, serta Figma versi web untuk perancangan tampilan website. Library barryvdh/laravel-dompdf versi 2.x digunakan untuk menghasilkan invoice dan WOP berformat PDF, serta API WhatsApp dan layanan email SMTP dari pihak ketiga digunakan untuk mengirim invoice kepada customer.
-
-## 3.4 Karakteristik Komunikasi {#3.4-karakteristik-komunikasi}
-
-1. Protokol 
-
-   Seluruh komunikasi antara browser dan server, termasuk landing page dan form daftar member, menggunakan HTTPS (SSL/TLS) di domain resmi. 
-
-2. Enkripsi password 
-
-   Password pengguna disimpan dalam bentuk hash (bcrypt) dan tidak pernah ditampilkan ulang.
-
-3. Autentikasi dan sesi 
-
-   Pengguna internal (Owner dan Admin) harus melakukan login dengan username dan password yang valid sebelum dapat mengakses fitur website. Sesi login berakhir ketika pengguna melakukan logout, sehingga pengguna harus login kembali. Pada fitur lupa password, website mengirim tautan reset ke email akun yang bersangkutan. Tautan tersebut hanya berlaku selama 60 menit dan hanya dapat digunakan satu kali. Jika tautan sudah kedaluwarsa, pengguna harus meminta tautan reset yang baru.
-
-4. Hak akses 
-
-   Akses dibedakan per peran (Owner dan Admin). Admin hanya dapat membaca dan mengubah data cabangnya.
-
-5. Integrasi pengiriman invoice
-
-   Invoice PDF dikirim ke WhatsApp customer melalui API WhatsApp pihak ketiga. Invoice juga dapat dikirim ke email customer melalui layanan email (SMTP). Tautan reset password pada fitur lupa password juga dikirim ke email pengguna melalui layanan SMTP yang sama. Status pengiriman (terkirim atau gagal) dicatat oleh sistem.
-
-6. Format pertukaran data 
-
-   Komunikasi dengan API pihak ketiga menggunakan format JSON melalui HTTPS. File invoice dan WOP dibuat berformat PDF.
-
-7. Bahasa 
-
-   Seluruh antarmuka dan pesan sistem menggunakan Bahasa Indonesia.
-
-8. Sinkronisasi 
-
-   Data bersifat terpusat di satu basis data. Perubahan yang dilakukan Admin langsung tersedia bagi Owner pada dashboard dan rekap laporan.
-
-# 
-
-# 4\. Kebutuhan Fungsional Website {#4.-kebutuhan-fungsional-website}
-
-## 4.1 Kebutuhan Fungsional {#4.1-kebutuhan-fungsional}
-
-1. Kebutuhan fungsional pengguna Owner terdiri dari:
-
-   1\. Login
-
-   a. Login pengguna
-
-   b. Logout
-
-   c. Lupa password (reset password)
-
-   2\. Akun
-
-   a. Tampil data akun
-
-   b. Tambah data akun
-
-   c. Ubah data akun
-
-   d. Hapus data akun
-
-   e. Reset password akun
-
-   f. Cari data akun berdasarkan nama atau username
-
-   3\. Cabang
-
-   a. Tampil data cabang
-
-   b. Tambah data cabang
-
-   c. Ubah data cabang
-
-   d. Hapus data cabang
-
-   e. Cari data cabang berdasarkan nama
-
-   4\. Master Data dan Kalkulator Harga
-
-   a. Tampil data master
-
-   b. Tambah data master 
-
-   c. Ubah data master
-
-   d. Hapus data master
-
-   e. Cari data master berdasarkan nama
-
-   f. Hitung estimasi harga
-
-   g. Simpan estimasi menjadi pesanan
-
-   5\. Pesanan dan Data Customer
-
-   a. Tampil data pesanan
-
-   b. Tambah data pesanan
-
-   c. Ubah data pesanan
-
-   d. Hapus data pesanan
-
-   e. Catat pembayaran (DP atau Lunas) dan hitung sisa piutang
-
-   f. Cari dan filter data pesanan
-
-   g. Tampil data customer
-
-   h. Tambah data customer
-
-   i. Ubah data customer
-
-   j. Hapus data customer
-
-   k. Cari data customer berdasarkan nama atau nomor WhatsApp
-
-   6\. Pengadaan Kaos
-
-   a. Tampil data pengadaan kaos
-
-   b. Tambah data pengadaan kaos
-
-   c. Ubah data pengadaan kaos
-
-   d. Hapus data pengadaan kaos
-
-   e. Ubah status pengadaan
-
-   f. Cari data pengadaan berdasarkan nomor pesanan
-
-   7\. Invoice dan WOP
-
-   a. Tampil data invoice
-
-   b. Buat invoice PDF
-
-   c. Kirim invoice melalui WhatsApp dan email
-
-   d. Cetak WOP
-
-   e. Cari data invoice berdasarkan nomor pesanan
-
-   8\. Dashboard dan Rekap Laporan
-
-   a. Tampil ringkasan dashboard
-
-   b. Tampil rekap penjualan, piutang, dan keuangan
-
-   c. Filter laporan berdasarkan cabang dan bulan
-
-2. Kebutuhan fungsional pengguna Admin terdiri dari : 
-
-   1\. Login
-
-   a. Login pengguna
-
-   b. Logout
-
-   c. Lupa password (reset password)
-
-   2\. Master Data dan Kalkulator Harga
-
-   a. Hitung estimasi harga
-
-   b. Simpan estimasi menjadi pesanan
-
-   3\. Pesanan dan Data Customer
-
-   a. Tampil data pesanan
-
-   b. Tambah data pesanan
-
-   c. Ubah data pesanan
-
-   d. Hapus data pesanan
-
-   e. Catat pembayaran (DP atau Lunas) dan hitung sisa piutang
-
-   f.  Cari dan filter data pesanan
-
-   g. Tampil data customer
-
-   h. Tambah data customer
-
-   i. Ubah data customer
-
-   j. Hapus data customer
-
-   k. Cari data customer berdasarkan nama atau nomor WhatsApp
-
-   4\. Pengadaan Kaos
-
-   a. Tampil data pengadaan kaos
-
-   b. Tambah data pengadaan kaos
-
-   c. Ubah data pengadaan kaos
-
-   d. Hapus data pengadaan kaos
-
-   e. Ubah status pengadaan
-
-   f. Cari data pengadaan berdasarkan nomor pesanan
-
-   5\. Invoice dan WOP
-
-   a. Tampil data invoice
-
-   b. Buat invoice PDF
-
-   c. Kirim invoice melalui WhatsApp dan email
-
-   d. Cetak WOP
-
-   e. Cari data invoice berdasarkan nomor pesanan
-
-   6\. Dashboard dan Rekap Laporan
-
-   a. Tampil ringkasan dashboard cabang
-
-   b. Tampil rekap penjualan, piutang, dan keuangan cabang
-
-   c. Filter laporan berdasarkan bulan
-
-   
-
-3. Kebutuhan fungsional pengguna Customer terdiri dari:  
-   1\. Landing Page dan Daftar Member
-
-   a. Tampil landing page  
-   b. Form Daftar member
-
-   
-
-## 4.2 Use case Diagram {#4.2-use-case-diagram}
-
-![][image1]
-
-Gambar 1\. Use Case Diagram Pengguna Owner
-
-Gambar 1 merupakan use case diagram untuk pengguna Owner. Owner harus login untuk mengakses fitur akun, cabang, master data dan kalkulator harga, pesanan dan data customer, pengadaan kaos, invoice dan WOP, serta dashboard dan rekap laporan. Customer adalah aktor eksternal yang tidak login, menerima invoice, dan dapat mendaftar member (Gambar 3).
-
-![][image2]
-
-Gambar 2\. Use Case Diagram Pengguna Admin
-
-Gambar 2 merupakan use case diagram untuk pengguna Admin. Admin harus login untuk mengakses fitur master data dan kalkulator harga, pesanan dan data customer, pengadaan kaos, invoice dan WOP, serta dashboard dan rekap laporan pada cabang yang ditugaskan. Customer adalah aktor eksternal yang tidak login, menerima invoice, dan dapat mendaftar member (Gambar 3).
-
-![][image3]  
-Gambar 3\. Use Case Diagram Customer
-
-Gambar 3 merupakan use case diagram untuk pengguna Customer. Customer mengakses landing page website Duta  Media tanpa login, lalu mendaftar sebagai member melalui tombol Daftar Member untuk memperoleh potongan harga saat bertransaksi. Karena Customer tidak memiliki akun login, use case Landing Page dan Daftar Member tidak memiliki hubungan include ke Login. Customer juga menerima invoice dari use case Invoice dan WOP yang dikelola Owner dan Admin.
-
-## 
-
-##  4.3 Use case Deskripsi {#4.3-use-case-deskripsi}
-
-4.3.1 Use case deskripsi fitur Login  
-Tabel 7\. Use Case Deskripsi Login
-
-| Nama Use Case | Login |  |
-| :---- | :---- | :---- |
-| Aktor | Owner, Admin |  |
-| Deskripsi | Login terdiri dari login pengguna, logout, dan lupa password (reset password) |  |
-| Pre-condition | Pengguna memiliki username dan password yang aktif |  |
-| Post-condition | Website menampilkan halaman dashboard sesuai peran pengguna |  |
-| Login pengguna |  |  |
-| Aktor |  | Website |
-| 1\. Buka website |  | 1\. Menampilkan halaman login |
-| 2\. Isikan username dan password |  |   |
-| 3\. Klik tombol login |  | 2\. Mengecek username dan password valid atau tidak |
-|   |  | 3\. Menampilkan halaman dashboard sesuai peran |
-| Alur alternatif : jika username atau password yang dimasukkan salah maka website menampilkan pesan. |  |  |
-| Logout |  |  |
-| Aktor |  | Website |
-| 1\. Klik tombol logout |  | 1\. Menampilkan konfirmasi logout |
-| 2\. Klik tombol ya |  | 2\. Mengakhiri sesi pengguna |
-|   |  | 3\. Menampilkan halaman login |
-| Alur alternatif : jika klik tombol batal maka website kembali ke halaman terakhir. |  |  |
-| Lupa password (reset password) |  |  |
-| Aktor |  | Website |
-| 1\. Buka website |  | 1\. Menampilkan halaman login |
-| 2\. Klik lupa password |  | 2\. Menampilkan halaman cek username |
-| 3\. Isikan username pada textbox yang tersedia |  |   |
-| 4\. Klik tombol kirim |  | 3\. Mengecek username |
-|  |  | 4\. Mengirim tautan reset ke email |
-|  |  | 5\. Menampilkan pesan tautan reset telah dikirim |
-|  5\. Buka tautan reset pada email |  | 6\. Memeriksa keabsahan tautan |
-|  |  | 7\. Menampilkan halaman input password baru |
-| 6\. Isikan password baru |  |  |
-| 7\. Klik tombol ubah |  | 8\. Memvalidasi password baru |
-|   |  | 9\. Menyimpan password baru |
-|   |  | 10\. Menampilkan konfirmasi ubah password |
-| Alur alternatif : jika username tidak ditemukan maka website tetap menampilkan pesan netral bahwa tautan reset telah dikirim, tanpa mengirim email; jika tautan tidak valid atau sudah kedaluwarsa maka website menampilkan pesan lalu kembali ke halaman login; jika password baru tidak sesuai ketentuan maka website menampilkan pesan lalu kembali ke halaman input password baru. |  |  |
-
-4.3.2 Use case deskripsi Akun
-
-Tabel 8\. Use Case Deskripsi Akun
-
-| Nama Use Case | Akun |  |
-| :---- | :---- | :---- |
-| Aktor | Owner |  |
-| Deskripsi | Akun terdiri dari tampil, tambah, ubah, hapus, reset password, dan cari data akun |  |
-| Pre-condition | Owner sudah login |  |
-| Post-condition | Website menampilkan halaman daftar akun yang sudah diperbarui |  |
-| Tampil data akun |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Akun |  | 1\. Menampilkan halaman daftar akun |
-| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
-| Tambah data akun |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Akun |  | 1\. Menampilkan halaman daftar akun |
-| 2\. Klik tombol tambah |  | 2\. Menampilkan halaman form tambah akun |
-| 3\. Isikan email, nama, username, password, peran, dan cabang |  |   |
-| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
-|   |  | 4\. Menyimpan data akun |
-|   |  | 5\. Menampilkan halaman daftar akun beserta pesan data berhasil ditambahkan |
-| Alur alternatif : jika data tidak valid atau username sudah dipakai maka website menampilkan pesan. |  |  |
-| Ubah data akun |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Akun |  | 1\. Menampilkan halaman daftar akun |
-| 2\. Klik tombol ubah pada akun |  | 2\. Menampilkan halaman form ubah akun berisi data lama |
-| 3\. Ubah email, nama, username, peran, dan cabang |  |   |
-| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
-|   |  | 4\. Menyimpan perubahan data akun |
-|   |  | 5\. Menampilkan halaman daftar akun beserta pesan data berhasil diubah |
-| Alur alternatif : jika data tidak valid atau username sudah dipakai maka website menampilkan pesan. |  |  |
-| Hapus data akun |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Akun |  | 1\. Menampilkan halaman daftar akun |
-| 2\. Klik tombol hapus pada akun |  | 2\. Menampilkan konfirmasi hapus |
-| 3\. Klik tombol ya |  | 3\. Mengecek apakah akun sedang dipakai login |
-|   |  | 4\. Menghapus data akun |
-|   |  | 5\. Menampilkan halaman daftar akun beserta pesan data berhasil dihapus |
-| Alur alternatif : jika klik tombol batal maka website kembali ke halaman daftar akun; jika akun yang dihapus sedang dipakai login maka website menampilkan pesan data tidak dapat dihapus. |  |  |
-| Reset password akun |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Akun |  | 1\. Menampilkan halaman daftar akun |
-| 2\. Klik tombol reset password pada akun |  | 2\. Menampilkan halaman form password baru |
-| 3\. Isikan password baru |  |   |
-| 4\. Klik tombol simpan |  | 3\. Memvalidasi password baru |
-|   |  | 4\. Menyimpan password baru |
-|   |  | 5\. Menampilkan konfirmasi password berhasil diubah |
-| Alur alternatif : jika password tidak sesuai ketentuan maka website menampilkan pesan. |  |  |
-| Cari data akun |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Akun |  | 1\. Menampilkan halaman daftar akun |
-| 2\. Isikan nama atau username pada kolom cari |  |   |
-| 3\. Klik tombol cari |  | 2\. Mencari data akun |
-|   |  | 3\. Menampilkan daftar akun yang sesuai |
-| Alur alternatif : jika data tidak ditemukan maka website menampilkan pesan data tidak ditemukan. |  |  |
-
-4.3.3 Use case deskripsi Cabang
-
-Tabel 9\. Use Case Deskripsi Cabang
-
-| Nama Use Case | Cabang |  |
-| :---- | :---- | :---- |
-| Aktor | Owner |  |
-| Deskripsi | Cabang terdiri dari tampil, tambah, ubah, hapus, dan cari data cabang |  |
-| Pre-condition | Owner sudah login |  |
-| Post-condition | Website menampilkan halaman daftar cabang yang sudah diperbarui |  |
-| Tampil data cabang |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Cabang |  | 1\. Menampilkan halaman daftar cabang |
-| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
-| Tambah data cabang |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Cabang |  | 1\. Menampilkan halaman daftar cabang |
-| 2\. Klik tombol tambah |  | 2\. Menampilkan halaman form tambah cabang |
-| 3\. Isikan nama, alamat, dan nomor telepon |  |   |
-| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
-|   |  | 4\. Menyimpan data cabang |
-|   |  | 5\. Menampilkan halaman daftar cabang beserta pesan data berhasil ditambahkan |
-| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
-| Ubah data cabang |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Cabang |  | 1\. Menampilkan halaman daftar cabang |
-| 2\. Klik tombol ubah pada cabang |  | 2\. Menampilkan halaman form ubah cabang berisi data lama |
-| 3\. Ubah data cabang |  |   |
-| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
-|   |  | 4\. Menyimpan perubahan data cabang |
-|   |  | 5\. Menampilkan halaman daftar cabang beserta pesan data berhasil diubah |
-| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
-| Hapus data cabang |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Cabang |  | 1\. Menampilkan halaman daftar cabang |
-| 2\. Klik tombol hapus pada cabang |  | 2\. Menampilkan konfirmasi hapus |
-| 3\. Klik tombol ya |  | 3\. Mengecek apakah cabang masih memiliki akun atau pesanan |
-|   |  | 4\. Menghapus data cabang |
-|   |  | 5\. Menampilkan halaman daftar cabang beserta pesan data berhasil dihapus |
-| Alur alternatif : jika klik tombol batal maka website kembali ke halaman daftar cabang; jika cabang masih memiliki akun atau pesanan maka website menampilkan pesan data tidak dapat dihapus. |  |  |
-| Cari data cabang |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Cabang |  | 1\. Menampilkan halaman daftar cabang |
-| 2\. Isikan nama cabang pada kolom cari |  |   |
-| 3\. Klik tombol cari |  | 2\. Mencari data cabang |
-|   |  | 3\. Menampilkan daftar cabang yang sesuai |
-| Alur alternatif : jika data tidak ditemukan maka website menampilkan pesan data tidak ditemukan. |  |  |
-
-4.3.4 Use case deskripsi Master Data dan Kalkulator Harga
-
-Tabel 10\. Use Case Deskripsi Master Data dan Kalkulator Harga
-
-| Nama Use Case | Master Data dan Kalkulator Harga |  |
-| :---- | :---- | :---- |
-| Aktor | Owner, Admin |  |
-| Deskripsi | Master Data dan Kalkulator Harga terdiri dari tampil, tambah, ubah, hapus, dan cari data master (bahan, ukuran, jenis sablon, kategori customer, tarif), serta hitung estimasi harga dan simpan estimasi menjadi pesanan. Data master hanya dapat dikelola Owner, sedangkan Admin hanya menggunakan kalkulator harga |  |
-| Pre-condition | Pengguna sudah login |  |
-| Post-condition | Website menampilkan data master yang sudah diperbarui, hasil estimasi harga, atau data pesanan baru |  |
-| Tampil data master (Owner) |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Master Data |  | 1\. Menampilkan pilihan kelompok data |
-| 2\. Pilih kelompok data |  | 2\. Menampilkan halaman daftar data pada kelompok terpilih |
-| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
-| Tambah data master (Owner) |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Master Data |  | 1\. Menampilkan pilihan kelompok data |
-| 2\. Pilih kelompok data |  | 2\. Menampilkan halaman daftar data pada kelompok terpilih |
-| 3\. Klik tombol tambah |  | 3\. Menampilkan halaman form tambah data |
-| 4\. Isikan nama dan nilai (harga atau tarif) |  |   |
-| 5\. Klik tombol simpan |  | 4\. Memvalidasi data |
-|   |  | 5\. Menyimpan data master |
-|   |  | 6\. Menampilkan halaman daftar data beserta pesan data berhasil ditambahkan |
-| Alur alternatif : jika data tidak valid atau nama sudah ada maka website menampilkan pesan. |  |  |
-| Ubah data master (Owner) |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Master Data |  | 1\. Menampilkan pilihan kelompok data |
-| 2\. Pilih kelompok data |  | 2\. Menampilkan halaman daftar data pada kelompok terpilih |
-| 3\. Klik tombol ubah pada data |  | 3\. Menampilkan halaman form ubah data berisi data lama |
-| 4\. Ubah data master |  |   |
-| 5\. Klik tombol simpan |  | 4\. Memvalidasi data |
-|   |  | 5\. Menyimpan perubahan data master |
-|   |  | 6\. Menampilkan halaman daftar data beserta pesan data berhasil diubah |
-| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
-| Hapus data master (Owner) |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Master Data |  | 1\. Menampilkan pilihan kelompok data |
-| 2\. Pilih kelompok data |  | 2\. Menampilkan halaman daftar data pada kelompok terpilih |
-| 3\. Klik tombol hapus pada data |  | 3\. Menampilkan konfirmasi hapus |
-| 4\. Klik tombol ya |  | 4\. Mengecek apakah data master masih dipakai pada pesanan |
-|   |  | 5\. Menghapus data master |
-|   |  | 6\. Menampilkan halaman daftar data beserta pesan data berhasil dihapus |
-| Alur alternatif : jika klik tombol batal maka website kembali ke halaman daftar data; jika data masih dipakai pada pesanan maka website menampilkan pesan data tidak dapat dihapus. |  |  |
-| Cari data master (Owner) |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Master Data |  | 1\. Menampilkan pilihan kelompok data |
-| 2\. Pilih kelompok data |  | 2\. Menampilkan halaman daftar data pada kelompok terpilih |
-| 3\. Isikan nama pada kolom cari |  |   |
-| 4\. Klik tombol cari |  | 3\. Mencari data master |
-|   |  | 4\. Menampilkan daftar data yang sesuai |
-| Alur alternatif : jika data tidak ditemukan maka website menampilkan pesan data tidak ditemukan. |  |  |
-| Hitung estimasi harga |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Kalkulator Harga |  | 1\. Menampilkan halaman form kalkulator harga |
-| 2\. Pilih bahan, ukuran, jenis sablon, dan kategori customer |  |   |
-| 3\. Isikan jumlah pesanan dan harga beli kaos |  |   |
-| 4\. Klik tombol hitung |  | 2\. Memvalidasi data |
-|   |  | 3\. Menghitung harga satuan dan total berdasarkan data master |
-|   |  | 4\. Menampilkan hasil estimasi beserta rincian perhitungan |
-| Alur alternatif : jika ada kolom belum diisi atau jumlah tidak valid maka website menampilkan pesan. |  |  |
-| Simpan estimasi menjadi pesanan |  |  |
-| Aktor |  | Website |
-| 1\. Klik tombol buat pesanan pada hasil estimasi |  | 1\. Menampilkan halaman form pesanan berisi data hasil estimasi |
-| 2\. Pilih customer dan isikan deadline |  |   |
-| 3\. Klik tombol simpan |  | 2\. Memvalidasi data |
-|   |  | 3\. Menyimpan data pesanan |
-|   |  | 4\. Menampilkan halaman daftar pesanan beserta pesan data berhasil ditambahkan |
-| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
-
-4.3.5 Use case deskripsi Pesanan dan Data Customer
-
-Tabel 11\. Use Case Deskripsi Pesanan dan Data Customer
-
-| Nama Use Case | Pesanan dan Data Customer |  |
-| :---- | :---- | :---- |
-| Aktor | Owner, Admin |  |
-| Deskripsi | Pesanan dan Data Customer terdiri dari tampil, tambah, ubah, hapus, catat pembayaran, serta cari dan filter data pesanan, dan tampil, tambah, ubah, hapus, serta cari data customer. Admin hanya dapat mengelola data pada cabang yang ditugaskan |  |
-| Pre-condition | Pengguna sudah login |  |
-| Post-condition | Website menampilkan daftar pesanan atau daftar customer yang sudah diperbarui |  |
-| Tampil data pesanan |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Pesanan |  | 1\. Menampilkan halaman daftar pesanan |
-| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
-| Tambah data pesanan |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Pesanan |  | 1\. Menampilkan halaman daftar pesanan |
-| 2\. Klik tombol tambah |  | 2\. Menampilkan halaman form tambah pesanan |
-| 3\. Pilih customer, isikan spesifikasi pesanan, total harga, dan deadline |  |   |
-| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
-|   |  | 4\. Menyimpan data pesanan |
-|   |  | 5\. Menampilkan halaman daftar pesanan beserta pesan data berhasil ditambahkan |
-| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
-| Ubah data pesanan |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Pesanan |  | 1\. Menampilkan halaman daftar pesanan |
-| 2\. Klik tombol ubah pada pesanan |  | 2\. Menampilkan halaman form ubah pesanan berisi data lama |
-| 3\. Ubah data pesanan |  |   |
-| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
-|   |  | 4\. Menyimpan perubahan data pesanan |
-|   |  | 5\. Menampilkan halaman daftar pesanan beserta pesan data berhasil diubah |
-| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
-| Hapus data pesanan |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Pesanan |  | 1\. Menampilkan halaman daftar pesanan |
-| 2\. Klik tombol hapus pada pesanan |  | 2\. Menampilkan konfirmasi hapus |
-| 3\. Klik tombol ya |  | 3\. Mengecek apakah pesanan memiliki data terkait |
-|   |  | 4\. Menghapus data pesanan |
-|  |  | 5\. Menampilkan halaman daftar pesanan beserta pesan data berhasil dihapus |
-| Alur alternatif : jika klik tombol batal maka website kembali ke halaman daftar pesanan; jika pesanan memiliki data terkait maka website menampilkan pesan data tidak dapat dihapus. |  |  |
-| Catat pembayaran |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Pesanan |  | 1\. Menampilkan halaman daftar pesanan |
-| 2\. Klik tombol pembayaran pada pesanan |  | 2\. Menampilkan halaman form pembayaran |
-| 3\. Pilih status DP atau Lunas dan isikan nominal dibayar |  |   |
-| 4\. Klik tombol simpan |  | 3\. Memvalidasi nominal |
-|   |  | 4\. Menyimpan pembayaran dan menghitung sisa piutang |
-|   |  | 5\. Menampilkan halaman detail pesanan |
-| Alur alternatif : jika nominal melebihi total harga atau tidak valid maka website menampilkan pesan. |  |  |
-| Cari dan filter data pesanan |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Pesanan |  | 1\. Menampilkan halaman daftar pesanan |
-| 2\. Isikan nama customer atau pilih status pembayaran dan deadline |  |   |
-| 3\. Klik tombol cari |  | 2\. Mencari data pesanan |
-|   |  | 3\. Menampilkan daftar pesanan yang sesuai |
-| Alur alternatif : jika data tidak ditemukan maka website menampilkan pesan data tidak ditemukan. |  |  |
-| Tampil data customer |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Data Customer |  | 1\. Menampilkan halaman daftar customer |
-| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
-| Tambah data customer |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Data Customer |  | 1\. Menampilkan halaman daftar customer |
-| 2\. Klik tombol tambah |  | 2\. Menampilkan halaman form tambah customer |
-| 3\. Isikan nama, nomor WhatsApp, email, alamat, dan kategori customer (Member atau Non-Member) |  |   |
-| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
-|   |  | 4\. Menyimpan data customer |
-|   |  | 5\. Menampilkan halaman daftar customer beserta pesan data berhasil ditambahkan |
-| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
-| Ubah data customer |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Data Customer |  | 1\. Menampilkan halaman daftar customer |
-| 2\. Klik tombol ubah pada customer |  | 2\. Menampilkan halaman form ubah customer berisi data lama |
-| 3\. Ubah data customer |  |   |
-| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
-|   |  | 4\. Menyimpan perubahan data customer |
-|   |  | 5\. Menampilkan halaman daftar customer beserta pesan data berhasil diubah |
-| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
-| Hapus data customer |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Data Customer |  | 1\. Menampilkan halaman daftar customer |
-| 2\. Klik tombol hapus pada customer |  | 2\. Menampilkan konfirmasi hapus |
-| 3\. Klik tombol ya |  | 3\. Mengecek apakah customer masih memiliki pesanan |
-|   |  | 4\. Menghapus data customer |
-|   |  | 5\. Menampilkan halaman daftar customer beserta pesan data berhasil dihapus |
-| Alur alternatif : jika klik tombol batal maka website kembali ke halaman daftar customer; jika customer masih memiliki pesanan maka website menampilkan pesan data tidak dapat dihapus. |  |  |
-| Cari data customer |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Data Customer |  | 1\. Menampilkan halaman daftar customer |
-| 2\. Isikan nama atau nomor WhatsApp pada kolom cari |  |   |
-| 3\. Klik tombol cari |  | 2\. Mencari data customer |
-|   |  | 3\. Menampilkan daftar customer yang sesuai |
-| Alur alternatif : jika data tidak ditemukan maka website menampilkan pesan data tidak ditemukan. |  |  |
-|  |  |  |
-
- 
-
-4.3.6 Use case Deskripsi Pengadaan Kaos 
-
-Tabel 12\. Use Case Deskripsi Pengadaan Kaos
-
-| Nama Use Case | Pengadaan Kaos |  |
-| ----- | :---- | ----- |
-| Aktor | Owner, Admin |  |
-| Deskripsi | Pengadaan Kaos terdiri dari tampil, tambah, ubah, hapus, ubah status, dan cari data pengadaan kaos. Admin hanya dapat mengelola data pada cabang yang ditugaskan |  |
-| Pre-condition | Pengguna sudah login dan data pesanan sudah tercatat |  |
-| Post-condition | Website menampilkan daftar pengadaan kaos yang sudah diperbarui |  |
-| Tampil data pengadaan kaos |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Pengadaan Kaos |  | 1\. Menampilkan halaman daftar pengadaan |
-| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
-| Tambah data pengadaan kaos |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Pengadaan Kaos |  | 1\. Menampilkan halaman daftar pengadaan |
-| 2\. Klik tombol tambah |  | 2\. Menampilkan halaman form tambah pengadaan |
-| 3\. Pilih pesanan, isikan pemasok, jumlah, harga beli, dan tanggal beli |  |   |
-| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
-|   |  | 4\. Menyimpan data pengadaan |
-|   |  | 5\. Menampilkan halaman daftar pengadaan beserta pesan data berhasil ditambahkan |
-| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
-| Ubah data pengadaan kaos |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Pengadaan Kaos |  | 1\. Menampilkan halaman daftar pengadaan |
-| 2\. Klik tombol ubah pada pengadaan |  | 2\. Menampilkan halaman form ubah pengadaan berisi data lama |
-| 3\. Ubah data pengadaan |  |   |
-| 4\. Klik tombol simpan |  | 3\. Memvalidasi data |
-|   |  | 4\. Menyimpan perubahan data pengadaan |
-|   |  | 5\. Menampilkan halaman daftar pengadaan beserta pesan data berhasil diubah |
-| Alur alternatif : jika data tidak valid maka website menampilkan pesan. |  |  |
-| Hapus data pengadaan kaos |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Pengadaan Kaos |  | 1\. Menampilkan halaman daftar pengadaan |
-| 2\. Klik tombol hapus pada pengadaan |  | 2\. Menampilkan konfirmasi hapus |
-| 3\. Klik tombol ya |  | 3\. Menghapus data pengadaan |
-|   |  | 4\. Menampilkan halaman daftar pengadaan beserta pesan data berhasil dihapus |
-| Alur alternatif : jika klik tombol batal maka website kembali ke halaman daftar pengadaan. |  |  |
-| Ubah status pengadaan |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Pengadaan Kaos |  | 1\. Menampilkan halaman daftar pengadaan |
-| 2\. Klik tombol ubah status pada pengadaan |  | 2\. Menampilkan pilihan status (Dipesan atau Diterima) |
-| 3\. Pilih status |  |   |
-| 4\. Klik tombol simpan |  | 3\. Memeriksa status yang dipilih |
-|   |  | 4\. Menyimpan status pengadaan |
-|   |  | 5\. Menampilkan halaman daftar pengadaan beserta pesan status berhasil diubah |
-| Alur alternatif : jika status belum dipilih maka website menampilkan pesan. |  |  |
-| Cari data pengadaan kaos |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Pengadaan Kaos |  | 1\. Menampilkan halaman daftar pengadaan |
-| 2\. Isikan nomor pesanan pada kolom cari |  |   |
-| 3\. Klik tombol cari |  | 2\. Mencari data pengadaan |
-|   |  | 3\. Menampilkan daftar pengadaan yang sesuai |
-| Alur alternatif : jika data tidak ditemukan maka website menampilkan pesan data tidak ditemukan. |  |  |
-
-### 
-
-4.3.7 Use case Deskripsi Invoice dan WOP
-
-Tabel 13\. Use Case Deskripsi Invoice dan WOP
-
-| Nama Use Case | Invoice dan WOP |  |
-| :---- | :---- | :---- |
-| Aktor | Owner, Admin (Customer sebagai aktor eksternal yang menerima invoice) |  |
-| Deskripsi | Invoice dan WOP terdiri dari tampil data invoice, buat invoice PDF, kirim invoice, cetak WOP, dan cari data invoice. Admin hanya dapat mengelola data pada cabang yang ditugaskan |  |
-| Pre-condition | Pengguna sudah login dan data pesanan sudah tersedia |  |
-| Post-condition | Invoice terkirim kepada customer atau WOP berhasil dicetak |  |
-| Tampil data invoice |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Invoice dan WOP |  | 1\. Menampilkan halaman daftar pesanan beserta status invoice |
-| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
-| Buat invoice PDF |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Invoice dan WOP |  | 1\. Menampilkan halaman daftar pesanan |
-| 2\. Pilih pesanan lalu klik tombol buat invoice |  | 2\. Mengecek kelengkapan data customer |
-|   |  | 3\. Membuat invoice PDF dari data pesanan |
-|   |  | 4\. Menampilkan halaman pratinjau invoice |
-| Alur alternatif : jika data customer pada pesanan belum lengkap maka website menampilkan pesan. |  |  |
-| Kirim invoice |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Invoice dan WOP |  | 1\. Menampilkan halaman daftar pesanan |
-| 2\. Pilih pesanan lalu klik tombol kirim WhatsApp atau kirim email |  | 2\. Mengirim invoice PDF ke nomor WhatsApp atau email customer |
-|   |  | 3\. Mencatat status pengiriman (terkirim atau gagal) |
-|   |  | 4\. Menampilkan konfirmasi pengiriman |
-| Alur alternatif : jika pengiriman gagal maka website menampilkan pesan dan pengguna dapat mengirim ulang. |  |  |
-| Cetak WOP |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Invoice dan WOP |  | 1\. Menampilkan halaman daftar pesanan |
-| 2\. Pilih pesanan lalu klik tombol cetak WOP |  | 2\. Mengecek kelengkapan data pesanan |
-|   |  | 3\. Membuat WOP tanpa nominal harga |
-|   |  | 4\. Menampilkan halaman pratinjau WOP |
-| 3\. Klik tombol cetak |  | 5\. Mencetak WOP |
-| Alur alternatif : jika data pesanan belum lengkap maka website menampilkan pesan. |  |  |
-| Cari data invoice |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Invoice dan WOP |  | 1\. Menampilkan halaman daftar pesanan |
-| 2\. Isikan nomor pesanan pada kolom cari |  |   |
-| 3\. Klik tombol cari |  | 2\. Mencari data invoice |
-|   |  | 3\. Menampilkan daftar invoice yang sesuai |
-| Alur alternatif : jika data tidak ditemukan maka website menampilkan pesan data tidak ditemukan. |  |  |
-
-4.3.8 Use Case Deskripsi Dashboard dan Rekap Laporan
-
-Tabel 14\. Use Case Deskripsi Dashboard dan Rekap Laporan
-
-| Nama Use Case | Dashboard dan Rekap Laporan |  |
-| :---- | :---- | :---- |
-| Aktor | Owner, Admin |  |
-| Deskripsi | Dashboard dan Rekap Laporan terdiri dari tampil ringkasan dashboard, tampil rekap laporan, dan filter laporan. Owner melihat data semua cabang, sedangkan Admin hanya melihat data cabang yang ditugaskan |  |
-| Pre-condition | Pengguna sudah login |  |
-| Post-condition | Website menampilkan ringkasan atau rekap laporan sesuai pilihan pengguna |  |
-| Tampil ringkasan dashboard |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Dashboard |  | 1\. Menampilkan halaman dashboard berisi jumlah pesanan, total penjualan, total piutang, dan pesanan mendekati deadline |
-| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
-| Tampil rekap laporan |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Rekap Laporan |  | 1\. Menampilkan halaman rekap penjualan, piutang, dan keuangan |
-| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
-| Filter laporan |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Rekap Laporan |  | 1\. Menampilkan halaman rekap penjualan, piutang, dan keuangan |
-| 2\. Pilih cabang (khusus Owner) dan bulan |  |   |
-| 3\. Klik tombol tampilkan |  | 2\. Mencari data laporan |
-|   |  | 3\. Menampilkan laporan sesuai cabang dan bulan |
-| Alur alternatif : jika tidak ada data pada pilihan tersebut maka website menampilkan pesan data tidak ditemukan. |  |  |
-
-4.3.8 Use Case Deskripsi Dashboard dan Rekap Laporan
-
-Tabel 14\. Use Case Deskripsi Dashboard dan Rekap Laporan
-
-| Nama Use Case | Dashboard dan Rekap Laporan |  |
-| :---- | :---- | :---- |
-| Aktor | Owner, Admin |  |
-| Deskripsi | Dashboard dan Rekap Laporan terdiri dari tampil ringkasan dashboard, tampil rekap laporan, dan filter laporan. Owner melihat data semua cabang, sedangkan Admin hanya melihat data cabang yang ditugaskan |  |
-| Pre-condition | Pengguna sudah login |  |
-| Post-condition | Website menampilkan ringkasan atau rekap laporan sesuai pilihan pengguna |  |
-| Tampil ringkasan dashboard |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Dashboard |  | 1\. Menampilkan halaman dashboard berisi jumlah pesanan, total penjualan, total piutang, dan pesanan mendekati deadline |
-| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
-| Tampil rekap laporan |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Rekap Laporan |  | 1\. Menampilkan halaman rekap penjualan, piutang, dan keuangan |
-| Alur alternatif : jika belum ada data maka website menampilkan pesan data belum tersedia. |  |  |
-| Filter laporan |  |  |
-| Aktor |  | Website |
-| 1\. Klik menu Rekap Laporan |  | 1\. Menampilkan halaman rekap penjualan, piutang, dan keuangan |
-| 2\. Pilih cabang (khusus Owner) dan bulan |  |   |
-| 3\. Klik tombol tampilkan |  | 2\. Mencari data laporan |
-|   |  | 3\. Menampilkan laporan sesuai cabang dan bulan |
-| Alur alternatif : jika tidak ada data pada pilihan tersebut maka website menampilkan pesan data tidak ditemukan. |  |  |
-
-## 4.3.9 Use case deskripsi Landing Page dan Daftar Member
-
-Tabel 15\. Use Case Deskripsi Landing Page dan Daftar Member
-
-| Nama Use Case | Landing Page dan Daftar Member |  |
-| :---- | :---- | :---- |
-| Aktor | Customer |  |
-| Deskripsi | Landing Page dan Daftar Member terdiri dari tampil landing page dan daftar member. Customer membuka landing page lalu dapat mendaftar sebagai member untuk memperoleh potongan harga saat bertransaksi di Duta Media |  |
-| Pre-condition | Customer dapat mengakses website melalui browser (tidak perlu login) |  |
-| Post-condition | Website menampilkan landing page atau konfirmasi pendaftaran member berhasil beserta informasi potongan harga |  |
-| Tampil landing page |  |  |
-| Aktor |  | Website |
-| 1\. Buka landing page |  | 1\. Menampilkan halaman landing page |
-| Alur alternatif : tidak ada. |  |  |
-| Daftar member |  |  |
-| Aktor |  | Website |
-| 1\. Buka landing page |  | 1\. Menampilkan halaman landing page |
-| 2\. Klik tombol daftar member |  | 2\. Menampilkan form pendaftaran member |
-| 3\. Isikan nama, nomor WhatsApp, email, dan alamat |  |   |
-| 4\. Klik tombol daftar |  | 3\. Memvalidasi data dan mengecek nomor WhatsApp belum terdaftar |
-|   |  | 4\. Menyimpan data member |
-|   |  | 5\. Menampilkan konfirmasi pendaftaran member berhasil beserta informasi potongan harga |
-| Alur alternatif : jika data tidak valid atau nomor WhatsApp sudah terdaftar maka website menampilkan pesan lalu kembali ke form pendaftaran member. |  |  |
-
-## 
-
-## 4.4 Activity Diagram {#4.4-activity-diagram}
-
-Setiap fungsi pada use case deskripsi dibuat satu activity diagram dengan dua swimlane: aktor dan website. Satu simbol aksi mewakili satu langkah aktor, satu tampilan atau proses website, atau satu pesan pada alur alternatif. Simbol yang dipakai tercantum pada tabel berikut.  
-Tabel 16\. Simbol Activity Diagram
-
-| Simbol | Nama | Arti |
-| ----- | ----- | ----- |
-| Lingkaran hitam penuh | Initial node | Awal alur aktivitas |
-| Persegi panjang sudut membulat | Action | Satu aksi aktor, satu proses website, atau satu tampilan yang dikeluarkan website |
-| Belah ketupat | Decision | Percabangan alur berdasarkan kondisi, misalnya data valid atau tidak valid |
-| Lingkaran dengan titik hitam di tengah | Final node | Akhir alur aktivitas |
-| Dua kolom vertikal | Swimlane | Pemisah tanggung jawab antara aktor dan website |
-| Panah dengan kepala terbuka | Control flow | Arah alur dari satu aktivitas ke aktivitas berikutnya |
-
-### 4.4.1 Activity diagram fitur Login {#4.4.1-activity-diagram-fitur-login}
-
-![][image4]
-
-Gambar 4\. Activity Diagram Login pengguna  
-Gambar 4 menggambarkan alur login pengguna pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Buka website” dan berakhir ketika website “menampilkan halaman dashboard sesuai peran”. Pada alur alternatif, pada percabangan “Username dan password valid”, jika hasilnya tidak valid, website menampilkan pesan username atau password salah lalu alur kembali ke “menampilkan halaman login”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 3 aksi aktor, 3 tampilan atau proses website, dan 1 pesan alur alternatif. 
-
-*![][image5]*
-
-Gambar 5\. Activity Diagram Logout
-
-Gambar 5 menggambarkan alur logout pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik tombol logout” dan berakhir ketika website “menampilkan halaman login”. Pada alur alternatif, pada percabangan “Konfirmasi logout”, jika pengguna memilih batal, alur berakhir. Jumlah simbol aksi pada diagram adalah 5, terdiri dari 2 aksi aktor, 3 tampilan atau proses website, dan 0 pesan alur alternatif. 
-
-*![][image6]*
-
-Gambar 6\. Activity Diagram Lupa password (reset password)
-
-Gambar 6 menggambarkan alur lupa password (reset password) pada website oleh Owner dan Admin. Alur dimulai dari aksi aktor “Buka website” dan berakhir ketika website “menampilkan konfirmasi ubah password”. Pada alur alternatif, pada percabangan “Username terdaftar”, jika hasilnya tidak terdaftar, website langsung menampilkan pesan tautan reset telah dikirim tanpa mengirim email;pada percabangan “Tautan valid”, jika hasilnya tidak valid atau kedaluwarsa, website menampilkan pesan tautan tidak valid lalu alur kembali ke “menampilkan halaman login”; pada percabangan “Password valid”, jika hasilnya tidak valid, website menampilkan pesan password tidak sesuai ketentuan lalu alur kembali ke “menampilkan halaman input password baru”. Jumlah simbol aksi pada diagram adalah 19, terdiri dari 7 aksi aktor, 10 tampilan atau proses website, dan 2 pesan alur alternatif.
-
-### 4.4.2 Activity diagram fitur Akun {#4.4.2-activity-diagram-fitur-akun}
-
-![][image7]
-
-Gambar 7\. Activity Diagram Tampil data akun
-
-Gambar 7 menggambarkan alur tampil data akun pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Akun” dan berakhir ketika website “menampilkan halaman daftar akun”. Pada alur alternatif, pada percabangan “Data tersedia”, jika hasilnya belum tersedia, website menampilkan pesan data belum tersedia lalu alur berakhir. Jumlah simbol aksi pada diagram adalah 3, terdiri dari 1 aksi aktor, 1 tampilan atau proses website, dan 1 pesan alur alternatif. 
-
-*![][image8]*
-
-Gambar 8\. Activity Diagram Tambah data akun
-
-Gambar 8 menggambarkan alur tambah data akun pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Akun” dan berakhir ketika website “menampilkan halaman daftar akun beserta pesan data berhasil ditambahkan”. Pada alur alternatif, pada percabangan “Data valid”, jika hasilnya tidak valid, website menampilkan pesan data tidak valid atau username sudah dipakai lalu alur kembali ke “menampilkan halaman form tambah akun”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif. 
-
-*![][image9]*
-
-Gambar 9\. Activity Diagram Ubah data akun
-
-Gambar 9 menggambarkan alur ubah data akun pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Akun” dan berakhir ketika website “menampilkan halaman daftar akun beserta pesan data berhasil diubah”. Pada alur alternatif, pada percabangan “Data valid”, jika hasilnya tidak valid, website menampilkan pesan data tidak valid atau username sudah dipakai lalu alur kembali ke “menampilkan halaman form ubah akun berisi data lama”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif. 
-
-*![][image10]*
-
-Gambar 10\. Activity Diagram Hapus data akun
-
-Gambar 10 menggambarkan alur hapus data akun pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Akun” dan berakhir ketika website “menampilkan halaman daftar akun beserta pesan data berhasil dihapus”. Pada alur alternatif, pada percabangan “Konfirmasi hapus”, jika pengguna memilih batal, alur kembali ke “menampilkan halaman daftar akun”; pada percabangan “Akun sedang dipakai login”, jika hasilnya dipakai, website menampilkan pesan data tidak dapat dihapus lalu alur kembali ke “menampilkan halaman daftar akun”. Jumlah simbol aksi pada diagram adalah 9, terdiri dari 3 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif. 
-
-*![][image11]*
-
-Gambar 11\. Activity Diagram Reset password akun
-
-Gambar 11 menggambarkan alur reset password akun pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Akun” dan berakhir ketika website “menampilkan konfirmasi password berhasil diubah”. Pada alur alternatif, pada percabangan “Password valid”, jika hasilnya tidak valid, website menampilkan pesan password tidak sesuai ketentuan lalu alur kembali ke “menampilkan halaman form password baru”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-![][image12]
-
-Gambar 12\. Activity Diagram Cari data akun
-
-Gambar 12 menggambarkan alur cari data akun pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Akun” dan berakhir ketika website “menampilkan daftar akun yang sesuai”. Pada alur alternatif, pada percabangan “Data ditemukan”, jika hasilnya tidak ditemukan, website menampilkan pesan data tidak ditemukan lalu alur kembali ke “menampilkan halaman daftar akun”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 3 aksi aktor, 3 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-### 4.4.3 Activity diagram fitur Cabang {#4.4.3-activity-diagram-fitur-cabang}
-
-*![][image13]*
-
-Gambar 13\. Activity Diagram Tampil data cabang
-
-Gambar 13 menggambarkan alur tampil data cabang pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Cabang” dan berakhir ketika website “menampilkan halaman daftar cabang”. Pada alur alternatif, website menampilkan pesan lalu alur berakhir. Jumlah simbol aksi pada diagram adalah 3, terdiri dari 1 aksi aktor, 1 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-![][image14]
-
-Gambar 14\. Activity Diagram Tambah data cabang
-
-Gambar 14 menggambarkan alur tambah data cabang pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Cabang” dan berakhir ketika website “menampilkan halaman daftar cabang beserta pesan data berhasil ditambahkan”. Pada alur alternatif, pada percabangan “Data valid”, jika hasilnya tidak valid, website menampilkan pesan data tidak valid lalu alur kembali ke “menampilkan halaman form tambah cabang”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-*![][image15]*
-
-*G*ambar 15\. Activity Diagram Ubah data cabang
-
-Gambar 15 menggambarkan alur ubah data cabang pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Cabang” dan berakhir ketika website “menampilkan halaman daftar cabang beserta pesan data berhasil diubah”. Pada alur alternatif, pada percabangan “Data valid”, jika hasilnya tidak valid, website menampilkan pesan data tidak valid lalu alur kembali ke “menampilkan halaman form ubah cabang berisi data lama”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-![][image16]
-
-Gambar 16\. Activity Diagram Hapus data cabang
-
-Gambar 16 menggambarkan alur hapus data cabang pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Cabang” dan berakhir ketika website “menampilkan halaman daftar cabang beserta pesan data berhasil dihapus”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar cabang”. Jumlah simbol aksi pada diagram adalah 9, terdiri dari 3 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-*![][image17]*
-
-Gambar 17\. Activity Diagram Cari data cabang
-
-Gambar 17 menggambarkan alur cari data cabang pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Cabang” dan berakhir ketika website “menampilkan daftar cabang yang sesuai”. Pada alur alternatif, pada percabangan “Data ditemukan”, jika hasilnya tidak ditemukan, website menampilkan pesan data tidak ditemukan lalu alur kembali ke “menampilkan halaman daftar cabang”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 3 aksi aktor, 3 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-### 
-
-### 4.4.4 Activity diagram fitur Master Data dan Kalkulator Harga {#4.4.4-activity-diagram-fitur-master-data-dan-kalkulator-harga}
-
-![][image18]
-
-Gambar 18\. Activity Diagram Tampil data master (Owner)
-
-Gambar 18 menggambarkan alur tampil data master (Owner) pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Master Data” dan berakhir ketika website “menampilkan halaman daftar data pada kelompok terpilih”. Pada alur alternatif, website menampilkan pesan lalu alur berakhir. Jumlah simbol aksi pada diagram adalah 5, terdiri dari 2 aksi aktor, 2 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-![][image19]
-
-Gambar 19\. Activity Diagram Tambah data master (Owner)
-
-Gambar 19 menggambarkan alur tambah data master (Owner) pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Master Data” dan berakhir ketika website “menampilkan halaman daftar data beserta pesan data berhasil ditambahkan”. Pada alur alternatif, pada percabangan “Data valid”, jika hasilnya tidak valid, website menampilkan pesan data tidak valid atau nama sudah ada lalu alur kembali ke “menampilkan halaman form tambah data”. Jumlah simbol aksi pada diagram adalah 12, terdiri dari 5 aksi aktor, 6 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-![][image20]
-
-Gambar 20\. Activity Diagram Ubah data master (Owner)
-
-Gambar 20 menggambarkan alur ubah data master (Owner) pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Master Data” dan berakhir ketika website “menampilkan halaman daftar data beserta pesan data berhasil diubah”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman form ubah data berisi data lama”. Jumlah simbol aksi pada diagram adalah 12, terdiri dari 5 aksi aktor, 6 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-*![][image21]*
-
-Gambar 21\. Activity Diagram Hapus data master (Owner)
-
-Gambar 21 menggambarkan alur hapus data master (Owner) pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Master Data” dan berakhir ketika website “menampilkan halaman daftar data beserta pesan data berhasil dihapus”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar data pada kelompok terpilih”. Jumlah simbol aksi pada diagram adalah 11, terdiri dari 4 aksi aktor, 6 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-*![][image22]*
-
-Gambar 22\. Activity Diagram Cari data master (Owner)
-
-Gambar 22 menggambarkan alur cari data master (Owner) pada website oleh Owner. Alur dimulai dari aksi aktor “Klik menu Master Data” dan berakhir ketika website “menampilkan daftar data yang sesuai”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar data pada kelompok terpilih”. Jumlah simbol aksi pada diagram adalah 9, terdiri dari 4 aksi aktor, 4 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-![][image23]
-
-Gambar 23\. Activity Diagram Hitung estimasi harga
-
-Gambar 23 menggambarkan alur hitung estimasi harga pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Kalkulator Harga” dan berakhir ketika website “menampilkan hasil estimasi beserta rincian perhitungan”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman form kalkulator harga”. Jumlah simbol aksi pada diagram adalah 9, terdiri dari 4 aksi aktor, 4 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-![][image24]
-
-Gambar 24\. Activity Diagram Simpan estimasi menjadi pesanan
-
-Gambar 24 menggambarkan alur simpan estimasi menjadi pesanan pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik tombol buat pesanan pada hasil estimasi” dan berakhir ketika website “menampilkan halaman daftar pesanan beserta pesan data berhasil ditambahkan”. Pada alur alternatif, pada percabangan “Data valid”, jika hasilnya tidak valid, website menampilkan pesan data tidak valid lalu alur kembali ke “menampilkan halaman form pesanan berisi data hasil estimasi”. Jumlah simbol aksi pada diagram adalah 8, terdiri dari 3 aksi aktor, 4 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-### 4.4.5 Activity diagram fitur Pesanan dan Data Customer {#4.4.5-activity-diagram-fitur-pesanan-dan-data-customer}
-
-*![][image25]*
-
-Gambar 25\. Activity Diagram Tampil data pesanan
-
-Gambar 25 menggambarkan alur tampil data pesanan pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pesanan” dan berakhir ketika website “menampilkan halaman daftar pesanan”. Pada alur alternatif, website menampilkan pesan lalu alur berakhir. Jumlah simbol aksi pada diagram adalah 3, terdiri dari 1 aksi aktor, 1 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-*![][image26]*
-
-Gambar 26\. Activity Diagram Tambah data pesanan
-
-Gambar 26 menggambarkan alur tambah data pesanan pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pesanan” dan berakhir ketika website “menampilkan halaman daftar pesanan beserta pesan data berhasil ditambahkan”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman form tambah pesanan”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-*![][image27]*
-
-Gambar 27\. Activity Diagram Ubah data pesanan
-
-Gambar 27 menggambarkan alur ubah data pesanan pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pesanan” dan berakhir ketika website “menampilkan halaman daftar pesanan beserta pesan data berhasil diubah”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman form ubah pesanan berisi data lama”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-*![][image28]*
-
-Gambar 28\. Activity Diagram Hapus data pesanan
-
-Gambar 28 menggambarkan alur hapus data pesanan pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pesanan” dan berakhir ketika website “menampilkan halaman daftar pesanan beserta pesan data berhasil dihapus”. Pada alur alternatif, pada percabangan “Konfirmasi hapus”, jika pengguna memilih batal, alur kembali ke “menampilkan halaman daftar pesanan”; pada percabangan “Pesanan memiliki data terkait”, jika hasilnya memiliki, website menampilkan pesan data tidak dapat dihapus lalu alur kembali ke “menampilkan halaman daftar pesanan”. Jumlah simbol aksi pada diagram adalah 9, terdiri dari 3 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-*![][image29]*
-
-Gambar 29\. Activity Diagram Catat pembayaran
-
-Gambar 29 menggambarkan alur catat pembayaran pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pesanan” dan berakhir ketika website “menampilkan halaman detail pesanan”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman form pembayaran”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif. 
-
-![][image30]
-
-Gambar 30\. Activity Diagram Cari dan filter data pesanan
-
-Gambar 30 menggambarkan alur cari dan filter data pesanan pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pesanan” dan berakhir ketika website “menampilkan daftar pesanan yang sesuai”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar pesanan”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 3 aksi aktor, 3 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-![][image31]
-
-Gambar 31\. Activity Diagram Tampil data customer
-
-Gambar 31 menggambarkan alur tampil data customer pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Data Customer” dan berakhir ketika website “menampilkan halaman daftar customer”. Pada alur alternatif, website menampilkan pesan lalu alur berakhir. Jumlah simbol aksi pada diagram adalah 3, terdiri dari 1 aksi aktor, 1 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-![][image32]
-
-Gambar 32\. Activity Diagram Tambah data customer
-
-Gambar 32 menggambarkan alur tambah data customer pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Data Customer” dan berakhir ketika website “menampilkan halaman daftar customer beserta pesan data berhasil ditambahkan”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman form tambah customer”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-![][image33]
-
-Gambar 33\. Activity Diagram Ubah data customer
-
-Gambar 33 menggambarkan alur ubah data customer pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Data Customer” dan berakhir ketika website “menampilkan halaman daftar customer beserta pesan data berhasil diubah”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman form ubah customer berisi data lama”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-![][image34]
-
-Gambar 34\. Activity Diagram Hapus data customer
-
-Gambar 34 menggambarkan alur hapus data customer pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Data Customer” dan berakhir ketika website “menampilkan halaman daftar customer beserta pesan data berhasil dihapus”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar customer”. Jumlah simbol aksi pada diagram adalah 9, terdiri dari 3 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-![][image35]
-
-Gambar 35\. Activity Diagram Cari data customer
-
-Gambar 35 menggambarkan alur cari data customer pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Data Customer” dan berakhir ketika website “menampilkan daftar customer yang sesuai”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar customer”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 3 aksi aktor, 3 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-### 
-
-### 4.4.6 Activity diagram fitur Pengadaan Kaos {#4.4.6-activity-diagram-fitur-pengadaan-kaos}
-
-*![][image36]*
-
-Gambar 36\. Activity Diagram Tampil data pengadaan kaos
-
-Gambar 36 menggambarkan alur tampil data pengadaan kaos pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pengadaan Kaos” dan berakhir ketika website “menampilkan halaman daftar pengadaan”. Pada alur alternatif, website menampilkan pesan lalu alur berakhir. Jumlah simbol aksi pada diagram adalah 3, terdiri dari 1 aksi aktor, 1 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-*![][image37]*
-
-Gambar 37\. Activity Diagram Tambah data pengadaan kaos
-
-Gambar 37 menggambarkan alur tambah data pengadaan kaos pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pengadaan Kaos” dan berakhir ketika website “menampilkan halaman daftar pengadaan beserta pesan data berhasil ditambahkan”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman form tambah pengadaan”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-*![][image38]*
-
-Gambar 38\. Activity Diagram Ubah data pengadaan kaos
-
-Gambar 38 menggambarkan alur ubah data pengadaan kaos pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pengadaan Kaos” dan berakhir ketika website “menampilkan halaman daftar pengadaan beserta pesan data berhasil diubah”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman form ubah pengadaan berisi data lama”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-*![][image39]*
-
-Gambar 39\. Activity Diagram Hapus data pengadaan kaos
-
-Gambar 39 menggambarkan alur hapus data pengadaan kaos pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pengadaan Kaos” dan berakhir ketika website “menampilkan halaman daftar pengadaan beserta pesan data berhasil dihapus”. Pada alur alternatif, jika pengguna memilih batal maka alur kembali ke “menampilkan halaman daftar pengadaan”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 3 aksi aktor, 4 tampilan atau proses website, dan 0 pesan alur alternatif.
-
-*![][image40]*
-
-Gambar 40\. Activity Diagram Ubah status pengadaan
-
-Gambar 40 menggambarkan alur ubah status pengadaan pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pengadaan Kaos” dan berakhir ketika website “menampilkan halaman daftar pengadaan beserta pesan status berhasil diubah”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan pilihan status (Dipesan atau Diterima)”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-*![][image41]*
-
-Gambar 41\. Activity Diagram Cari data pengadaan kaos
-
-Gambar 41 menggambarkan alur cari data pengadaan kaos pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Pengadaan Kaos” dan berakhir ketika website “menampilkan daftar pengadaan yang sesuai”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar pengadaan”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 3 aksi aktor, 3 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-### 
-
-### 4.4.7 Activity diagram fitur Invoice dan WOP {#4.4.7-activity-diagram-fitur-invoice-dan-wop}
-
-*![][image42]*
-
-Gambar 42\. Activity Diagram Tampil data invoice
-
-Gambar 42 menggambarkan alur tampil data invoice pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Invoice dan WOP” dan berakhir ketika website “menampilkan halaman daftar pesanan beserta status invoice”. Pada alur alternatif, website menampilkan pesan lalu alur berakhir. Jumlah simbol aksi pada diagram adalah 3, terdiri dari 1 aksi aktor, 1 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-![][image43]
-
-Gambar 43\. Activity Diagram Buat invoice PDF
-
-Gambar 43 menggambarkan alur buat invoice PDF pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Invoice dan WOP” dan berakhir ketika website “menampilkan halaman pratinjau invoice”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar pesanan”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 2 aksi aktor, 4 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-![][image44]
-
-Gambar 44\. Activity Diagram Kirim invoice
-
-Gambar 44 menggambarkan alur kirim invoice pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Invoice dan WOP” dan berakhir ketika website “menampilkan konfirmasi pengiriman”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar pesanan”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 2 aksi aktor, 4 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-![][image45]
-
-Gambar 45\. Activity Diagram Cetak WOP
-
-Gambar 45 menggambarkan alur cetak WOP pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Invoice dan WOP” dan berakhir ketika website “mencetak WOP”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar pesanan”. Jumlah simbol aksi pada diagram adalah 9, terdiri dari 3 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-![][image46]
-
-Gambar 46\. Activity Diagram Cari data invoice
-
-Gambar 46 menggambarkan alur cari data invoice pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Invoice dan WOP” dan berakhir ketika website “menampilkan daftar invoice yang sesuai”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman daftar pesanan”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 3 aksi aktor, 3 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-### 
-
-### 
-
-### 
-
-### 4.4.8 Activity diagram fitur Dashboard dan Rekap Laporan {#4.4.8-activity-diagram-fitur-dashboard-dan-rekap-laporan}
-
-*![][image47]*
-
-Gambar 47\. Activity Diagram Tampil ringkasan dashboard
-
-Gambar 47 menggambarkan alur tampil ringkasan dashboard pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Dashboard” dan berakhir ketika website “menampilkan halaman dashboard berisi jumlah pesanan, total penjualan, total piutang, dan pesanan mendekati deadline”. Pada alur alternatif, website menampilkan pesan lalu alur berakhir. Jumlah simbol aksi pada diagram adalah 3, terdiri dari 1 aksi aktor, 1 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-![][image48]
-
-Gambar 48\. Activity Diagram Tampil rekap laporan
-
-Gambar 48 menggambarkan alur tampil rekap laporan pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Rekap Laporan” dan berakhir ketika website “menampilkan halaman rekap penjualan, piutang, dan keuangan”. Pada alur alternatif, website menampilkan pesan lalu alur berakhir. Jumlah simbol aksi pada diagram adalah 3, terdiri dari 1 aksi aktor, 1 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-![][image49]
-
-Gambar 49\. Activity Diagram Filter laporan
-
-Gambar 49 menggambarkan alur filter laporan pada website oleh Owner, Admin. Alur dimulai dari aksi aktor “Klik menu Rekap Laporan” dan berakhir ketika website “menampilkan laporan sesuai cabang dan bulan”. Pada alur alternatif, website menampilkan pesan lalu alur kembali ke “menampilkan halaman rekap penjualan, piutang, dan keuangan”. Jumlah simbol aksi pada diagram adalah 7, terdiri dari 3 aksi aktor, 3 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-### 4.4.9 Activity diagram fitur Landing Page dan Daftar Member 
-
-![][image50]  
-Gambar 50\. Activity Diagram Tampil landing page  
-	Gambar 50 menggambarkan alur tampil landing page pada website oleh Customer. Alur dimulai dari aksi aktor “Buka landing page” dan berakhir ketika website “menampilkan halaman landing page”. Tidak terdapat alur alternatif pada fungsi ini. Jumlah simbol aksi pada diagram adalah 2, terdiri dari 1 aksi aktor, 1 tampilan atau proses website, dan 0 pesan alur alternatif.
-
-![][image51]  
-Gambar 51\. Activity Diagram Daftar member  
-Gambar 51 menggambarkan alur daftar member pada website oleh Customer. Alur dimulai dari aksi aktor “Buka landing page” dan berakhir ketika website “menampilkan konfirmasi pendaftaran member berhasil beserta informasi potongan harga”. Pada alur alternatif, pada percabangan “Data valid dan nomor belum terdaftar”, jika hasilnya tidak valid, website menampilkan pesan data tidak valid atau nomor WhatsApp sudah terdaftar lalu alur kembali ke “menampilkan form pendaftaran member”. Jumlah simbol aksi pada diagram adalah 10, terdiri dari 4 aksi aktor, 5 tampilan atau proses website, dan 1 pesan alur alternatif.
-
-## 
-
-## 4.5 Kebutuhan Database {#4.5-kebutuhan-database}
-
-### 4.5.1 Entity Relationship Diagram {#4.5.1-entity-relationship-diagram}
-
-![][image52]
-
-	Gambar 52\. Physical Data Model (PDM) Entity Relationship Diagram pada Sistem Manajemen Internal PrintCraft
-
-### 4.5.2 Class Diagrams {#4.5.2-class-diagrams}
-
-	4.5.2.1 Logic Class Fitur Landing Page dan Daftar Member (PC-003)
-
-1\. Jumlah class/file yang ada di salah satu fitur project :   
-	1\. Fitur Landing Page dan Daftar Member (PC-003) menggunakan Laravel (MVC).  
-2\. Komponen file yang digunakan berjumlah 7, yaitu:
-
-1. Konfigurasi Database: \`config/database.php\`.  
-2. Model: \`DaftarMember\`.  
-3. Controller: \`LandingPageController\` dan \`DaftarMemberController\`.  
-4. View (file Blade): \`view\_landing\_page\`, \`form\_member\`, dan \`view\_konfirmasi\_member\`.  
-   3\. Class \`LandingPage\` tidak dibuat karena landing page hanya merupakan halaman View yang menampilkan informasi statis PrintCraft dan tautan menuju form pendaftaran member. Oleh karena itu, landing page tidak membutuhkan Model maupun tabel khusus pada Database.  
-   4\. Class \`Index\` tidak dibuat karena routing dan entry point aplikasi telah disediakan oleh Laravel.
-
-2\. Menentukan logic class
-
-1. Jumlah file View mengikuti halaman pada use case deskripsi (Tabel 15), yaitu 3 file View (tampil landing page, form daftar, konfirmasi), maka logic class fitur ini:  
-   1. Database dikonfigurasi satu kali melalui \`config/database.php\` mengikuti mekanisme koneksi database Laravel. Pada diagram, konfigurasi ini direpresentasikan secara konseptual sebagai komponen \`Database\` yang memiliki variabel \`db\` bertipe \`array\` dan \`nama\_database\` bertipe \`String\`, serta function \`koneksi(nama\_database)\`. Dalam implementasi Laravel, koneksi dikelola oleh konfigurasi dan layanan database Laravel, bukan dengan membuat class Database khusus untuk fitur ini.   
-   2. \`DaftarMember\` (Model) menjadi satu-satunya Model pada fitur ini dan bertanggung jawab atas proses yang membutuhkan akses data. Model ini menangani pengecekan nomor WhatsApp, pengambilan kategori Member dari master data, penyimpanan data Customer baru, dan pengambilan informasi potongan harga kategori Member.  
-   3. \`LandingPageController\` hanya memiliki function untuk menampilkan View landing page. Controller ini tidak membutuhkan Model karena konten landing page bersifat statis dan tidak diambil dari Database.  
-   4. \`DaftarMemberController\` mengatur alur pendaftaran member dengan memanggil Model \`DaftarMember\`, menerima request dari form, menentukan hasil proses, serta menampilkan halaman konfirmasi.  
-   5. Seluruh View berupa file Blade yang bertugas menampilkan halaman dan menerima interaksi pengguna. View mengirimkan request melalui route Laravel dan tidak mengakses Database secara langsung.  
-   6. Data pendaftaran member disimpan sebagai data Customer dengan kategori Member. Oleh karena itu, fitur ini tidak memerlukan tabel \`landing\_page\` maupun Model \`LandingPage\`. Data kategori dan potongan harga menggunakan data master yang telah tersedia pada tabel \`master\_data\`.
-
-   2\. Data member disimpan sebagai data Customer dengan kategori Member, sehingga fitur ini tidak memerlukan class model tambahan.
-
-3\. Variabel dan function
-
-1. Rincian Variabel   
-   1. Database (konfigurasi): memiliki 2 variabel konseptual dan 1 function konseptual.  
-   2. \`DaftarMember\` (Model): memiliki 6 atribut data dan 6 function.  
-   3. \`LandingPageController\` (Controller): tidak memiliki variabel dan memiliki 1 function.  
-   4. \`DaftarMemberController\` (Controller): tidak memiliki variabel dan memiliki 3 function.  
-   5. \`view\_landing\_page\` (View): tidak memiliki variabel dan memiliki 1 function.  
-   6. \`form\_member\` (View): tidak memiliki variabel dan memiliki 1 function.  
-   7. \`view\_konfirmasi\_member\` (View): tidak memiliki variabel dan memiliki 1 function.  
-2. 	Rincian Function   
-1. Database  
-1. Variabel: db (array), printcraft\_db (String)
-
-2. Function:   
-   a. Koneksi (printcraft\_db) : merepresentasikan proses pembukaan koneksi ke Database berdasarkan konfigurasi Laravel. Function ini bersifat konseptual pada diagram, karena implementasi koneksi dikelola oleh konfigurasi dan layanan Database Laravel.
-
-2. DaftarMember (class model)  
-   1. Variabel: id\_customer (int), nama (String), nomor\_whatsapp (String), email (String), alamat (String), id\_kategori\_customer (int).
-
-      2. Function:  
-1. \`validasiData(data)\`: memeriksa kelengkapan dan kesesuaian data yang dikirimkan melalui form pendaftaran sebelum data diproses lebih lanjut. Function mengembalikan hasil validasi.   
-2. \`nomorWhatsappTerdaftar(nomor\_whatsapp)\`: mengecek ke Database apakah nomor WhatsApp telah digunakan oleh Customer lain. Function mengembalikan nilai boolean.  
-3. \`ambilKategoriMember()\`: mengambil ID kategori Customer dengan nama \`Member\` dari tabel \`master\_data\`.  
-4. \`simpanMember(data\_member)\`: menyimpan data pendaftaran sebagai data baru pada tabel \`customer\` dan mengembalikan \`id\_customer\` yang terbentuk.  
-5. \`ambilInfoPotonganMember(id\_kategori\_customer)\`: mengambil informasi potongan harga berdasarkan kategori Member dari tabel \`master\_data\`.  
-6. \`buatDataMember(data, id\_kategori\_customer)\`: membentuk struktur data Customer berdasarkan data yang telah divalidasi dan menambahkan ID kategori Member. Function mengembalikan data yang siap disimpan.  
-> > > 3. LandingPageController (class controller)  
-   1. Function:  
-      \`index()\`: menampilkan \`view\_landing\_page\` sebagai halaman awal website. Function ini tidak memanggil Model karena konten landing page bersifat statis.
-
-> > > 4. DaftarMemberController (class controller)  
-   1. Function:  
-1. \`create()\`: menampilkan \`form\_member\` sebagai halaman pendaftaran member sesuai kebutuhan fungsional Daftar Member.  
-2. \`store(request)\`: menerima data dari form, menjalankan validasi melalui \`DaftarMember.validasiData()\`, mengecek nomor WhatsApp melalui \`nomorWhatsappTerdaftar()\`, mengambil kategori Member melalui \`ambilKategoriMember()\`, membentuk data melalui \`buatDataMember()\`, kemudian menyimpan data melalui \`simpanMember()\`. Jika validasi gagal atau nomor telah terdaftar, sistem mengembalikan pengguna ke form disertai pesan kesalahan. Jika berhasil, sistem mengarahkan pengguna ke halaman konfirmasi.  
-3. \`berhasil(id\_customer)\`: mengambil data Customer yang baru didaftarkan beserta informasi potongan harga berdasarkan kategori Member melalui Model \`DaftarMember\`, kemudian menampilkan \`view\_konfirmasi\_member\`.  
-5. view\_landing\_page (class view)  
-   1. Function:  
-      a. \`daftarMember()\`: merepresentasikan aksi pengguna ketika menekan tombol daftar member dan mengakses route \`GET /daftar-member\` yang menjalankan \`DaftarMemberController::create()\`.  
-6. form\_member (class view)  
-   1. Function:  
-      a. \`prosesDaftar()\`: merepresentasikan aksi pengguna ketika mengirimkan form pendaftaran melalui route \`POST /daftar-member\` yang menjalankan \`DaftarMemberController::store()\`.  
-7. view\_konfirmasi\_member (class view)  
-   1. Function:  
-      a. \`tampilKonfirmasi()\`: menampilkan hasil pendaftaran member melalui route \`GET /daftar-member/berhasil\` yang menjalankan \`DaftarMemberController::berhasil()\`.
-
-   4\. Relasi class
-
-1.  DaftarMember dan Database (koneksi) : 
-
-   a. Relasi berupa dependency satu arah dari \`DaftarMember\` menuju Database karena Model \`DaftarMember\` menggunakan koneksi Database untuk melakukan pengecekan nomor WhatsApp, mengambil kategori Member, menyimpan data Customer, dan mengambil informasi potongan harga.
-
-   b. Hanya Model \`DaftarMember\` yang mengakses Database secara langsung pada fitur PC-003. Controller dan View tidak mengakses Database secara langsung.
-
-1. LandingPageController dan LandingPage; DaftarMemberController dan DaftarMember  
-   a. Relasi dependency (1 ke 1\) di mana perubahan pada class model akan berpengaruh pada function controller yang memanggil function tersebut.
-
-   b. DaftarMemberController memanggil LandingPage untuk cek, simpan, dan ambil data, serta memanggil DaftarMember untuk validasi dan pembentukan data.
-
-2. Setiap class view dan class controller tujuannya (lihat rincian function view).
-
-   a. Relasi dependency (1 ke 1). Suatu aksi pada class view akan memanggil function tertentu pada class controller.
-
-   b. View tidak berhubungan langsung dengan Database.
-
-3. DaftarMember dan KategoriCustomer (PC-002)
-
-   a. Relasi asosiasi (\* ke 1). Setiap customer/member memiliki satu kategori dari master data.
-
-   b. Relasi ini masih ada di diagram. Jika kategori customer ditunda, id\_kategori\_customer dan relasi ini dihapus..
-
-4. DaftarMember dan Pesanan (PC-003)
-
-   a. Relasi asosiasi (1 ke 0..\*). Satu customer dapat memiliki banyak pesanan, dan setiap pesanan hanya milik satu customer.
-
-5. DaftarMember dan Login/Akun (PC-001)  
-   a. Tidak ada relasi karena Customer adalah aktor eksternal yang tidak memiliki akun login dan tidak diwajibkan untuk login saat mendaftar member.  
-   b. Tidak ada foreign key, method, maupun dependency antara DaftarMember dan class Login/Ak
-
-![][image53]
-
-Gambar 53\. Class Diagram Fitur Landing Page dan Daftar Member (PC-00
-
-## 4.6 Sequence Diagram {#4.6-sequence-diagram}
-
-#### 4.6.1 Sequence Diagram Fitur Landing Page (PC-003)
-
-![][image54]
-
-Gambar 54\. Sequence Diagram Tampil Landing PageGambar 54 menampilkan sequence diagram fitur landing page website PrintCraft. Customer berinteraksi dengan `view_landing_page` saat mengakses halaman utama website.Saat halaman diakses, `view_landing_page` memanggil fungsi `daftarMember()` melalui route `GET /` menuju `LandingPageController`, yang kemudian menjalankan *self-call* `index()`. Karena konten landing page bersifat statis dan tidak memerlukan data dari database, `LandingPageController` langsung mengembalikan tampilan `view_landing_page` kepada Customer. Pesan *return* berhenti di `view_landing_page` karena pengguna hanya melihat tampilan layar.
-
-#### 4.6.2 Sequence Diagram Fitur Daftar Member (PC-003)
-
-![][image55]
-
-Gambar 55\. Sequence Diagram Daftar Member
-
-Gambar 55 menampilkan sequence diagram fitur pendaftaran member pada website PrintCraft. Customer berinteraksi dengan `view_landing_page` dan `form_member` untuk melakukan pendaftaran.Proses diawali saat Customer menekan tombol *Daftar Member* pada `view_landing_page`. Tampilan tersebut memanggil fungsi `daftarMember()` melalui route `GET /daftar-member` ke `DaftarMemberController`, yang menjalankan fungsi `create()` lalu menampilkan `form_member`. Setelah form tampil, Customer mengisi data (nama, nomor WhatsApp, email, dan alamat) lalu menekan tombol *Daftar*. `form_member` kemudian memanggil fungsi `prosesDaftar()` melalui route `POST /daftar-member` ke `DaftarMemberController` untuk menjalankan fungsi `store(request)`.
-
-`DaftarMemberController` selanjutnya memanggil fungsi pada Model `DaftarMember` secara berurutan, yaitu `validasiData(data)` untuk mengecek kelengkapan form, `nomorWhatsappTerdaftar(nomor_whatsapp)` untuk memeriksa keunikan nomor di Database, `ambilKategoriMember()` untuk mengambil ID kategori *Member* dari tabel `master_data`, `buatDataMember(data, id_kategori_customer)` untuk menyusun data Customer, `simpanMember(data_member)` untuk menyimpan data baru ke tabel `customer` dan menghasilkan `id_customer`, serta `ambilInfoPotonganMember(id_kategori_customer)` untuk mengambil informasi diskon. Setiap pemanggilan fungsi pada Model yang membutuhkan data diteruskan ke Database dan dikembalikan hasilnya.Pada kondisi *true* (validasi sukses dan nomor belum terdaftar), `DaftarMemberController` melakukan *self-call* `berhasil(id_customer)` lalu mengarahkan ke `view_konfirmasi_member` yang menjalankan *self-call* `tampilKonfirmasi()`. Sebaliknya, pada kondisi *false* (validasi gagal atau nomor terdaftar), `DaftarMemberController` mengembalikan Customer ke `form_member` disertai pesan error. Seluruh pesan *return* berhenti di layar tampilan yang dilihat oleh pengguna.
-
-5\. Kebutuhan Non-Fungsional Produk atau Aplikasi
-
-1. ## Kebutuhan Produk {#kebutuhan-produk}
-
-   1. ### Usability {#usability}
-
-1. Menggunakan layout aplikasi Softro SaaS modern yang intuitif dan mudah dipahami oleh pengguna, dengan menu navigasi utama berada pada sidebar sisi kiri (lebar 256 px / fixed) pada desktop dan berubah menjadi drawer menu ringkas pada layar kecil. Struktur halaman formulir, tabel data, dan kartu detail dibuat konsisten di setiap fitur.  
-2. Letak tombol mudah dicari dan diidentifikasi secara hierarkis:
-   - Tombol aksi utama (Login, Simpan, Buat Pesanan, Buat Invoice) menggunakan warna Vibrant Violet **#7C3AED** (hover: #6D28D9) dengan sudut membulat modern (`rounded-xl`) dan berada konsisten di sudut kanan bawah form atau header tabel.
-   - Tombol Batal/Sekunder menggunakan border netral Slate (`border-slate-200/80`) berlatar putih dengan teks Slate 700 (#334155).
-   - Tombol Hapus destruktif menggunakan warna Rose Red **#E11D48 / #DC2626** dan selalu didahului dialog konfirmasi eksplisit (*Nielsen H5: Error Prevention*).
-   - Tombol Kirim Invoice dan Konfirmasi Pelunasan menggunakan aksen Emerald Green **#059669 / #16A34A**.  
-3. Penulisan menu jelas dan terstruktur dengan ikonografi presisi *Lucide Icons*, menggunakan istilah konsisten: Overview Flowchart, Dashboard Konsolidasi, Dashboard Cabang, Manajemen Akun, Cabang Workshop, Master Komponen, Kalkulator Harga, Data Pesanan, Pelanggan & Member, Pengadaan Kaos, Faktur Invoice, Work Order (WOP), dan Rekap Keuangan.  
-4. Menu yang tampil disesuaikan dengan peran pengguna (*Role-Based Access Control*). Owner melihat seluruh menu multi-cabang; Admin Cabang tidak melihat menu Akun, Cabang, dan Master Data serta hanya melihat data cabangnya sendiri dengan kalkulator margin terkunci 30%; Customer hanya mengakses landing page publik dan form pendaftaran member tanpa login.  
-5. Tipografi berjenjang profesional menggunakan kombinasi Google Fonts: font *Manrope* untuk display dan judul utama, font *Inter* untuk antarmuka teks umum (ukuran minimal 14 px, kontras tinggi terhadap latar #F8FAFC), serta font *JetBrains Mono* untuk nomor order, kode transaksi, dan kalkulasi nilai mata uang Rupiah.  
-6. Terdapat pesan error yang jelas dan komunikatif (*Nielsen H9*), disajikan dalam Bahasa Indonesia yang lugas di bawah kolom yang bermasalah (contoh: "Nomor WhatsApp wajib diawali angka 08 atau 62" atau "Jumlah pesanan minimal 12 pcs").  
-7. Umpan balik sistem (*Nielsen H1*) menggunakan *Floating Toast Notification* di sudut kanan atas dengan latar Dark Slate (#0F172A), ikon status berwarna (hijau untuk sukses, merah untuk gagal), dan teks solutif yang memudar otomatis.  
-8. Aplikasi responsif dan nyaman digunakan pada desktop/laptop (lebar standar 1440 px, minimal 1024 px) maupun smartphone (lebar minimal 360 px), dengan area target sentuh (*tap target*) tombol minimal 44×44 px.  
-9. Format data terstandarisasi: seluruh nilai mata uang ditampilkan dalam format Rupiah bulat tanpa sen menggunakan font monospace (contoh: `Rp 1.250.000`), dan tanggal menggunakan format standar Indonesia `DD-MM-YYYY`.  
-10. Status pembayaran dan tahapan pengerjaan mudah dibedakan secara visual menggunakan sistem *Soft Badge Pills*: DP 50% beraksen Amber (#F59E0B / bg-amber-50), Lunas beraksen Emerald (#10B981 / bg-emerald-50), Piutang lewat batas beraksen Rose (#EF4444 / bg-rose-50), dan deadline mendekati batas (≤ 3 hari) beraksen Orange (#F97316 / bg-orange-50).  
-11. Aksi berisiko (penghapusan akun, cabang, master data, pesanan, dan customer) selalu memunculkan modal konfirmasi dialog dengan latar belakang redup (*backdrop blur*) sebelum data terhapus permanen.  
-12. Dokumen cetak Invoice dan Work Order Production (SPK) siap cetak dalam ukuran standar A4. Khusus lembar WOP bengkel produksi tidak menampilkan nominal harga, total biaya, maupun rincian pembayaran sesuai klausul SRS 2.5.j.  
-
-### Efficiency {#efficiency}
-
-       1. #### Performance
-
-1. Waktu Muat Halaman: Aplikasi dirancang untuk memberikan waktu muat yang wajar pada layanan web hosting komersial standar. Halaman landing page, form login, dan dashboard utama ditargetkan tampil maksimal 3–5 detik pada koneksi internet stabil (minimal 2 Mbps). Halaman daftar data seperti Pesanan, Data Customer, dan Invoice juga ditargetkan tampil dalam rentang waktu yang sama dengan memanfaatkan fitur paginasi bawaan Laravel (maksimal 25 baris per halaman).  
-2. Proses Kalkulator Harga: Sesuai tujuan proyek untuk mempercepat estimasi dari 15 menit menjadi kurang dari 2 menit, proses perhitungan harga (saat tombol Hitung ditekan) di sistem ditargetkan selesai dan menampilkan rincian maksimal dalam 2 detik. Hal ini memastikan Admin dapat memproses pesanan dengan sangat cepat tanpa menunggu loading server.  
-3. Keamanan dan Gagal Login: Jika pengguna salah memasukkan username atau password, sistem akan menampilkan pesan error maksimal dalam 1 detik. Untuk menjaga keamanan dari akses tidak sah, dibatasi maksimal 5 kali percobaan gagal dalam kurun waktu 15 menit. Jika melewati batas tersebut, akun akan dikunci sementara selama 15 menit dan Admin/Owner harus menunggu masa tenggang berakhir sebelum bisa mencoba login kembali.  
-4. Pembuatan Dokumen (Invoice & WOP): Proses pembuatan file PDF untuk invoice dan Work Order Print (WOP) menggunakan library *barryvdh/laravel-dompdf* ditargetkan selesai dan menampilkan pratinjau maksimal dalam 5 detik per dokumen. Hal ini untuk memastikan Admin tidak terhambat saat harus mencetak WOP untuk segera diberikan ke bagian produksi.  
-5. Kegagalan Integrasi Pihak Ketiga (WhatsApp/Email): Sesuai analisis risiko proyek, pengiriman invoice sangat bergantung pada API pihak ketiga. Sistem akan menunggu respons maksimal 10 detik. Jika API gagal atau *timeout*, sistem tidak akan *hang* (macet), melainkan langsung menampilkan status "Gagal". Sebagai mitigasi, aplikasi tetap menyediakan opsi unduh PDF secara manual agar Admin dapat mengirimkannya sendiri via WhatsApp Web atau email biasa.  
-6. Operasional dan Sesi Pengguna: Aplikasi harus dapat diakses kapan saja selama layanan hosting *uptime*. Karena menggunakan *shared hosting*, target ketersediaan disesuaikan secara realistis pada angka 99% per bulan di luar jadwal *maintenance*. Sesi login pengguna akan berakhir otomatis jika tidak ada aktivitas (idle) selama 30 menit untuk mencegah penyalahgunaan akses, dan aplikasi tidak memiliki mode offline.  
-7. Beban Pengguna Bersamaan: Mengingat skala operasional Duta Media saat ini, aplikasi ditargetkan mampu melayani minimal 20 pengguna aktif secara bersamaan (Owner, Admin pusat, dan Admin cabang) tanpa mengalami penurunan performa yang berarti atau *error* pada database.  
-8. Pemrosesan Laporan: Halaman Rekap Laporan (penjualan, piutang, keuangan) yang ditarik berdasarkan filter cabang dan bulan, ditargetkan muncul maksimal dalam 5 detik. Jika data transaksi sudah sangat menumpuk (di atas 10.000 baris), pengembang telah menyiapkan indeks database agar query tetap berjalan cepat.
-
-   2. #### Space (Kapasitas Penyimpanan & Jaringan)
-
-1. **Kapasitas Penyimpanan Server (Disk Storage):** Server hosting berbasis web minimal menyediakan alokasi ruang penyimpanan sebesar **10 GB SSD** untuk menampung *source code* framework Laravel, aset frontend antarmuka, serta direktori penyimpanan arsip dokumen PDF (*Faktur Invoice* dan *Work Order Production*) yang diterbitkan sistem.
-2. **Kapasitas Basis Data (Database Space):** Alokasi ruang basis data MySQL minimal **1 GB**, yang dirancang mampu menampung riwayat transaksi pesanan, katalog master data, pengadaan vendor, dan data customer hingga puluhan ribu transaksi tanpa penurunan kecepatan query.
-3. **Memori Operasional Server (RAM):** Server web minimal memiliki alokasi **RAM 2 GB** (direkomendasikan 4 GB) untuk menjamin kelancaran kompilasi *view* Blade, kalkulasi formula HPP live, dan eksekusi library *barryvdh/laravel-dompdf* saat melakukan *rendering* dokumen cetak A4.
-4. **Kapasitas Bandwidth & Jaringan:** Hosting minimal menyediakan kuota *bandwidth* sebesar **100 GB per bulan** dengan kecepatan transfer data minimal **10 Mbps**, guna memastikan responsivitas akses dashboard multi-cabang serta pengunduhan berkas invoice PDF oleh pelanggan berlangsung tanpa kendala *buffering*.
-
-      3. #### Security (Keamanan Sistem & Data)
-
-1. **Enkripsi Kata Sandi:** Seluruh kata sandi (*password*) pengguna internal (Owner dan Admin Cabang) dienkripsi satu arah menggunakan algoritma *Bcrypt* dengan *cost factor* standar 10 pada kolom `password_hash`, sehingga kata sandi asli tidak dapat dibaca oleh pihak pengembang maupun pengelola database.
-2. **Kontrol Akses Berbasis Peran (*Role-Based Access Control*):** Mengimplementasikan *middleware* autentikasi pada rute web Laravel (`auth`, `role:owner`, `role:admin`). Admin Cabang secara ketat dibatasi hanya dapat mengakses dan memodifikasi data pada unit cabangnya sendiri, serta dilarang mengakses modul akun, manajemen cabang, dan master data pusat. Customer tidak memiliki akun dan tidak diizinkan masuk ke area portal internal.
-3. **Proteksi Serangan Siber Web:**
-   - **Cross-Site Request Forgery (CSRF):** Setiap formulir pengiriman data (`POST`, `PUT`, `DELETE`) wajib menyertakan token `@csrf` bawaan Laravel untuk mencegah manipulasi sesi transaksi dari situs berbahaya luar.
-   - **SQL Injection:** Seluruh kueri basis data memanfaatkan *Eloquent ORM* dan *Query Builder* berbasis *PDO Prepared Statements* dengan *parameter binding*, sehingga masukan teks pengguna tidak dapat dieksekusi sebagai perintah injeksi SQL.
-   - **Cross-Site Scripting (XSS):** Seluruh data keluaran yang dirender pada antarmuka web disaring otomatis melalui sintaks kurung kurawal ganda Blade (`{{ $data }}`) untuk mencegah penyusupan skrip JavaScript berbahaya.
-4. **Pembatasan Percobaan Login (*Rate Limiting*):** Diterapkan pembatasan maksimal 5 kali kegagalan login berturut-turut dalam kurun waktu 15 menit. Jika batas terlampaui, sistem otomatis mengunci akses login dari IP/perangkat tersebut selama 15 menit untuk mengantisipasi serangan *brute force*.
-5. **Enkripsi Saluran Komunikasi:** Seluruh pertukaran data antara browser pengguna dan web server wajib melalui protokol aman HTTPS yang terenkripsi menggunakan sertifikat SSL/TLS 1.3.
-
-2. # Kebutuhan Teknis Implementasi Coding {#kebutuhan-teknis-implementasi-coding}
-
-   ## Ketentuan Data {#ketentuan-data}
-
-Penjabaran batasan tipe dan format data operasional sistem PrintCraft mencakup seluruh modul fungsional sebagai berikut:
-
-1. **Modul Autentikasi & Akun Petugas:**
-   - **Username:** Wajib menggunakan huruf kecil dan angka, panjang 4–30 karakter, tanpa spasi atau karakter khusus kecuali garis bawah (`_`), dan harus unik di database.
-   - **Password:** Minimal 8 karakter dengan kombinasi huruf dan angka. Disimpan dalam bentuk hash Bcrypt 60 karakter.
-   - **Email:** Format alamat email standar internasional (`user@domain.ext`), unik untuk setiap akun petugas.
-   - **Peran:** Bernilai salah satu dari enum `Owner` atau `Admin`.
-2. **Modul Cabang Workshop:**
-   - **Nama Cabang:** Teks alfanumerik panjang maksimal 100 karakter.
-   - **Nomor Telepon Cabang:** Deret angka panjang 10–15 digit.
-   - **Alamat Cabang:** Teks deskriptif alamat fisik workshop.
-3. **Modul Master Data & Parameter Biaya:**
-   - **Nama Bahan & Nama Sablon:** Teks alfabetis panjang maksimal 100 karakter.
-   - **Tarif Sablon & HPP Kaos Polos:** Angka bilangan bulat positif (`integer ge 0`) dalam satuan Rupiah tanpa sen.
-   - **Biaya Tambahan Ukuran Jumbo (*Surcharge*):** Angka bilangan bulat Rupiah (`integer ge 0`).
-   - **Margin Keuntungan:** Angka bulat persentase 10%–100% (default 30%).
-4. **Modul Transaksi Pesanan & Customer:**
-   - **Nomor Pesanan:** Format kode terstandarisasi `ORD-YYYY-XXX` (contoh: `ORD-2026-101`), bersifat unik.
-   - **Nomor WhatsApp Customer:** Format nomor seluler Indonesia (diawali `08` atau `628`), panjang 10–14 digit angka.
-   - **Jumlah Pesanan (Qty):** Bilangan bulat positif minimal 12 pcs (standar pesanan konveksi).
-   - **Nilai Rupiah (Harga Dasar, Diskon, Total Harga):** Bilangan bulat dalam mata uang Rupiah tanpa pecahan desimal/sen.
-   - **Batas Waktu (Deadline):** Format tanggal valid (`DD-MM-YYYY`) yang bernilai lebih besar dari tanggal pembuatan pesanan.
-   - **Status Pesanan:** Bernilai salah satu dari enum tahapan workshop: `Menunggu Bahan`, `Produksi Sablon`, `Selesai Sablon`, `Siap Diambil`, atau `Selesai`.
-5. **Modul Pembayaran & Kasir:**
-   - **Tahapan Pembayaran:** Pilihan enum `DP 50%` atau `Pelunasan`.
-   - **Nominal Bayar:** Angka bulat positif dalam Rupiah, bernilai maksimal sebesar sisa tagihan pesanan.
-   - **Metode Pembayaran:** Teks metode transaksi (`Tunai`, `Transfer Bank`, atau `QRIS`).
-6. **Modul Pengadaan Kaos Polos (PO Vendor):**
-   - **Nomor PO:** Format kode unik `PO-YYYY-XXX` (contoh: `PO-2026-088`).
-   - **Pemasok:** Teks nama vendor/supplier kaos polos pihak ketiga maksimal 100 karakter.
-   - **Status Pengadaan:** Pilihan enum logistik: `Dipesan ke Vendor`, `Dalam Pengiriman`, atau `Tiba di Cabang`.
-7. **Modul Invoice & WOP:**
-   - **Nomor Invoice:** Format kode unik penagihan `INV-YYYY-XXX`.
-   - **Nomor WOP:** Format kode unik instruksi kerja workshop `WOP-YYYY-XXX`.
-   - **Dokumen WOP:** Tidak memuat kolom harga, biaya, maupun nominal pembayaran (SRS 2.5.j).
-
-   ). Jika keliru, tampil pesan *"Nomor WhatsApp wajib diawali angka 08 atau 62"*.
-   - **Validasi Duplikasi Member:** Mengecek ke tabel `customer`. Jika nomor WhatsApp sudah tercatat, sistem menampilkan pesan *"Nomor WhatsApp ini sudah terdaftar sebagai Member Duta Media"*.
-5. **Validasi Tindakan Destruktif & Hapus Data:**
-   - **Pencegahan Error (*Error Prevention*):** Menekan tombol Hapus pada akun, cabang, master data, pesanan, atau customer selalu memunculkan dialog modal konfirmasi dengan rincian data yang akan dihapus.
-   - **Validasi Integritas Relasi Data:** Sistem menolak penghapusan data master atau cabang yang masih memiliki relasi transaksi aktif pada tabel pesanan, dengan pesan *"Data tidak dapat dihapus karena masih digunakan pada pesanan aktif"*. 
+   - **Validasi Format Nomor WhatsApp:** Memvalidasi nomor ponsel diawali digit `08` atau `628` dengan panjang 10–14 digit (regex `^(08|628)[0-9]{8,12}$`
+Jika keliru, muncul pesan *"Nomor WhatsApp wajib diawali 08 atau 628 dengan panjang 10-14 digit"*.
+   - **Validasi Duplikasi Nomor WhatsApp:** Memvalidasi nomor belum pernah terdaftar di tabel `customer`. Jika sudah ada, sistem menolak dan memunculkan notifikasi *"Nomor WhatsApp sudah terdaftar sebagai Customer/Member"*.
+5. **Validasi Integritas Relasi & Konfirmasi Aksi:**
+   - **Validasi Penghapusan Data (Foreign Key Integrity):** Cabang, bahan, ukuran, atau sablon yang masih memiliki relasi aktif pada transaksi pesanan tidak dapat dihapus. Sistem akan menolak dan memberikan notifikasi *"Data tidak dapat dihapus karena masih digunakan pada transaksi pesanan berjalan"*.
+   - **Validasi Konfirmasi Aksi Kritis:** Setiap aksi penghapusan data atau pembatalan pesanan wajib melalui modal dialog konfirmasi dengan tombol penegasan berwarna kontras.
 
 **Kontribusi Anggota Kelompok :** 
 
@@ -3478,4 +2074,4 @@ Penjabaran batasan tipe dan format data operasional sistem PrintCraft mencakup s
 
 [image54]: <data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAnAAAAHACAIAAACtU8IcAABOn0lEQVR4Xu3dD7AU1Zk3/gMlbgmlhRRuDaJgoQSFGE3iLcwrhmTR4CLRCEFZFWSDGBJBfq5m1xejFmVUWMwfMS6+9WrUH2S5KlQEs7CK2byKF0F41yh/groguRDABRGFxQ0Q+n2Yxzk+85yenp6ZnjPdc7+fmrrVfc7pP9PT3d/pf3NNAAAAADUzugAAAAAqh0AFAABIAAIVAAAgAQhUAACABCBQAQAAEoBABQAASAACFQAAIAEIVAAAANdRXVAOAhUAACABCFQAAIAEIFABAAASgEAFAABIAAIVAAAgAQhUAACABGQmUJ977rlcmFWrVummAAAA3mUjUDk7x44d196+T74uvfQyrtIDAAAA+JWBQOXIVFEqX8hUAABouFQH6p///OeyaYpMBQCANEh1oMZMU5upd955px4FAACAF2kP1JtuutnNztDXRRd9FQepAADQKOkN1IoOT/mFQAUAgEZJdaCuWbPJTc2IFw0yfPhwPSIAAID6S3WgupEZ/brxxu/jIBUAABoipYH6ySefVBGo//Iv/weBCgAADZHSQN22bVsVgbp69UYEKgAANERKAzWo6pTvU089g0AFAICGaKpAvfjiryFQAQCgIVIdqLjLFwAAsiLVgVrpQSoOTwEAoFHSG6gBfikJAACyI+2BGv8glVp++OGHehQAAABepDpQyamnnhonU6nNN77xDT0wAACAL2kP1KBwnLpw4VI3R+k1Z87/ptrPfe5zejAAgLQ5qgugmWQgUMkdd9zBsfo3fzPutdfW/eEPH86bt2jkyG9x4dy5c/UAAAAAfmUjUNn06dM5Qa0f//jHuhEAAECdRJ5jyFKgsvb29hzu5gUAgJRBoAIAACQAgQoAAJAABCoAAEACEKgAAAAJaHCgTqsKBaouimH27Nl68gAAAAlpcKDKZ2DqraWlRU8eAFjkwwAAEEeDA7UKOOULAAAphEAFAABIAAIVAAAgAQhUAACABCBQAQAAEoBABQAASAACFQAAIAEIVAAAgAQgUAGgI8JPWUDiEKgAAAAJQKACADS/+++/f+3atboUEoVABQBoZvPmzePfM3/mmWd0HSQKgQoA0LQ4Sh988EFdAXWAQAUAaEL33nsvp6mugLpBoAIANJXDhw9zlC5cuFDXQT0hUKEBfv3rX99yyy1Dhgzp27cvfZqf+9zn/vqv/3rGjBlLlizRTQEgtqeffvq0007jNA11++2362EgOQhU8OGOO+7QW3YMyFeAmIYOHWo3nF69etHfz3/+3Pb2ffI1btx3bBs9PCQBgQr19Z3vfLYNk/vv/8nq1RvVdi5fa9dumjTp+3KQZ599Vo8UAAS7sdjt6KqrxnDJq6/+Tm1il1wynKv0WKBmCFSoC0pBu5HPmDHLDc6Yr29846/tePQ0ADq8N954g7cOd9uh18UXf41rN23aoarOOWcglU+ePFmPEWqAQIWEvfvuu4UEDN/Iq3v17t2bx6mnB9BRPfDAA7RFTJ16m7u9yBdnJ1mw4DlZvnLlW9imkoVAhSTx9jl27Dh3q07kxeP/0Y9+pCcM0MF+nHfOnDm5Y/cZvORuJqGv666bsGTJb9xyZGqCEKiQGN4y3S022dfzz/8bdgHQwQ0ePDh37IhzsbuBVPHCBpUUBCokgz6Uc84Z6G6rdXrxLuDQoUN6PgCa3aZNm2jl/9a3RrvbRdUvGuE3v/lNPSWoEAIVEkCfyBVXjHK30rq+8LUaOqbcsasq17tbRC2vdeu2YmuqHQIVSrr55pvLLmr+OD7/+S+4m6iH14UXXlR2DgGayaxZs3L1ubCCb6i1Q6BCSXEClTdCd+P09qKpP/DAA3q2AJoUrfBnn12XayvPPru07PYO0bIXqIU9eLuugKSVDdSlS49tgY899kt34/T2evrp56NnEqCZ1PX7aw4/T1abjAUqH562tLQgUz0oG6hUO2XKre5m6flFs3HhhRfqmQNoOtOnT69roH75y8d2rXqqEFvGApU+7FGjRnEHPvh6iw7UDz74oK7bdvzXyy//34j5BGgatJ5ffvkV7iaQ1GvTpj9iU6pFlgJVhWguf6gq6iFh0YHK/9TC3SYb8qI5ef/99/UsAjQXWs+jfwq79lfEJg9lZSZQQ+9Fyu/QceK3XqIDlap+/vPH3Q2yIa/cscfyvqVnEaC5ePgKS5PYu3evnjDEk5lAzRVO9kp8MVUVQlLKBqq7NTbq9T/+x8URswrQHDxsdDSJF198UU8Y4slGoObydGleDid+64YDNYK7NTbqNWHCpFyJNQSgaXjY6GgSCxcu1BOGeDITqG1tbbo0b/bs2diT1kmGAvXaa8fnsBpAs/Ow0eVwhFqDDAQq77t1qVC2AVSn7Cnfd97Z6W6QDXn169cvYlYhpTrY/4epnZ9AxTXUqqU9UGMegFKb1tZWXQq1KRuokyff4m6QDXnRzNx11116FgGaSw53+aZbqgOV07TUyV4pZu5CRaID9frrr/fwfTnmK2I+AZpGDs+hpluqAzWXp0tLqKgxxBEdqIGXE1BxXn/3d3dEzydAc8AvJaVcegO1ioCk9nSoqkuhWnECta6bd8xX7tjvCT+mZw6gGdV1i8vht3xrk9JAre4ULg+FTE1K2UAN8pv3F75wvrtlentddNFXy84kQNPI4b/NpFhKAzUX79Kpi4+ZdClUJU6gXnfdddRm0aJl7vbp4fXCC21l5xCgmXz44Ye5+hyk0mhpc9bTg0qkMVBrCUX+hUL3N5WgfvjzcrfPer/+8Idje5aqVxWAjKJ1fuzY690topbXunVbsSnVLnWBGvqbvRXhMeA3fn3yn6lbtuxGmkLHtGnTptyxH68e7W4XVb9ohN/85jf1lKBCqQvUXBI/JYjf+PXPZ6b+/OeP07QmTpyoZwKgYxg8eHDu2MP3i92to4oXvpsmJV2BmuDnmkgwQ0XOPfdcWuy33fY/3S02wRevJM8995yePEBHMmfOnNyxm3JfcreRil4J7nUhRYFa+8leCSd+G2L16tW8fa5Z83t3063xdfvtxx7CS3AlAci0Bx54gDaHqVNvczeWOK+VK9/CBpWsFAVqLumbiXDit1FGjhzJG+qoUVe7m3EVr7Fjx/EI8ZAcgPTGG2/wpuFuNdGvc84ZmDv266GT9RihBmkJVF4ndGnNcjjx2zgvvvgif6yEDi7dTbrsa+jQv7JjeP755/UEACDPbibuRuS+LrlkODfWY4GapSJQ6/rp5lcynPhtpAkTJtgNno0Z8zePPPL4K6/83//4j/dpC9+4cdvSpS/fe+8/XnPNsadapaeeekqPDgDCyA2HNqVFi5a9++6urVs/WL78tWnTfjBgwNm2duXKlXpgSEKHCNT6jRzie+aZZ+z2XNbQoUM3b96sRwEAkZ5++unTTjtNb07C7bffroeB5DQ+UPlj1qWJyuEgFQAA6qzBgVrdb/ZWiqeCTAUAgPppcKDmqv3N3kp5OA4GAICOrMGBCgAA0BwQqAAAAAlAoAIAACQAgQoAAJAABCoANIujugDAJwQqAABAAhCoAAAACUggUJ9++mnj2LZtm25Xm/379+uiZkeLsU+fPrq0znbs2FHv6c6cOZMmwd08Ofpb3ASgPN7VeN4z0BS7du3K3cmuvfRGCrtPbdWqVbp1/R05ckTPRx127GTatGm6qBI8Y9y9du1a432VkGoN1J49e/L7+eSTT7hk3LhxXLJ69eritlXitbaBy6hRTJ2DLRQCFbKC9zOe9wymzoH65S9/eZIwYMAAfps1pk6l7I79ueee45INGzZwSVI7dmZq3tvwXHF3tgO1U6dONPfDhg1T5Vu3bpVvskYdNlAbwnOgAlSNdzKe9wxGBGqyOFBp69AVxZnhQWtra6kpcvn69et1RbVMzXsbOasZDtSDBw+WWuhkwYIFVPXqq6/qisohUH1CoEJW8P7H857BNCJQ6aDF5ybDC3bPnj26orBj/4u/+AtdUa3a9zY8t9yd4UAdPXo0zfoFF1ygKxyhO1C5Xron63v27MlV48ePl+Vc+Oabb8pCIv8n0ZIlS6jk3XfflQ0OHTpkvwGwffv22UGCwqdivf7667aK55/XaTJ8+HAxXPX69u1LY1u3bp0s5IP+w4cPB86qNmbMmM/mL4+WG1dxr225ceNG6qVR2RIaIZVs2bLFlpTiBmqXLl3ENI/59re/bWtN/nO0C4cdOHDANuA20g9/+ENT4pSvyU/67LPPlu3ps/tsXM7YeBOSDSLw5D744AM5hkceeUS2+cpXviJrjbMDVbW8Xslt+Mwzz5QNqFcMDYnhxRu993TXXrnhm/y6pxrI9e3555+XVTy20FO+HIdHjx6V7U3xmvnUU0/JqkGDBhkxtohApd2sHFXZVVRtj/SW6S/tS20DtYoaMXLeV8TZsTM1HiNGxcuHlmdoA96vWrwYqcOe4CS7du2iwscff9yWMPpc7FS4hLvdQI3eGE3+qrCtlVXVqX4UPXr0oDl49NFHdYWjbKB2796dek844QRalKtXr+b3Ztd79wiVG3Tu3JmWBe0NVXsOVJMfIQ17/vnnU3dLS4stufTSS6mbJmpHSHNia++77z4e3F4qsB88vdl58+apJK7aypUraZyDBw+WhVRCcWK7bbDZzf6SSy6hbvrLvbal7Q7y/9BblSxevFj2RlCBSu+XR0XBT1VXX321GjN1H3fccfSXqqjBKaecQt3HH3+8bcDbNn1YVCu/HnGt3CXx2Piz+O53v0uF9IlQd+/eve3YeFWhqdiFwF9BbINodjHSnpF6eUcjB6dv5VzywgsvUGO7NfJXHDJp0iQuoSVj11Uj1s9//dd/5ZLly5fTQuPuZC87AVNL3iXX3nfeeYdWQlO8cpr8Hpb+Ll26lD4jd33jwXl9432IiQxUXj9pVHY3PXbsWDU2muKOwn5Jji0iULkld9tV9O///u93iP2VXUXtWk17QloJuduIQFWrKC8Buz/kr+Nxduzk9NNP51HRrvvJJ5/k7v79+3MtLx9e7LSjtkl5zz332DGY4q/vprBF0+d12WWXBYWAN4X3S3+5l7672EFMiUDlnYkpvTFyCc0AzRt9TbHlVYu7J3LxrNAb0BWOsoHKo1K1AwcO5G7+VOwyotXdiKXJ5Bg4UIcOHapqaXuwJbzlcDcv6NbWVlsbFI+Q53/BggWyQSL4S4nt5Tmx79SIVU3OD+PNhueKzxasWLHCNv7qV78q23Pm2d4IvLQjpktTMYVvjraB3KnxSmx7TfGSVxnmBqoRuwZbwpPjY0E6wLW1toEsicCTc4845ZcYNTbenn/84x/bBr169ZINeBBeAvwJynMDQWGBxDk9ABWRS97F+aQ+Td4Q1NorG8gS+rJrinc1/BUqIlDVRy/HxuddKONtrRqbG6hHjhz57W9/yyMZM2YMF8pxMncVVQ24xAaqceZz1apVprCK8v4zzo6dt2U7Y4y/QNOmGpTe3OTsGSdQZW1oCRfatyAbyECN2Bhtb+jIa1H9uHhW4iz3mIFKX9mKm3xKBarJHxIVNwmmTp1qJ8ErxMcff2xr6QMzxTfjUdza9rlczp09Lty9e3dQYv4TQRs2jXn79u3cS9+d5YRMYVXjDWb+/Pm2yjbg1YWTxv5/Op5zk/9eZktCv/m6VKC69u7dKxemyZMN+DCUuxctWmScbz/8nZq7QwP1s6aFT4pXsxEjRqhaMnHiRLewFJ4cf6zWiSeeSIX0vmShZApLj7/v2xva2e9+9ztTWD95tdm8ebNsQL1GfEGEpPDaUipQQ/G5U7m+yROhQfGegccva7kwIlBp5yMby903ddAXaFnLhSpQQ02ZMqV4OM0UVlE6sqRu2h/KWjr+NoV3ymujWkWD/Bh4FY0fqKWu7FIhfcUPCstHjYrfkexVgarucjVh559pVu1I5AhloEZsjHYPQN20A5ENahSyOGLilLJfiyKEBpIRa5K6uknkP0l1A1UefTK5HHmFkLU8q3LDczebULx5hM5/UozYzEyJkyF8EqYUbmyvsnBjHpwjlgLbNivLDdT29nY+aSNFRKAMVNlt2TkMKgxU9e2SVXENVRXKSZBDhw6dfPLJPCcW761C306Qn21eu9RQih4MasNLNTpQy6696oum2jO43yxNZKCq8FCBqsKbCyOOUEuJWEXVysx4zDx1TtxSgsKbirNjD90eA7Hc1NZta+VQtrHtVUvALQmK98lyhDIIuDyU/d4juxMRsjhi4sty6nBeotqLL744KBFIocM+88wz9j3bc/pxApW/gtUSqLbKFTr/SeHrndRBB6BqKiZyvVQ4NelY1ibrtddey+9afpsrSwUqLxwyYMCAxx57zDaIiMCygSojsOzY5A6CDyVlbVD46FVhKaGBykuMDjSpu3///jwPvXr1euGFF7iBKWzSoUfDBw4cMMXbsGoAdcJLu1SgyvuDaO3lu//UySrj7KzVnsGe9bFMDYHq7rjk2GIGql1Fyd133813JtoB+ahRhQSfCeNAdXePLjlXLp50ULj6pqvL7bjs4La3ikCVW6IcoRuodpBQxllWNSozvWgRc8zrpTwprxqYwmdGKwR90rTGy1p58tMNVHdsfH2Cu93JRQequoOO0YZEqybff1TXQA3y74hvUHIvwMhgk3c3sFNOOWXWrFm2l9rw2dTp06cHhXOz1E1/KbY/GyySDFQ+b6zWZr6GGhGBMkT5YFRdPqQ3YhtUFKj8XmRtUOLjK4UnR0tbFsqJUsdZZ50la/l8Oy+E0NNl/E2I1y6eGXW5nXbltC7Ji2eQCP7gSgUqf49Uay9fQ40fqLbbMjUEavTYYgaqiVxFefNU50h5w+FA5d2Ce0cIpaNdRfm2oNA1lpcP37fFo5V3PASF0408M0kFqryPjMlbEeUIZaBGbIz2xlKTqkC1D3KocnvrF/fywZO8l4S/Rtk1iRvLK21ycP5U7FnvadOmUe+DDz5oG+/cudOIhV5poPJd3XzbJ1M/TOEhUPnuJPUIjXGOFPlSP+PbTeVKz1uvERf5uNc4K30EGah8p6LarniEdsfBvbKBOipVDegbgCypKFC5QefOnW1t9MPQLp6cbP/EE08YsdWZ4luoaJ3kE4byhg41OS7htcs+IeCuzO++++5nw0AS5JJ38fGTXHvt41JydYoI1BdffNEUX4VRO66KApXGY4ofLvj6178uxxY/UOUqStQqym/cPvxjj9TVOixXUT7qtauoXY1pidk25I033lDDcq9sI0tiBqq8tGycJcAPF61Zs8aW8K0MdiHIEcpAjdgYZW+KAjUo3HXCaBfP0aVmOii8DcWuSQsXLtR1xtDBjTs497rPltmqoPJAJQ8//LAaG6Gc5tp6ByofnrqTMM53N0VunEFhPTPFq4sqKUsGaiDGYL8k8TNw8iKEKR6/ClQ+Iyqdc845tkGlgSrXN8a3YspBIvDk1KNpcjHa6232/fLKNrRwss7epWxdeeWVRqxd7pOIRqxLkCC9lIWg+B4f+2ny11C59kYEKunXr58diVVdoAYlZrjSQLWrKAUnd6tVNHAmdM011xgRqKGrKF+es+SGRmu4fV7OFG9rlHO23LK77piBKocyYUvAtpFULXfLQA3K7dh52HQFKrnqqqv0LBvz0UcfyTbqpxv4E5Wn6eXTteTxxx8XQ3+WoLbkpJNOku1F22oCldjHm5j8UlPvQA3yn6s638uFMlDVMjzhhBNE22PsdmJL+G2q3I2mAlXdL/b9738/yM+YfXyWy+3ggROo5OWXX7ZjoCPUqq+hMvkDF1OmTHEnF8FOzq5RtCKpNnbkpvBDptxtG/zzP/+zbUDZrLZhQiu/bUB+85vf2CpIkFzICjdQay997nwNQq690YEaFO9q6KM0NQQqufDCC+3YePYqDdSg+I3zE1/cbRvIN05HcrxLlLdEqVXUPjYm8Zk/Re3YA+efo9DGbqviBKqNZH7y1ZRYAoXRH6N2fVzI3ZVujCaFgQrQQEOGDLGbU1mhW3iN+Lu8LgWIwYTdqZQ4vrUi2eSAUNgRQGbwzYqvvPKKLDRh9yyUUnugGudJdv7mK0sAXHyPuryUzvcTJP6LH+4K6ZZAnWRyKasn6yFb/vSnP+mi2HjXoOhGpdUeqPKhBUv9djGAy/1JW9KvXz/drmbyFzEt9YPYUCcV7IzSw/3hDIiDLwZHkFe16+fmm2/WRZXYs2cP38d43nnnyUtW+s049u/fX3ugBvmL2TRpk7/fOPTRAoBS2tvbe/XqZfLXcdUviCXrlltuMfn7le644w5dB3WDQAXfagxUAIhv4cKFugjqBoEKviFQAbxBoPqUyUAFAABIGwQqAABAAhCoAAAACchkoOKxmUyr5bEZAKgI/zsa8COTgYqbkjINNyUBeIObknxCoIJvCFQAbxCoPiFQwTcEKoA3CFSfMhmoAAAAaYNABQAASAACFQAAIAGZDFQ8NpNpeGwGwBs8NuNTJgMVNyVlGm5KAvAGNyX5hEAF3xCoAN4gUH1CoIJvCFQAbxCoPmUyUAEAANIGgQoAAJAABCoAAEACMhmoeGwm0/DYDIA3eGzGp0wGKm5KyjTclATgDW5K8gmBCr4hUAG8QaD61EED1YTZtm2bblcatd+xY4cubYT9+/fTzAwdOlRXxKAGvPPOOz+rqxsEKoA3CFSfMhmotaMgmTlz5rMFkyZN4kzdunWrblpC8wUqdXft2rWoGgAAYuu4gbp27Vq3kKjCUpojUCUEKgBALeLmR5MJDdQTTjjBBur48eOpm7LK1i5ZskTGrQzUQ4cOUW/37t1tLZWcd955VHjKKae0t7fbcmnx4sXU4NFHH7UlbqJT77Jly2zvsGHDeJwHDhywhTZQjx49euqpp3bu3Pm9996ztWzjxo1dunShZg8++KAs5wG5w6L3bhtQeyrp1asXvSNbCAAArkwGaiLXUN1ApcKRI0dyd/xA5TTt2bOnraJk5WQ6/fTTP82oEge+VN6pUyfZK1tu3rzZ9nKwmXyacofNbw5Uyjz6261bN66lWLXj4RKq4jam+F1woPJJb5oZ6njssceCwvsyhTGrAWuBa6gA3uAaqk/J7CI9SzxQ33//fUogKqSDPC6JH6hu0lAvHUraXh7z7t27RZNPUZjZYWnSPKq9e/dyyYQJE2ytmsqtt95KvQcPHgwKgUpaW1u59hvf+Iat5WFXr17N3fv27aNeOji2VaWuoR5//PFUYh9iGzVqFPVOmzbNNqgaAhXAGwSqTx03UF1nnnmmbRAzUHlAW0i2b98+YMAAWcIDrlixQhYyyk47+MyZM3lslKNcQt0jRoygjvnz56upcG0ulwsKgUr5p2r79u1LHYcPHzYiUBVTOlBN8dlmQjPjzkYVEKgA3iBQfUpg/+hfIoGqTvl+9NFHnGfcGydQLVsoUYZdeeWVtg0NrlvkmcJl1E6dOk2dOlUes5rCDPTp08fkTyBLdtIcqJTHYqwBRaMcj7Vx40bZzJQIVFo4xpkin222w1YNgQrgDQLVpwT2j1lknEAN8geXpnAoGTNQ9+zZQ3/nzp1ry20Vmz59Og9YKlB79OjBl1FNfnJ83ZTmjW9Z4jZ0JCrHKQUlApVGy7Vs165dcih7wGpKBCotBNle4gYAAKB00P2jCQvUTz75xBSSjwNVPhgzceJEGSe29uyzz5blw4cPV6lz33332dG6Vq5cafLXTe1Q1EGH4JSyAwcO5JLRo0dHJBkHqrxqGxSno3IsFY05fPgwd4cGKs+PvZoLAABlldxNNzcTFqh8dy7fl8SXLSlEbS3nkOy1cSur+GjSNrO1pQI1yDe48sor7e2+3J7QETOX8A239957rx2E72AaNGhQIG5KsrVbt26l3nXr1gX5B2aoe9++fbaW3yZ3mxKByr3yDmR7068tAQAAKZP7x0SuoYa67LLLbBu+zdV66aWXTIlAXb9+vSk84slhRiZNmnTqqadSx0UXXWScU7ISt7cPpPLxqCmOrsmTJ3PhySefzLcN2wYcqJdffjnXclW/fv3ssFxixGM8b7/9tq2ygWpPLHMJ3w9sxIM6pjiYq4ZrqADe4BqqTwjUT9100026UeHeHMpFOiLk3LJVpviEMB/2caZS47POOot6b7jhBq6lQz05rML399ondnbv3k29PXr0KG51DP+wQ5cuXVatWmUL7TVUOojslvfRRx+JgY6hBOVctLPETPFPLA0ePJiXhi3h519pnDaDa4dABfAGgepTyb18mtUeqJCUlpYWXVQOAhXAGwSqTwhUqFUuT5eWhkAF8AaB6lMmAxVSpb29nTO1olgFAGgyCFRIgA1UxCoAdFgIVEiAPEi12tradDsAgOaVyUDFNdQU0nFa4MYqrqECeINrqD4hUCEZoQeploxVBCqANwhUnxCosXz6iChE0inq4FhFoAJ4g0D1KXuBqnfSkCktLS0IVABvEKg+ZS9Q34S00uHpmD17tv44AQCaRfYCFVJL56eAKAWApodAhWToCC1AlAJAKiV/b4xJfpT15/+mJChLB2npKMU1VABvcA3Vp0weoSJQ00ZFaXt7u24hIFABvKlPoGbxQMwHBCokIGaUMgQqgDf1CVQIl8lAHTJkiC6CxokfpezWW2/VRQBQH7/61a90EdRNJgMV0mP27Nk5/Bo+AAACFSD9cMEKIBMQqAAAAAnIZKDipqRMw01JAN7gpiSfEKjgGwIVwBsEqk8IVPCtgYGKi5HQ0SBQfcpkoOKxmUzDYzMA3uCxGZ8yGagAAABpg0AFAABIAAIVAAAgAZkMVNyUlGkNvCkJoKPBTUk+IVDBN/+B2qdPH2MqWNXPPfdcaj927FhdUaH9+/ebvIMHD+q6INi4cSPX6oqa8XTpr66ozapVq+zcxpxtatapUyddmlZr1qzp3bs3zXO/fv127dqlamfOnMmfVyhqMHToUF0qjB8/Xo3Q6tu3r4m3PKuAQPWpXp9iXSFQMy3lgWr3gKNHj96xYwd1LFmyRDeKxwbq8OHDdV0QdO/enWt1Rc3qFKg0znnz5nH33LlzO3fuXFwfggZ59NFHdWnSaBI1LkZ6L/xZKIcOHbJt6heoVDtixAhdmhAEqk81rYWNgsdmMs3/YzOVBurrr7/O3WvXrjU1Byp9/zNhB6lU2LVr1/gzFl89ApVmdcyYMbKEJrF+/XpZovAhuC6tA8qqWibEgWc/dFVuezlQRX0ZJt6a88knn1DLvXv36oqE4LEZnypYPwAyqtJApQNT7k4kUNvb241zkLpy5UoqrGjG4ks8UA8fPuzO5z333OMWSn379p0wYYIurYNaAvWVV16hYV988UVdEQT0HYiqli9fzr11ClRaRLSgdClkUwXrB0BW0EGwEfjCmK2lIy1Zawpn9tQ5PdXLw5555pmykCxatIireLc+a9YsLn/44Yc52Pi8sSneFx933HFjx45Vgbpz585PR1pgj2t5JE899ZSsPXr0KB/jWtyYp8tRYdGwdkL0fmUVee+997iKv0Nw3pOzzz6bCumvCcsSKty3b58uLTClQ52qHnjgATt1KqH3YnuZPJNh8kfznw2fL6EPKCh8W2I2wGwJizgpwg10aZg6BSo1o2WuSyGbKlg/ADJh7ty5vJekffSRI0c+3acWdoW84+7SpQv3zpgxwxRig5nSR6gUHtRLmcq9b731lhwzByrZs2cPTZcmZAPVveuEerds2aIClQfnbLPfCbjKpjKV08gfe+wx6m5paaG/f8zjWg5ge+32qquuCvIn/bhXTejVV1+l7gMHDshafstk2bJl1Pv2229z+9AbF6icjlN1aYGcosKT4MuKc+bMCQpXMel9Ubf91OwlTFM6UAPnCHXYsGHUO3nyZPoIqJc+a5NfGWwDycS+bap+gaqLILMy+VmGbtuQFfW+KYn3xaVKRowYoWp79OghS0zpQFUtg+LbYXi3Lt+dDdRdu3YZEQDcGxSfiw49g2ryB4tBIVDtPUGEYkC2X7p0KfXOnz8/KEzXveTJJ2D56FNd0zWFaOS33L17d1VL45cltpwOtXVp3uLFi923Y5k828sL5N133xVNitqYSgKVuulLle3lkuOPP16WWFQ1dOhQXRom4qYku8JIJkagbt++3ZReSonATUk+1fezrBMEannhX8dTwUOg9u7dW5YMHDiw1G7rt7/9Le8TbYncP0ZfQ922bRsf/XAv79ap0DawgRoUzwPNHvUGxYGqZsMWUpugEKiySh3dcgPOGJ7uZ03zbACHXri1U+e3fN9996na0MwIHRWj/LOB5zLFn9Ho0aPd8UydOtUWmtiBSh+WO6qIi6xUzp+FpYLTTpfLnw3j3nEWxAvUoXm6NFEIVJ/CV7KUQ6BmWl0DlbNE7aTU/lRedTP5YxdZayIDlRPUkjHJU5HBIwN17969tqUpXHp0AzVUkESg2vZFoy4WFN6yzMKIW5wiArVUOTOFLwosdDwyGk3sQLUn3l2fDSxEVAXF063HKV9qs3v3bl2aKASqTxWsH+mBx2YyLeIOkUTQTiqXy8kSWmHsrrBXr14mf/3S1lJjuaM0pQOVd74HDhywjefPn2+HjQ7UID/4PffcIx8mcQOVu121B6odv3q/ihuoQfEykdTdXhaFRGi5ZYoDNfQIdeLEibbQOFc65UzKQJWfSBzDhw83kVdY6x2ouihpeGzGp7p/nACembxSJXIX6dZyb0SgqmNf+SBp2UAdPHgw9fbo0cM+xS9DccKECXI2mCk8b1NFoLqhOH369KBwdVP+ZAHX8nXTUoEamg1UfsIJJ+jS/JnM6NNIpjhQ41xDtd1BoX1ooPJNZ/Jic+Bcb1bUyC0eVf0ClUZY6go0ZFQF6wdAJqxevZp3kZQZ8mEMruUTvHylUz49cvjwYW5gRARu3rzZ5G8J5hJuaS+YnXTSSVzCvWUD1d58a6elQpFrN2zYQN18H6+trSJQyYwZM6j3Jz/5iRxVUJgQ7+7tLbV8lFYqUNWFRluuWtry7du361LBFAdqUOIuX3uemXv5/mr7YJKdNH1RoN62tjZu379/f+odN24cvyP+mEKfNGVyNXjkkUdoSdJfW2IPXjlQ9eXTguJRHmPKBSo1oC83uhSyDIEKzcnuEGl/6t4FalF6LV++nDoWLFhga2UoXn/99dzSHXbq1KlcwieQywaqHdz2utcObUirllUEaiDm1j4mZJ1//vm21ojYCA3U0DuQ5VVhpVS5ZZxADQrH6O4ssRtvvFFWmeKZ5HJ7/mDOnDm2sSm+U6wUm9NWe3u7bMCBWopsyUyMQNVFkHGZ/ESjzyZBytX1piSoh9BfSqLP0S2EtMFNST5lcntAoGYaAjWLjj/+ePXriabcb/lC4lpaWnRROQhUnxCo4BsCNaOM+J3FmP9tBpLV1taWy+UqilUEqk+ZDFQ8NpNp9X5sBuqEfxyYu3Gyt1Fygq4Lg8dmfMJWAQCQGXyQWmmsgh8IVACALFGBynQjaAQEKgBAlrgHqZZuCn5lMlBxU1Km4aYkgBrpIC02e/Zs2xI3JfmEQAXfEKgANRo1apRO0WL2TmAEqk8IVPCK0lRv+gBQH5S7CFSfMhmoeGwm0/DYDECN6ABUh2cxe4SKx2Z8ymSgAgB0ZDo/hYp+9gGShUAFAMiSUoen8l4kaAgEKgBAluggRZSmRiYDFTclZRru8gWomjo8LRuluCnJJwQq+IZABaha/ChlCFSfEKjgGwIVoDqtra25Cm87QqD6lMlAxWMzmYbHZgCqU1GUMjw241MmAxUAACBtEKiOo7oAAACgLAQqAABAAjIZqLgpKdNwUxKAN7gpyScEKviGQAXwBoHqEwIVfEOgAniDQPUpk4GKx2YyDY/NAHiDx2Z8ymSgAgAApA0CFQAAIAEIVAAAgARkMlBxU1Km4aYkAG+quympT58+xlSZDkuWLKl6WBeN6uDBg7Z72rRpxfXpktjb9gmBmmkIVABvqgvUWiQYqCNHjuzZs6ftXbRoEY356NH0/ppdMm/bMwRqpiFQAbzJdKDSeA4fPixLzj777K5du8qSVEnmbQMAQNOQp3xnzpxJ3YcOHTKCbHzw4EFZ5QbqmDFjbO3UqVNtef/+/Y2IzP3791PvpEmTuHfs2LFqPEFhWqowPdI7ZwDgWXpPpYFfbqAqgwYNso255OSTTz7llFNsA1VLTj/9dO5oa2vjqqNHjxoxKjr0VAP27dvX9lpUvmLFCl2aDghUAAAo4gbqrFmzbO1ZZ51lawcPHixTMCgkKHfffPPNRhx0EuqW7Wm01Ltnz56FCxdSx9atW20V9S5dutT2yvLevXvr0nRAoAIAQBE3UGWtPKlLHeqmFtmeOk488URZy4UyKTt16pSPYHPppZfawgMHDlDJxx9/bEssdSCbKimdrWi4KSnTcFMSgDfV3ZQUHahr166VkUkNZO2OHTtkbajx48fLQbhQlsiRKLU80lNvKZ2taAjUTEOgAnjjIVCnT58uazdv3ixrVXa6JkyYwIHa2tpqCzlQQ5+QQaAmDIGaaQhUAG88BGqnTp1krbw7l5NS1pLTTz991apV3L1v3z5qMG/evJEjR6oEpV6KVdtr8SliXZoOKZ0tAABolPiB+sorr1D3E088wb187dPWUnCqTO3cubPslbWqpXGOfW35iBEjdGk6IFABAKBI/EAN8v+QkbOQLV68WNbyfbzSzp07uapfv36yJT+HOmHCBO7t0aOHrLWokFrq0nQImV0AAOjIKgpU0tbWxmG5YcOG0PuJhg0bRoUDBgw4cuQIl8ydO5dK5C8LBoWD1PXr11P3smXL3PGsWLHCLUyP9M4ZAAB0ZJSdK1euVCVp/n38TAYqbkrKNNyUBOBNdTclpQRfgrW9LS0taT48DRCo4B8CFcCbTAcq6d69+6JFi4LC7xS+//77ukWaIFDBNwQqgDdZD9RsyWSgAgAApA0CFQAAIAEIVAAAgAQgUAEAABKQyUDFTUmZhpuSAPxobW29/fbbW9NNz3SWZTpQQ/4RAaQfAhXAj1wW6JnOskwHKmQSAhXAmzQ/NjNt2jQEKgAAQK0QqAAAAAlAoAIAACQAgZoKn3zyiS6C7PjTn/6kiwCgPuy/S0shBGoq4KakTMNNSQDe4KYknxCo4BsCFcAbBKpPCFTwDYEK4A0C1adMBioAAGQdAhUAAJrQ7NmzPccbAhUAAJoKR6n/bEOgpgIem8k0PDYD4E30YzMtLS0cpQjURGQyUHFTUqbhpiQAb0rdlKSitCHBhkBNBQRqpiFQAbwJDVQVpUw3qj8EaiogUDMNgQrgjQpUnaIFbW1tspkfCFQAAMgYe9tRKXoALxCoAACQGWWjlPzoRz9qbYRRo0blEKgAAJB+7e3tOjzTR890lmUyUPHYTKbhsRkAb44cOVI2VltaWvRgUJVMBipuSso03JQE4I28KUkHqSCGgOohUME3BCqAN+5jMzpL83CQmggEKviGQAXwxg1UwncDKboRVC6TgQoAADVSsTpt2jTdAiqEQAUA6LjkLUu6DiqEQAUA6Og4VnGQWqNMBioem8k0PDYD4E30f5tRKFZ1EVQik4GKm5IyDTclAXgTelMS1AkCFXxDoAJ4g0D1CYEKviFQAbxBoPqUyUAFAABIGwQqAABAAhCoAAAACchkoOKxmUzDYzMA3lT02AzUKJOBipuSMg03JQF4g5uSfEKggm8IVABvEKg+IVDBNwQqgDcIVJ8yGagAzceY8hsjtZk5c6YurZuuXbvGmasqmDzuHj9+fJ2mkgaHDh1q4ncHCj5pAO3gwYOUJbq0nugwonPnzrrUgUDNInp369ev16XQjJp5PQaoDu0BPQcqTfHo0aO6tNH8BGrT279/f8d5sx1cJj9mPDaTael/bMZzoLa0tBx//PG6NAUQqEmhNztx4kRd6gUem/Epk+s0bkrKNP83JdHujC9lyf34P/7jP9qSCy+8UDa2bMmSJUtsAz7gGD9+vK3dsWOHHITbT5061RZ+9NFHdnBl5cqV1GDz5s3c26lTJx6JRCXLli3jDnnKd9u2bXYSnTt3tlPhEtts4MCB1Dt9+nRbQr0TJkywvaWoQL333nvt5EzxQqO5MsUL+aqrrrK1Qf4suq2aMmUKd3CVPOVrp2gbn3nmmXYkhI7jbRV9EeHp0ici24Tiljt37iw1Zlp6J5xwgq01zqfQpUsXW8XrgPwsaGnYWlq1xHDH0MfnjtAP3JTkU2M+4xohUDOtIYFK9uzZQ91z5syhv/3796eSGTNmUPeGDRu4gWwvj1BNuUA1hcB7++23uaRHjx7098MPP/zjH/8oG7hUgq5bt072kocfftiWGLETpx2lKaSCTTK+Vvfoo4/KkXCVLeFMOnz4sG1QigzUiy++2E6OXHHFFdRrP0qOK/LEE09Qb58+faib5pxrOU0pkKj7wIEDhdkxQf4ktxuo5NZbb6XeSy+9lLqHDx/OtUHhvRzJK4ymgkAl9C2EemlloG5a+Fy7b98+ruWzX2+99Rb32sG5d9euXUHh3RnxWXDvq6++St20BNSwts2WLVtUoQcIVJ/0p54JCNRMa0igyolSllDJiy++qEp69+7NvabCQO3evbut5RK5P6V9NPXmcjnR5DOqMZfIw0c1Y3InPmjQINuMnHXWWXZU1LF9+3bbPXv2bFtFh6pqiqXIQDXFy5BL7FLiuKJYkrXHHXccd7uH3SaPu91ApaN221IOy4fatioojCd+oPKXKkbpaOeZvwDJy9jyS8ny5ctVbc+ePU3hs+BzDPSlwdauXbuWSu655x5bEuRndfTo0bLEDwSqT7G2K4BMM4XjEsb7VlF/zNChQ22hqTBQ77vvPlvLJf369VMlpS7KmjxZMnjwYFvCR5O7d+/mXlPYifM88AGTxftx25LeEXUsWrSIC00heGxVWRHXUJ955hk55+4i5dOn3E0d1157rayVMekG6mftgmDIkCFyPJSpspYiyr6vaO4cBvkRhl7apLWFT/ByL30ZUsNu3rzZFD4LPmCVtUHYx2pKrwPQNPR6ANB8TP4yp+3l7Axl21cUqPJaGpeoxFIjlNwqPlzmkBg7dqydq0BMi7MzFA/ISRPkI2rEiBE8LF9GNcWHkhFkvMmLoBLXunGljm7VIpIhFB2o6ouOXeyMp1tLoNpPSl4iNfnkltNVw8prqHIoRQ7ilkDzwQcMzc8UB2rZBx9NZKDu3bvXJBqodDDnFvIJQyPO93IvT4tvg7LlLnstlv6uWLEiyJ/VpCOt7du3Rw8oqVBkCxYskCXc7caVGlbeEhUUH/NVFKhqwfKdX7UEKh8688Vak792y2OjT9y2P+6449Swu3fvNoXPwp3nUKb0OgBNo/x6kEJ4bCbT/D82Y4oDlQ/v1F05gwYNmjRpEnerfZ8pPqk7f/58k2igurvj4cOHc6FxLkzaaRmRbWzZsmVXXnml7TX5m4ftyPnc7wUXXGDvxCnLRgXfTkzfJGStnHM3rlSgqonKYSsKVFXLUVddoPLp9I0bNwb5Mas7M+whPpkwYYIalq9D82fh1pJu3bpR2MsSajNkyBBZ4gcem/FJrweZgJuSMq0hNyXJQOUSuRPs168f9Y4ZMya0Vvbam0vrGqi8rz/jjDNUlZwWZ4+9F8a9udTkY0yVkMWLF9uSaDbe+KC8tbXVVg0bNkxOzo0rGY2vvPKKKdwATK6//no5bPxAbW9vp+5Zs2ZxL70RHk/8QOU7jZmcB1Mc+fbpGltC3T179uRue/ZbfrmRP3TFtfSubQkXLl++XJb4gZuSfNJbciYgUDMtDYHKhZLdXZKJEydyIQ8lH140+UNGk1ygljppydNyb6yV06KdeGGmPiXafnqfqtxY3DbRZLx1795dTuikk07iTOXa6EAlt956qxy8umuo5LbbbpPj4do4PzLFc8h351q2dvXq1bKcfPzxx0acxpCP/JKXXnqJ/tJBP9fKZ4GYesyXjoNNJUs+QQhUnxrzGdcIgZpp/gM15WhXO3jwYF0KMYTeYRvKjfxa8BXWtWvX6ooS6OuI/MbmEwLVp8TWMIDEzZ49u9Tjm82ED3l1KTjc+OTDQVlSSi2BKm9QYnxuQJZEM/EOoyHrKlgnALzhKCVtbW26rhn16tUr9IFIkOzvGfXu3ds+5cJ3FZVVS6AGheTu1q0bfVLcfeDAAd2ohEGDBl166aW6FJpR9WsYQD3YKGW6unnVsruvAh91RXCvOqcEX46lQH3ttddsoZ77YkOHDq0xUIP8b1nwgemDDz6o60rD/0PtUDL5SeOxmUwr9dhMe3u7jFIyatQo3QgAKoHHZnzKZKDipqRMc29KcqOUqWYAUCnclOQTAhV8k4FaKkpzODwFSAIC1ScEKvjGgRoRpUwPBgCVQ6D6lMlAhUwrG6WSHYp77Y/1lG0wbdq00Aa2JH6D+BMt2yD+RMs2iD/Rsg1SPtGyDeJPtGyD+BMt2yD+RMs2iD/RUg3ADwQq+BYnUE877bSWPDsU99pdDPdGNJg9e3ZoA1sSv0H8iZZtEH+iZRvEn2jZBimfaNkG8SdatkH8iZZtEH+iZRvEn2ipBuAHAhUao2ys6gEAANItk4GKa6iZFvOmJHy5BqgdrqH6hEAF39zHZnSWFqhmAFApBKpPCFTwzQ1UpuNU3JQBDYMfoM24+gYqVo9iCFTwrVSgstkd9acHAeqhvoEKxTIZqND0bKziIBUAsgKBCunFsapLAQBSCYEKAACQgEwGKq6hZlr0NVQASBCuofqEQAXfEKgA3iBQfUKggm8IVABvEKg+IVDBNwQqgDcIVJ8yGagAAABpg0AFAABIAAIVAAAgAZkMVFxDzTRcQwXwBtdQfUKggm8IVABvEKg+IVDBNwQqgDcIVJ8QqOAbAhXAGwSqT5kMVAAAgLRBoAIAACQAgQoAAJCATAYqrqFmGq6hAniDa6g+ZTJQAQAA0gaBCgAAkAAEKgAAQAISC9SbbrrJGNOlS5clS5boOgAAyCDan3fr1o327TfccIOuA0cCgWrC9OzZU7erwZQpU/bv369Lmx0txj59+ujSOtuxY0e9pztz5kyaBHfz5OhvcROA8nhX43nPQFPs2rUrdye79tIbKew+Q+jW9XfFFVfomUh6x04OHjxY496GZ4y7165da7yvElJNn9PWrVv5zfzmN7+R5Vw4aNAgWVg1XmsbuIwaxdQ52EIhUCEreD/jec9g6hyotHWo8paWFio//vjjVXld8bI9/fTTZeHZZ59tktuxs9r3Njyr3J3tQOV38t577+mK4jdZow4bqA3hOVABqsY7Gc97BiMCNVmlApV06tTJ5ybDEd6vXz9dUVjm99xzj66oVu17G54l7s5woPKsl/qYt2/f/uijj3J36A7UOOvlgw8+aPJXYZctW2YLx48fz1NR0zpy5Mitt95KJaeccsquXbtseZA/6c8t9+zZ0yWPOrjq4MGD3bp169y5c3t7uxyE8WVg+nQPHToky+3801czGvzAgQOytmrqHbHp06dT4cMPP8wN1Kr29ttvDx48mMqHDRtmC+2ZItHw2LAjRoxQJRMmTJAloUIDdfny5SeffLLJL+2NGzfKKlP4HOfNm8cDqqXHrrnmGqodPXp0EHmEaif9s5/9jLrPOuss+qAL4/gMvX2qvfPOO4PCeqhblMCTC8S6Ebom0HfE3r17m/w+5ZlnntHVQXDLLbfQWkQrA79Z42zDL7zwAjWgcuqQ5ZAgk1d272nXXtp21Opk1z3erELXN1pVuJY+dB4k9AiVN0PqOHr0KI2HJydG8xkeG+3uguKxRQQq7wblnodWUd4KaB0OXUVpxaNaeuP0jnjMNBLVgFdR9+KoyVOFjHfsaindfffdPC1+U5bd3AhNxRTvuHg/YPFi5A4aP82bXID03s844wyqpb+ffPKJLQ9iBGrExsiNn3rqKeoIXYyVCl9qcQwcOJBmYuLEibrCUTZQZ82axQtF4ipKzV69elEv7eDs+Qdah3RrMX4O1P79+8va1tbWSZMmyZLJkyfbQRYtWiSrTHHYqw9e5n0tbr75ZuNsPzwJ2y2DTc4Du+2229yhyPz581UJbQbUe/jwYVtSigpUCozC1IrY9ia/rFTttGnTbAN7XcCSX7dDA1W1nzt3rh2b+0n9/Oc/N87aVQpPjvdEvJNlso0tlGztvn37VBWvV3IbVg1M7NmDivCyjQjU0LVXbvjU++tf/1o1kOsb74iViEClr8Kq8fr16+3YVBWLE6i8idlePYo80Vw3oK+epjhQVQOTXw5ctXv3bhNvx07WrFmjR2QMbfJcy8uHdlOqwfvvv0+1tJxpl84l1MGF1D1lyhTbksdje6XCLBTt/VSgursL4yyoq6++mstpvySrqlP9ps4zQW9AVzjKBqp6n7wZ2MMp/lTsMqKdtSkcw7GdO3fKsXGgyhFyr1vC3fSNkrq7d+9ua999913ZgOf/4osvtg2SouaKvnlR78qVK22tDTbesOXBH63xVEL7d+ru27cvddOWwFXHHXecOkfE335sbwQVqGoOCX0uRnwc3OD++++3DdQgqtd+reFeN1BN/tuPbc8l9jspddOisLU23mxJNJ6cbM95/8Mf/pB7+SoRrRK2wapVq6jE3rvuTo5LeIHwuhTaQJZAIuSSD+UueTUI98qPWw7CJ13kLw3x1/SIQLXDMllyzz33mOL9jBpbqUDlszV2d192FeWTK/Zw1q6TNlDlXDGeE+7m/WecHXsQNipZYje3Dz74QDaQ0WXCDhvkZcRBgwZRyRtvvGFLli9fTiVDhw7lXjlFGahxNka3QY2qHxfPSpzlHjNQ3ZMtTAVq6CK44IILbCGvEJs3b7a1PXr0oJLXX3/dlsj2fLxiqxgHEh/S8fwndaZXWrx4sRHbBp8LsrWmONjGjh1rq2xhLpejjo0bNxpxjtfkPxe5EIxY/6KpQP3e9773t3/7t7LBxx9/bJwIlA1Gjx5tS373u99RtzonT3NiG4QG6mdNC58UjScosSLx/kUVlsKTW7FihSyUE7377rt5kUqmsJvjA325ahE+KOH1k9elBQsWyAbLli0zhdPdkCD+4EoFKn3PdtfeIUOGmOL1jUpkA7lnkCuGZSID9b777pON6att/LHZSA5lB4leRXnDVz/OyifDOFBpP2acVTTIj4FX0fiByten1Hkv6rUzw8uHDhNlA/V2jBOo6tqtCbshq9SClYEasTHaeTbFZ6Frpz/g+PgtyZQqJXQ/aMSaZM+r/OVf/qW7ebiB6l7E5kN7Xky8QsiPmc8i7t2715bIfTq/kR3F+GsRXy8Mnf+kGPGRmxLf3WjOuZmayfwyC1mrTD6k6S+t8bbEHvhG49G6S5jRpzBgwAATGYF8vYe7af+iagNxkTuIEaj8SfHmHXqc/eijj7qFpfDk1C6ANmAq3LZtmyxkVMjfD3gHETotPkXG6yevS+vWrZMf0+9//3sqpG91akCoEa8t7h6jlNWrV/Mgcn1TR4Ryz2CKL/24hXLt5ThUOSRP1Ron57iwbKD27du3aJhidBwiV9GpU6dS9/z582Ub/sLNgUrfJo2zivIb4VWUG8TZsfOGo0vFO5XLR9bKoYwTqOpar1tCrr32WjsSOUIZqBEbo70RxDgrQI1CFkdMnP9xTrWHBpIpXllffvllXi6WreJPRQaqe7All6PcXzMOVLnhqc2mFD6LEjr/SeEJBYUTFDL2TGFVs/d/heLGvCEFhQuogfgSx8fBdrTReGm7J2EsPna3GwkX2sZBcaDKbosnIbsjxiYDVV1JYrxwVGEpctKWnAQ54YQTeDYk3upC306Qn21eu/RgxfRgUBteqtGBWvwJfEqub9GB6n6zNDUEqhsMcmw8hjj794hVVK3MjMfMU+e9WSlB4RA2zo49dHsMxHJTW7etlUPZxrZXLQG3JCjeJ8sRyiDg8lDyCk6yv0QUsjhi2rJlC8+crsjbtWuXCbur0zJh3/6Cwu2XcsxuoLpruTx0qC5QbZUrdP6TwqcgqGPEiBFqKvad8sLk056l8JmW7du301LlM0K8TDZv3syXVPUAJahA5YXzyiuvqAYREShTJ3TR8Vdg7i47NrmD4M9R1gbiC0QcPDl5/YnQ4rLzwDMwa9Ys2cAUNunQt8PnD+Q2XI+rA+DipV0qUP/93/+dG8i1l1eh+IFK0SVrubDqQB04cKCs5cJKA5XfFK2i8hqZHZC3PvuEBaOdgCkE6tKlS025VZQnoUvzeF/EtRFHqEPzxzxJBar7RUTuLeUI3UAt+07TEqhBYY4jnkPlPRcnnHuvM69JfCeO2uPLKxluoNoqSxZWGqh8bHfw4EFbGxRGyGeJQ3ejCTL557qMc0bIFAebvJ3BFlJYyl5ez5YvXx4UDnn5ndJB6meDRZKByldA1ckfntWICJSBSkvVFN9BRuiN2AYVBSonsboiW9Ejejw5ewsSM2IxUve1114ra/mLI2/k/K1FvZ3hw4ebwtrF6xKVyAY0OeN8uFA7XltKBeqJJ55onLWXB4kZqHJFtUwNgWrC9jNVBGrEKspf79TulO8zkDclqVWU9xV2FeWFEPEcKv8HRr45aN26dbIBfX0xhdsUkgpU2d4tlN0yUCM2Rnv5z6QqUO3dsC+++KItpO9NXGhvi+XdkH3PQWER2DWJex944AHutWPgXv5U7L129jGMjz76iEvOPPNMI+6GrzRQg8IM2BHy+mcb1DtQ+R5dE7ax2VXt0ksvpd6WlhZZa4rfFH8LkbPKvbKkLBmo/F2nf//+tvbNN9/kEdodhzt+dV6UL5DTgNzL7W2DigLVNrALyv462mcDROLJGbGfVSNUY5sxYwaX2J0Rv50NGzZw7y9/+UtuYD8I3gtPmTKFe+0S415IkFryCn+5lGuv3a7l6hQRqPapG7tn4N7qAnXbtm08uD2yVGOLH6h2nEHhO6sRqyg/0E+bBvfSflU1UKto4IzTlqhfSuK3I5934Gb2/gPaLuSoYgaq6lVLgPb8pvh0Jp/CtAcJcgwyUG1VxMZoUhWojGdRoXVXtvn2t78ta/nJJLuM6PuR+2ipHFwV0t5QNDyGvozYxlUEqr3B2pK/gVDvQC317Icp/u72la98Rc6hEZfWmTwbw/j2ZllSlgxUQhuPnRzjDVje7mSKx+9eaJSDk5deesk2qDRQA2ds7uQi8OTWr18vx/D222/bBk888YSsMvnsNIW7qZlqsHLlSlO8dp100kmqja2CBKmFLHEDtfbSToZPeMq1NyJQg/zvJ8gxsOoClTzyyCNyPHwbSqWBGmcVVfsKvotCnjh1V1H31GjPnj1VG+Ps2IOwT8FWxQlU+y2Hz6uZsCXw0EMPFcb9KffJOu5WgUo7dved2gGDdAZqkD+U4Uc+unXrltTvHgDEIe/3Kyt0C68Rf73TpQAxmLA7QhLHD0G4QRUH/woSuemmm3QdOLAjgMzgr5/uxfj4eVZ7oJrCV2mLv8jLEgCXu6LyyR51A1GN+DBXPaPF1ynsD79A/WBHAJnBZ+bldR3+EZmRI0eKVlESCVS5W3znnXdM8Y83AYTik8nnn3++LeF1Sd1zXjserb0t4LXXXjN1+LdrEAqB2oHwxeAI8sp/OrlXU+xFHVXuoi/vtQdq6EU13QggjF5vjNm5c6dulAQ1lS5duugWUB/YF3QgS5cunRSJ/59GRuk341DnigEAkpW9QD1y5Mj27dt1KQAAQENlJlDnzp2bC/Pcc8/ppgAAAN5lI1A5O6dN+0F7+z75uv76CVylBwAAAPArA4HKkamiVL6QqQAA0HCpDtQPPviAkvLUU091QxSZCgAAqZLqQC17bKoy9Q9/+IMeBaTbf/7nf27bts3+VioAQHalPVD/7u/ucLMz9DV8+AgcpKbZT3/6U/6GFMdZZ50l/+sWANTi8ccfp83K/gcRqJP0BirvWN3gjHjlEKjpc9lll9mYHDjw87/4Rav7wanXXXf9yA5CHnroIT1SAIiNt6MLL7xQV0DSUh2ob731nru3jXjRIF/72tf0iKAR5syZYxPxf/2v/9/9sGK+xo37jh3Phx9+qCcDAKXdddddtOH07t1bV0B9pDpQ3d1r9Ot737slh4PURluxYgXn38CBg9zPqOrXF7/4JR6tnh4AOA4cOMDbS7L/ngyipTRQ/+u//quKQF227BXscBuLt+Fbbrnd/XQSefH45b+/BQBl3LhxtJmcdtppvL3079//Bz/4AW5K8CClgbp9+/YqAnX16g0I1Abirdf9XJJ9rVq1niekJw/QsT377LO8aVjnnDPwC184XxVOmTJFDwkJSWmgBlWd8v3FLxbksJ9thP3799OSv+iir7ofSp1evGuo5f/GADSNX/7yl7xFjBx55Ztvblm0aBn3Tp58i9pw7B1/o0aN0mOBmjVVoE6YMCmHQG0E3kTdT6SuL56onhWADuahhx7ibeH3v9/ubiDnn/+lUtvOBRdcoMcFtUl1oL766u/cVSHiRYNcccUVekRQrW15utTBG6f7cXh48aT1DAF0GLwJlLqRno5WucEllwx/443/CN18cG01QakO1FyFu+kc9q2Juvnmm8su0io+pmRfNPV/+Id/0LMF0AHE3Pr+7d9Wc8vzzvuiu/mQxx57TI8aqpLeQA3yq8u1145314/Q1/nnfzFXbu8PFSkbqK2trdTg6aefdz8Oby/c2g0dE2ehu0VU+nryyadpPK+99pqeAFQu7YEac43ZtOmP1PLPf/6zHgXUoGyg5o4dHd7lfhyeXzQb5557rp45gOYVf98Y50VbcfSWDjGlOlDJ5z//+TjrDbUZO3asHhhqEx2o1T3aVI/XmjW/j5hPgCYzcuRIWuE3bGh3t4WqX5zQekpQobQHalD4LjZ37pPuStBeuAv8oosu0oNBzaIDlT8X9xNpyCs/J+16FgGaEa3tb7zxrrsV1Pii0b7wwgt6YlCJDAQq+dnPfsa7769//ZJf/eqFVavWz579cEvLYC781a9+pQeAJJQN1FL3Fvp/0cxcfvnlehYBms6pp55apy+y/LvZenpQiWwEKlm9+tMb1RT8D9T6KRuomzfvdjfLhrz69/9cxKwCNA1az++//yfuJpDICxtRjTITqFZ7ezs+dT84UCO4G2SjXtddd0MOawU0u0OHDtV1u6ORjxs3Tk8VYkOgQkkcqBeUUNcNu9LX2LHHfg1cvwGA5lLv7e4HP7gT21EtEKhQUtlTvhs3Fv3UWQNfffr0jZhVgOZAK/ndd9/nrv8JvrAd1QKBCiWVDdTvfGeyu0E25EUzc++99+pZBGgudT085VfEJg9lIVChpOhAnTTp2L8icDfIhrwi5hOgaXjY4vJnnjbqCUM8DQ7UUVXJ5f/3UKWmTZumJw+RogM18LJ5x3lNnjw1ej4BmoOHLY4m8dxzz+kJV++oLmhqDQ7UnEctLS168hApTqDm6r+Fl33RPLS2tuqZA2g6HjY3msSSJUv0hCGeBgdqFXDK15uygbpixQpq8NOfznU3S2+vxx479q+V9ZwBNCM/gbp69Wo9YYgHgQollQ3UIAUHqTT1f/qnf9KzBdCMPGxrZTd5iIBAhVo1KlPffHMzT1rPEECTorX9F79Y4G4LCb6wQdUCgQoJ8J+pa9ZsQppCR1PvDY3SGttULRCokIx6b+ryNWPGzNyxf8X6D3omAJpaW1tbXbcyGvmAAQP0VCE2BCokZtiwYfTR3HDDje6GmuCLk3vlypV68gAdAK38K1a84W4Xibywa60RAhWStHXrVg68f/mX/+NurjW+xo+fyCPXUwXoML70pS/l6nOQetlll2PjqhECFZJ34403cvINGfJVd7ut9PXOO7v+6q8u5RGuWbNGTwygg6nTF1Ya7bp16/TEoBIIVKiLV199lSOQfP/7/5+79cZ8nXfeF+149DQAOiTeHNyNpZbX1Vdfh02sdghUqK+77rrLJiK55ZbbFy9+yd2e7ev55//tm9/8lhykra1NjxSgY+NNw918qntt2vRHGtuWLVv0ZKBCCFTwZOXKlV/4whdkUka47rrr/vu//1uPAgDyNm3axFuKm45VvGg811xzjZ4GVA6BCgCQSbVn6pQpt9IYzjjjDD1qqAoCFQAgq2rJVB724osv1iOFaiFQAQAyjHPxiitGuZFZ6vXww/+bh9LjgtogUAEAsm3Dhg0ckH369J03b6GboPb1rW+N5pb33nuvHgvUDIEKANAMtmzZwmEZ7cknn9RDQkIQqAAATeW73/2uTtG8hQsX6qaQKAQqAABAAhCoAAAACUCgAgAAJACBCgDsqC4AgEogUAEAABKAQAUAAEgAAhUAACABCFQAAIAEIFABAAASkL1A5Z/8oFjVFQAAAI2TsUDlw9OWlhZkKgAApErGApVydNq0adyBE78AAJAeWQpUFaJ8qCrqAQAAGiYzgdrW1uYekuLELwAApERmApWyc/bs2aqQL6aqQgAAAP+yEagUpaWCMzRoAQAAPMtGoFJqtrW16dK8iKwFAG/wy/oAGQhUdS+Sq2wDAACAekt7oI4aNSpOWOLELwAANFaqA5XTtNTJXgknfgEAoLFSHagVncutqDEAAECy0huoVQQkTvwCAECjpDRQY146VfjELzIVAAD8S2mgUi5SpurSGKo4rgUAAKhdGgO1llC0/45GVwAAANRT6gI1kf8fnsNv/AIAgF+pC9SqT/ZK+I1faF74SSKAlEpXoNZyslfBiV8AAPApRYGayMleCSd+AQDAmxQFaiIneyWc+AUAAG/SEqgJnuyVcOIXAAD8SEWg8g8yxPnN3krhN34BAMCPVARqnQ5PWV1HDgAAwBofqB4Cj8bf2tqqSwEAAJLT4ED1c0qWp4JMBQCA+mlwoObqc+nU5eE4GAAAOrIGByoAAEBzQKACAAAkAIEKAACQAAQqAABAAhCoAAAACUCgAgAAJACBCgAAkAAEKgAAQAIQqAAAADU5mv+LQAUAAEgAAhUAACABCFQAAIAEIFABAAASgED1hC9ZAwBAs0KgAgAAJOD/AaZDuzx+M/6eAAAAAElFTkSuQmCC>
 
-[image55]: <data:image/png;base64,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>
+[image55]: <data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAwkAAAJ5CAYAAADlznz5AACAAElEQVR4XuzdB5gUVdbwcUlDFlAQRHBJuigiKiC8EkRBxbQqiihmYf3WuIqrq6sua1hzWhXD6oM5gbrg6+oqvmAOoCJByaCSc86hvu9cv1PvrdtVMz0zXTPVNf/f89Rzq07dqq7u6em+p++tqt08AAAAALDs5gYAAAAAVGwkCQCACmiXGwAAWEgSAAAAAASQJAAAAAAIiC1JuPnmm73Ro0e7YQAAAAAJl/MkoUmTJt4vv6zxp2HDhrtVAAAAACRYTpOEzZs3BxIEnSRxAAAAAJAfcpokuL0IOk2bttDbtGmTWx0AAABAAuU0STjooIMzEgSdLr74Yrc6AAAAgATKaZIQ1ZPw00+rvFmzZrnVAQAAACRQTpOEESNGZCQIMnFOAgAAAJA/cpokCEkIXn75X36CsPfee7tVAAAAEJNp06Z5PXv29Nq2beu1aNHCO/LII70//vGPbjWgUDlPEsT69etNsnDyySe7qwAAAJBj27dvN22vPn2OyxjRodOIEe+YOoMHD3Y3BzLEkiQIhhgBAADE6+OPP/b22WefjISgqOnrr3+grYZCkSQAAADkqY8//iYjASjORHsNUUgSAAAA8tBRR/XOaPSXZALCkCQAAADkmajLzpdkos2GMCQJAAAAeYYkAXEjSQAAAMgz0s469dTTMxr8JZlosyEMSQIAlLEjjjjCXK4QAEpKexImTpyd0egvziT7oc2GMCQJAFCG+GwEkAuaJPztb3d5v/nNbzIa/0VNkyfP8/fB5xLCkCRUIO3btzfXUj7ppFO977+f402Z8pN3//3DvH333df8vbZu3epukhqbN282z1E+SB966Env559XexMnzvL69j3JxA899FB3EyBnFi5caN5n48dP8zp37hL4BW/lypVudSCx5D0rn5vy/h048AKzvGXLFrcayoA28HWaM2e5iV1wweCMhEAn+QySOh07dg7E09xmmzp1qnl+Bx/cwSRU8+at8MaM+cI755xf378vv/yyuwn+P5KECsD9IClsatasuXf11Ve7u8hbF1xwgdeqVeuM5xk18b5FrrVo0SLjfSbT8cef7M+3a9fO3QxIlO7du2e8h/nsLF/F+W4vakrj3+8///mP99pr/53xXKOmNL4GpUWSkHIl+RD54YdfvJ9//tndVd6ZMWOGN336ooznV9TEexe5cvvtt3uTJs3NeI+505gxX7qbAolxww03eF99NTXjfetOBx98sLspYlSS7/eoKW3fe23btjW9Be7zLGpK2+tQWiQJKXHZZZe5Ia95830z/gGKM+WTvn37BpabNm2a8XyKM8n2QGl99tn3Ge+tqInPTCTV7NnLMt6vURPKDklCOElq3edXnKlDh0PcXVZYsSUJb7zxRqredEnnJgm5+PDIp7+fmyTIOQfu8ynulE/PH8kza9asjPdUYdPYsePdXQDlrqhhRu7E52bZycX3vE5p+ruNGzc+4/kVd3rggQfc3VZIsSQJ55xzjim3bdvmrEFc3CRhyJDSZdIyffDBF4F9JpmdJOzatSvjuZRkOv30AdYjAMVz1llnZbynipqGDBni7gYoV8VtiKapsZl0xf3bFDal6e/mPreSTGl6PUoj50lCv379Asu80GVDkgR5rXUq7XWTZZo7d4W3YsUK96ESyX7uufrg/PrrH9yHAbLWqVOnjPdUUdNxxx3n7gYoV8X9PD333IvcXSAmxf3bFDblc1stju//fH49cinnScKZZ57phlAG3J6E2267J+NNX9zp669/9Hbs2BHYb1LZPQlyuVP3uZRk+v3vM8/zALJ1+eWXZ7ynipoeffRRdzdAuSpuo4skoewU929T2JSmRrH73Eoypen1KI2cJglRL+ohh3ASSNzcJKG0J+7m2z+Je07Cf/7zacbzKe4k95QASsN9TxU2denyX+7mQLkrbkM0n7438l1x/zaFTWn6ux1xRI+M51fcafXq1e5uK6ScJQlF3Yir6OuA73IDKIYlS5a4oVJ9gPzxj39yd5do8+fPDyzLMKnS9Kak6QMT5WfvvffOeG9FTaNGjXI3B8rdhAkTMt6rhU1//vOf3V0gJqX5jnenNH3nbd++PeP5FWdK02tRWjlLErJ5Ud2GHOInv066/wDZTK+++qq7q7zzxBNPZDyvbKbDDuvo7gookUWLFpm70rrvMXfq2/dEd1MgMWbPXprxno2aUHYGDRqU8fqXdCr6h9z8Ij/QFOd9q1M2bdmKJCdJQrYv6pgxY9wQykDr1q29U045PeOfwZ2mTv05679lPpHnVPRN1dZ6xx57vHfAAQe4mwOltu++0fcsSeP/HNLlr3/9q/fJJ99lvHfd6bDDDnM3Rcxy0ZvwzTfT3d2mRravz5/+dJM3bNgwd/MKr9RJwgsvvOCGCsUXYvnaf//9zd/Antq0aePt3LnTrZo68hzlubrP/5lnnnGrArFo3ry5/777zW9+464GEq1Fi5YZjSuZLrroEq9Lly5udZQR+TyZN29lxt8lm2no0Dvd3aWW/Fjjfv9z2enClTpJKG6jX+6dcOONN7phAACQcPKd36NHL9PAPPXUM8wy90QqfxdddJG5spSbBBQ2yd+uqPNJUUH9/9OES50kAAAAIBmOPfZYkwB07XqEN2DAud6gQX/wjjzyKP/X8+eff97dBAhFkgDYuMgWAABAdJIwefJkb7fddjNTcSxevNgNAQAAAMgjoRmAe2Oq4iQKxalbkeXidSruSeNKbrQmcnEMudawYcPE3uX5iiuucENICHkv33333eZk4MLe1xMnTvQaNGhgTmK/9dZb3dWh3P3J8saNGwOxbLj7yYZsM2fOHO/rr7/29txzT3d1pA8//NDr16+fG86gx1SSY0NydejQwfw/HHfccYX+beX/QP4nZFx6o0aN3NUZ7rnnnoz9ucvZKul2FY18J8rfUoYQFfaarVu3zg35CtsuF3Kx/5Ke+C6PvWHDhpwcg6ugoMAN5VzlypXdUKKEvqpRL7Ydb9GihSnlajn2Oi27du1qGqPyIbT77rv763bt2uX16dPHvDBr1qzx61eqVMmsky95udzali1bSvymSaJ58+b589LA0Oe9du1aM6/L+oZ5//33zWsiov4emiRI7429D/H4449nxHTZTRKqV69uzvq36x544IFmubCTmvbYYw+vSpUqge3q1q1rluWDTcmyXNVF67300ktmXt8Xdj2to//0F1xwgVn+y1/+4tWoUcOvM3LkSL+ulIX9M+s2cgzyfGRe3mvif/7nf8yy/Y8qd1qU2ODBg72qVav6jyNJwmmnnWaWly5d6te3j1sSHBnzqcsoG+7rXbNmTVNef/31gb+PzuskX77yt7TriJ9++slftk/K/P77701ck4Szzz7bLGtia+9bl1u1auXPy/vMfhz5QUaW5aRD8fe//92vY9cTzz77rD/vrpf3v/u4Oi+fPTr/2GOPmfkvvvjCr2eXOl+7dm1/WbdB/pD3pU17+OUzW/6W9evXN8v6PrHfL/I5Zy8LuUGaLEuScPLJJ3uTJk0ycfk/e/311/168p0l9WbPnu2vl895icl3mpRjx441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3XSTV6dOHe/kk0/2G9NPPvmk17ZtW7+eWL16tdepUyfvxx9/NLH69et71atX9xo3bmy232uvvfx9C0kSpJ5MVapUMTF5jAMPPNDEHnjgAROTde3bt/f69OljlqN6EmbNmmXKqVOnmlL2IY8ppWxvk56EL774wn98fQ5yvJUrVzbLejdimZfH1Dpp7UkAkH6xJQkMN0ouhhsByDX71/XevXt777zzjpmkwSy0JyEsSVDS6N62bVugnrJ7Etx1csMviS1btszbd999vQ0bNvjropIE3Ye7r+nTp2fEJEmwY+562f+AAQP8dfbwpLQmCekebgRAxJYkAAAqDrvh/Mgjj1hrfpVtkqDchnhYklBQUOA1bNjQJBYamzJlilejRg1/OSpJaNCggbdjxw7/HgBSv27dut6qVasyHjsqSZCyUqVK3gcffOAnCVpX66Q1SQCQfrElCfQkJBc9CQByLawRvX37dm/s2LFmfs899wysk7K0SYJdyvTGG29k1IlKEoT9GIcddpgppdHvPrY0/Fu1auX169fPLLuPP2TIED9JuOWWWwLr0pok0JMApF9sScKKFSvcEBLiyy+/dEMAylm7du3cEJBYH330kRsCkDKxJQkAgOzokBcAAJIitiSB4UbJxXAjoPxJj54kBzoB+YThRkD6xZYkAAAyyfh4OzmQac6cOX6iUFgp2+69995m+fnnn/c2b97srxs9enToNtmUzZo1M6VcFUiGkciyrhs1alToNtmUMpZfyquuuso0Knfu3GnWnXfeeV6LFi38unIpU3fbbMrzzz/fnLQsy/o4W7du9esMHTo0Y5tsyk2bNnlNmzY1y3LlpHXr1pllWTd58mTvl19+ydgmm7J58+b+8nPPPecvi4cffthcmcndJptSXlddlmFrekJ2jx49vO7du5tzQ4Re2jVsH0WV8rrq8kMPPeTJexFAusWWJOiXAZJHv0QBlB85EVcaXToB+YQkAUi/2JIEhhslF8ONgORYuXIlSQLyDsONgPSLLUkAAGTPvgEYAADlLbYkgZ6E5KInAQBQGvQkAOkXW5IAAAAAID+RJAAAUumee+4xV1hC8dx7771uCEAFFFuSwHCj5GK4EVAxLV++3J+Xy23uttv/fgX07t3bNKjl8plFqVq1qhvKCft4sjVmzBg3ZOy+++5uqEglefw46eVnixLHca9Zs8YNBTDcCEi/3H+yAABK7IwzzjCNPrvhJ/N77LGHH9P1Mj355JOBdXKvgAYNGpjl9evXm5hc479jx45mXurb+xB6vwVJEmrUqOHVrVvXX1elShWvcuXKZlnuSTBr1iyvUqVK3tNPP23Ks846y6/bs2dPM19QUOBdc801JtayZcuM5yNXc7r11lsDMWEvy/yZZ55p9qXLhx12mD+vjytJglxyW+ZPOukkfx/Vq1f3Hn/8cX+S52ZvJyRR0udXv359v9dBj1emSy65xI8df/zx/rYDBgww83vuuafXpUsXr06dOv46+SVe5uX1WbRokYlVq1bNvK5hdDspr732Wn9ekgQp5d4YWuf666/3Ezx5vZ944gkzL/ducI9R/v76POR56n51f/J8N27caOYfeOABfzutB6Bii+1TYNKkSW4ICSFfMgCSyW2cyc271Lhx40ypdbRxbMfCGnpubPXq1V6fPn38JEIa40IajTNnzjTzp59+uinthu1NN91kSu1JcI9VExEhDW9h17ngggtM+corr5hSGqg2rdu1a1c/Jjdds9fJjef05m9CkgT5TJMExq4njXbX5Zdf7s+vXbvWNLblZmnCfY3seeld0QRi8eLFppQkwa4j9P5A7vZuzKXPURIVSSxEo0aNAj0Jur3cX8ONaSnJodBjvPTSS3+taNXRUpMm+Rto75He1M6uF2Xw4MFuCEDKFP4pUApjx451Q0gIuQMngGSqVatWYLl169b+vDTm7MRAuI2/sHX6a7zG7DpvvvlmoOGoDcbbbrvNry+/Qn/11Vde//79TcwebmT/ci2/lsu8nAugjd1WrVr5dcMannaiEPYclMbkl/annnrKj0uS8OGHH5r15557rl8vLEmQdXK8cgflpUuXmiRBe1HCXjedv//++/1lIcccliSELRf2nGx2L4YmZmFJgryuDRs29HsJ7HXiD3/4g798ww03mGRt/PjxoXVl3n797eFoRR2v/b4EkE6FfwoAAMqUmyQI/YU+qqFnl9o43759uxmGJOwkYcKECRnbS+NaRCUJYtCgQV6/fv38mJ2syPh12U6X582b5x+HxGT966+/nvFLu9sQtff30ksvBWLuMQt5XSRJkGUZbqO/jgs7SViyZIkpZViQkDoSyzZJEPawJ1FYkiANcxniJK+JHodbx6XrpaGu82FJgpby+tox+7kPGTIkUFeHRtl15fnIsChJEqTXwq7vzgOomGL7FODE5eTixGUgucKShPnz53uNGzcO/Nqs3MajkEafnIis7CRBPPvss/68bKdDdcKSBGnwu43Qq6++OvC4jz32mJnfunWr6U2QoTz2emnIf/HFF2ZZSMPcflxlPwcZBhT2PO1l+TVdT1w+6qijvLffftsM3Vm1alUgSZC60nPw2muv+cOoDjzwwECSIOdy6DGGPa7cGVvmJfkShSUJ4vPPP/e6devmL4fVsdnrP/vsM1OGJQn230HLGTNmeAMHDjTPpXbt2t7s2bMD27nD0k444QQz5ExIkuD2Tmm9wnDiMpB+hX8KAABQCmGNTW2YJ03YsaaN+xzd80Jc//rXv7y2bdu6YQAVQGyfiPH3JHDt65KiJwEAkC25GpVOip4EIP3yOElASZEkAOVnw4YNTEx5NckldO1EQSaSBCD9YksSAABA/nMTBAAVQ2xJAj0JyUVPAgAgW5IY2PemEPQkAOkXW5Lwww8/uCEkhNzpFACAouy3335uyJArXAFIt9iSBAAAAAD5KbYkgeFGycVwIwBAaTDcCEi/2JIEAACANNAbGRZFrgYFpEVsSQI9CclFTwIAoDQqUk+CewM6ceGFF5rykksucdaE1wfyUWzvZJKE5CJJAACURtKSBGmYFxQUmHL79u1+Q13uFq13lb7rrrsCDXiZl+mYY44x24RZs2aN16ZNGzO/c+dOU//2228PJAkSa9iwob9N1apV/Xkgn8WWJAAAAMTNbfiHJQmVK1c2jXy7vrudqFSpkh+z4+68Jgl2srR48WJTbtmyxY8B+Sy2JIGehOSiJwEAUBpJ6klwG/JhSYJdR9mxPffc0yQRUtrsOt27d/fnNUn47//+bz92zz33+PNAGmT+1wAAAOQJN0nYsWNHoLdAkgQZijR16lQ/pkOHbD169MjoBXD3rTRJaNCggSnlMbWngpOXkRaxJQn6z4Lk2bx5sxsCACBrmzZtckPlqkaNGt6cOXMCDXk5T+COO+7wz0mQKxTZw4ncJMFdFuvXr/f22GMPf3nQoEHetm3b/CTh008/9QYPHhxILqpUqeLPA/ks8z8iRxhulFwMNwIAlEaShhvZwhr62ZCGfpRDDz3UDRXqlVdecUNlokmTJm4IKJWS/TcBAACkhFz5qDDZ3iehPHtYrrnmGpMokCwgV2JLEuhJiFl2n1eh6EkAAJRGUnsSKjpNEkgWkAuxJQkAAAAoO3aC0KxZM3c1UCwkCQAAAHlObvymCcLkyZPd1UCxxZYkMNwouRhuBAAoDYYbJQ/Di5BrsSUJAAAAAPJTbEnCxx9/7IaQEH369HFDAABk7aCDDnJDAFImtiRh3LhxbggJ0bNnTzcEAEDW9ttvPzcEIGViSxIAAADiJndBLo1nnnnGDWVlwIABbghIldiSBE5cTi5OXAYAlEaSTlxu27atGyoWkgQgXGxJAgAAQGntttuvTZXNmzf784sWLfIWLlxo5jVJ0HXr168381L//PPPN7H69ev767VUkiQcddRR5m7Juq527drejh07vCFDhnjVq1c3sdatW5tS62iSMHLkSHP50fnz53uVKlUyMS313I1Vq1Z5devWNfPu4wNJxTsVAAAklt2o7ty5c0a8sCRBSZLw008/BeopuyehY8eOprTryPwDDzzgL4tdu3b5SYJb17Zx40ZTSpKgatWq5c8DSRZbksBwo+RiuBEAoDTKcriR3fCWX/xdbpIgv+qHJQmrV68O1FN2knDiiSea0m34X3311f6y2LlzZ2iSoA4//HBTrlu3zpQkCchHme9sAACAhLAb4QUFBV63bt1MTH7Nt9c3bNjQa9CggdeiRYtiJwkSk6lOnTomNnbsWPNYEvv3v/9tYjJ/1lln+dtrkiDHodvXrFnTr/vUU0/5Q4xIEpCPYksS6ElILnoSAAClEdWTIL/iA0iH2JIEPaEIyfP222+7IQAAsvbaa6/581u2bPGaNGliJiDcr70+yC+xJQnaDYjkkbGUAACUlFz558orr/STA5m2bt3qVgOQx2JLEhhulFwMNwIAlMbee+8dSBC0F0FvbKbLxSlXrFhhyl69enl33HGHt2DBArOua9eu5upCWrdDhw4Z22ZT/utf//Lef/99syzTf/7zH2/UqFF+nY8++ihjm2zKBx980OvSpYtZlsug/v3vfzfPQdYtX77cu+WWWzK2yaa8+OKL/eWBAwd6l112mf8DbL9+/bxrr702Y5uoEiiJ2JIEAACQbtKQl4aoTM2bN3dXA8hjsSUJDGlJrm3btrkhAACy5g4t6tSpE79aAykTW5LAcKPkYrgRAKA0oq5upEOEAOS/2JIEAAAAAPkptiSBnoTkoicBAFAaUT0JANIjtiQBAICy5N5JN1sl3Q4A0iy2T0a5lBmS6csvv3RDAFCu5Lr7pVXSxn5Jt6vIxo0b54YApExsn4wMN0ouhhsBKA+NGzf2KlWqZOalYV61alW/gV6rVi0zCbkGvE3qyFSlShV/XqbatWuH1pNJk46CggIz2YmA7uvll1/2l8Wjjz7qP4Zd197efoxnn33Wr1fRMNwISL/YkgQAAGza0F69erWzJtiTEJYkFDXvLsu83NjroYce8mNusiAJgVyuW2JSapIi3H1Xrlw5I+7WAYA0ie0Tjp6E5KInAUB50Eb1zz//7KwJJgnHHXectSa6Ye420t11Z5xxhvfqq6/6MbeXQJKC7du3m9i6deu8evXq+evEaaed5rVp08bM63buY1RU9CQA6RfbJ9zYsWPdEBKiW7dubggAYmc3quVXfXH++eebUn7J37VrV6DennvuGVgubN5dbtSoUSAm58lNnjzZ69Chg3fmmWcG1rmlaNasmTnG7777LrKO+/gVSatWrdwQgJSpuJ9wAJAgCxcudEMAAJSb2JIEhhslF8ONgOSYMmWK16RJEzcMJBrDjYD0iy1JAAAUTpIDnQAASJLYkgR6EpKLngSg/MjYeDs5kEljorByy5Yt3t57722Wn3/+eW/z5s3+utGjR4duk00p4+/Fhg0bvI8++sgs67pRo0aFbpNNKecYSHnVVVeZX57lvANx3nnneS1atPDrnnzyyRnbZlPK+Qzbtm0zy/o4W7du9esMHTo0Y5tsyk2bNnlNmzY1yx9//LE5qVmWZZ2c1/DLL79kbJNN2bx5c3/5ueee85fFww8/7O27774Z22RTyuuqy+3atTMngctyjx49vO7du5uTs0X79u0zts22lNdVl+WKUfQkAOlHklABkSQA5U8aXPYE5BOSBCD9YksSAABFO+igg0gSAACJE1uSQE9CctGTACRPr1693BCQWPQkAOkXW5Kg15ZG8lxxxRVuCACArJ199tluCEDKxJYkAAAAAMhPsSUJDDdKLoYbAQBKg+FGQPrFliQAAAAAyE+xJQn0JCRXEnoSdtttN3O99/KaKleu7DVq1Mhc+5yJiYmJqXhTlSpVMmJMTEz5OUmbLEx4NAfkZjRIpgULFrihMidvyFWrVhVrkpsEtWzZMiNekqlu3brehAkT3MMK6N+/v9emTRs3XCqyP92nzuf6MYpiP74rLCbq1KljkqsksI9R5gcMGGDm5cZdus6ed0XFXdnWy7ULL7yw0MeuUaOGf/OzbBxwwAFmf++99553xhlnFLpvIFs///yzGwKQp8o8SQAKU5IkoXbt2v52JdnenrJJEqTHRf9xqlat6qwtGdmf7lPndfr000+d2v8r6h+4JOzHd4XFhg8f7lWqVClw7OXJPgb7mE444QTvj3/8o5nXX0Zmz57t11XZPods6xWmJPs49thjC91O1j3xxBPe8ccf7y1dutRdnaGgoMBsM3LkyMB7GgAAEfW9EB7NAYYbJVdShhu5DXd30gag1tUkwY2XZMo2SVizZo3pUdDH27x5c8YxKJ3fsWOHv27t2rX+eq2zaNEif17169fPXz7ssMP87ceNGxd4LOmh03l5DrawYxk9erRf/9RTTw2sc+vrFEbXdenSxV1l/i6PP/54YPsVK1Zk7FPKjh07+jFNPNavX2/WSyLmHoO7D/Hcc895++67b2C9ziuZ32effQIxe527X3ktdXnJkiV+Pbt0Y3IMUsrQNd12+/btft1rr7028BgyvE3m5XkL2f6uu+4K7FOm9u3bZ8Tc5U8++cSfnzFjhlerVi1/Wd6j1113XWC7e+65xyQJug+gtDhxGUiPqO+F8CgQM3lDug33sEka1Fq3PHoSJEkQ+g+kSYIKm9fyhx9+yPjHk+WwJGHu3LmhdaUBqvM2bYS7MfnV+J133slYpw1wEVbK8Bw7ZpOxxxIPWyfk7/L555+beXuf8loJ+WX8wQcfDOxDy8WLF/tDZ+z9u/VcEp8/f7532WWXmXltsIstW7YUun1hj7Nw4cKMWFR99zWT1+CQQw7x69rrLrjggsC2nTp1MscspRg4cKB5LkIb/EoeR5d37tzpz8uwIbsnQepJb4r0omiSoEgSAABRor4XwqM5IF9mSCZpRJU3eUO6DXd3kjo6yXI+JQn2ZJPlsCThn//8Z+j2bpJw+eWXR+5baLxhw4Zm2f6F3N5/WOnOi3nz5gXq1atXz7v55psDdeTvsnr1ar+OXYr333/fNIbDjmHlypUmSdi2bVvocbjHoyQujemtW7d6ffr0Cey7Zs2a/rJMDz30UMa27rxd333sqPpu7Ntvv41MEuQ5uo8hScIXX3xh1h988MF+7+vgwYNDj0tEJQl2PZIElAX9EQBA/ov6XgiP5gDDjZIrn4Yb2WVSkwT5BdduvEkpv+o3adIk4x9Plu0k4dJLL/UuvvhiMy/DTKTRa+/HTRKklN6CjRs3Zuxb17vH58bdsnPnzl7btm0DMSXDpSSmxyVTgwYNAnWikgTpgXBj7mNrkqAxORnyscce888BcY9H2fuyl+1f3e117vIpp5ziffnll4Hj+eWXX7zf/va3GccopQwjksldZ88XliRs2LAhsK002CVJmD59euh6mcaOHWtOUrb34yYJU6dODayX9zVJAsoCw42A9Ij6XgiPAjGTN6TbcHcnbSy99dZb3rnnnpuRJGSzj6ipuEmCnvDpJgkPPPCAWdbx9UqPz+21kZidJOgkPQRK9zV06FB/n1rv4YcfDmznevfdd71q1ar5y61btzb17OFMbqnzMkkC4jr55JP99WGN8LAkQevJZCcL7mPbSYI03O06dj1XWD1pBOsv9jZZfvrppwPLXbt2NaUmzPZzXLdunV9P3HfffWZeh13Z6+z5qCRB1/fu3dvMS0+HsJMEu64OsbNj2ttiJwmTJk0y89JTovXk7y8lSQIAIFtR3wvh0RygJyG58qUnIc4p2yQh6h+npLQxB5QVrm6EONCTAKRH1PdCeBSImbwhzznnnHKdfvzxR/ewAAAAKhSSBCRK1BsSAAAAZSeqTRYezQGGGyVXUoYbAUgvucOzTU7OFt9//70p7c8AuQme3j/CZd97orT0HCP33CLhLmerJNvp1cdKsm1SMNwISI+oz6LwKBCzqDckgOQ66KCD/BPRhfwfy+VtZfieLuv9IyRJuPDCC/2b5UUlCXLJVzcRkITBPoHc/ryQebm6l/ruu++8F154IXCpW0k6Xn31VX9ZyJXC7CThtdde89f99NNPgceQq3nVr1/fX5Z1cvEEudGhLstNE3V+xIgR3syZM/36bhIiN9KTixzIBQqmTJnixwEgCaLaZOHRHPjqq6/cEBLi7LPPdkNlLuoNCSCZ7OTAvTTvgAEDvOrVq2fcyE6uxrTHHnt4t9xyS2SS4H4W6LI8htygThrs7jq5OZ2SywjrpXq1jlw1a9q0ad7EiRP9mLCTBBGWiFx11VV+gmBfmUuey/Dhw828fZUvKSUROumkk8wldEW3bt38dUKSBKkjk/t8hwwZEljOF3K1LgDp4H4uqfBoDsg1vpFMPXr0cENlLuoNCSC5/vznP5tGv91AdmlML4ursbAkQS4H+8gjjwQSAfGHP/zBrJcEwE0SdJJG+f777++vu+SSS0z5+9//3o/pscgN/YSbJOj6o48+OvCc7MmuZwtbJ/N6qVt7e0kS7Dq2qGFWSSf36QCQDu7nkgqPAjGLekMCSCa3MezGlMb69etnSvnVXRrCYUmCknkZ8jN+/Hj/1/i+ffuaJMEeinTHHXf483K36kcffdRf1nt8yH07lPYERCUJHTt29IdDhT2nvffeOyOmwurLvNwvQ+lllgtLEuweGgAoD+7nkgqP5gAnLicXJy4DKC75n33++edNGdZAVhrr0qVLoNehsCTBHb7z4IMPmhsB9unTJ1BXSjnPwW2Yy6RDoORu3fYxiqgkQbjPRYYgybwcf+PGjQPrbPZ2Otk3Fezfv79fp7Ak4d///ndgOV9w4jKQHu7nkgqPAjGLekMCQLbeeOMNf16Sg3yhJz0PGzbMWZM8y5cvd0MAUiaqTRYezQF6EpKLngQAaSG9DQcccIAbTjQdEvXwww87a5KpSZMmXufOnQMxehKA9Ihqk4VHc4AkIblIEgAA2ZIkQSdFkgCkR1SbLDwKxCzqDQmk3SmnnBJodDEx5eMEID2i2mTh0RygJyG56EkAAGQrLEGgJwFIj6g2WXg0B+bOneuGkBByQ6DyFvWGBAAkS1jvwT/+8Y/AMoD8FdUmC48i1eRyg+Ut6g0JAEiOBx54wA0ZcgdqAOkQ1SYLj+YAw42Si+FGAIDSYLgRkB5RbbLwKBCzqDckAAAAyk5Umyw8mgP0JCQXPQkAgNJIS0/C1KlT3VCx5eKmeO53ou4zbN+dOnVyQ0CpuO8/FR7NAZKE5CJJAACURlqShL59+7qhYivt99m9997rrVy5MhDTfYbtu0ePHm4IKJWw95kIjwIxi3pDAgDSpaCgwHzmb9++3SyPGDHCX6ffBY899piZr1Spkr/u+uuvNzH7+8L97tD1dqNaH6dXr16h28v07bffmrtIy3z//v0D69S7776b8Xhq8uTJZl3Tpk39OrVq1co4Fp3v2bNnxv5V2PHZ+5DXxN1u5MiRgWWgNNz3lwqP5gA9CclFTwIAoDRK0pPwwgsvmDIsSXjllVcyYj///LMpFy9e7K978MEH/XmhdQcMGOBfiUljEyZM8OutWrXKlPPnz/djQnsS3Ia6OPTQQ/2Yq0aNGv681tfkxLVjxw7vm2++8ZfXrFljrfW87777zpR16tTxY3aS4MbceaC0ot5P4VEgZlFvSABAesyZM8cNhSYJUtqTWL9+vV/vtttu87Zs2eIvK6176aWXep999lkg1r59ezMvv8SvWLHCxLRXo1u3bmbZThLcxx88eLApw1x44YX+vNbXX/wbN27sr1Pt2rXzj2X16tWBdcuWLTOl7kdUrVo1IxY1D5RW1PspPJoD9j83kmX27NluqMxFvSEBAMk3bdo0NxRJb7xWt25dU2pjXtgNbDdmtyPsxrtNY2FJwltvvWXKWbNmmSRh4sSJv270/1SuXNmUxx57rCntfeuxFJYkaH3pJXCPa//99/fn5b5Ebdq08UaPHm2WZ8yYkZEkaNL01FNP+THdZ1Ri4D4mUBpR76fwaA4w3Ci5GG4EACiN4g43kqFDMo5f/fLLL6aUBrySOps2bfKX7Ru2zZs3z7vxxhv9ZSWNbrF06VJ/W43J8qJFi8y8Po4kHj/99JOZFzKv66S0hyMtWbLEnw+zcOFCU+rjyWPpvjZv3hxYF3Ysyv4+XLdunVmv20kp+3K34YdY5FJUmyw8CsQs6g0JAEgnO0korjR/Z8iwqOLcwfr+++93Q0aTJk3cEJCVqP+v8GgO0JOQXPQkAABKo7g9CYifDGOSREEme0gX8s0uNxC7qDZZeDQHSBKS64gjjnBDZS7qDQkASL6WLVu6ISSAJgkyNWvWzF0NhIpqk4VHgZhFvSEBAEDJ2EkCw4+Qrag2WXg0B+hJSC6GGwEASoPhRslz+umnkxygRKLaZOFRIGZRb0gAAFB8JAcoqag2WXg0B+hJSC56EgAApUFPApAeUW2y8GgOjBs3zg0hIY488kg3VOai3pAAgOSzbxgGIL9FtcnCo0DMot6QAAAAKDtRbbLwaA4w3Ci5GG4EACiNbIYbffjhh94NN9zghovljjvucEPe4MGD3ZBh3605yhVXXOGGSuy+++5zQ6XC9yLKS9R7LzwKxCzqDQkAyB/yWS5Tx44dvTlz5vjL9jqxZMkSU06aNMnr27ev9/333/vr7Wnx4sX+vsVJJ51kynnz5pn1tWrVKjJJeOWVV7xKlSqZeXvf9rI9L/sUmzdv9mM1a9Y0sR49egS22b59u1e/fn2zPGDAABMLs88++2Q8lnIff9euXeZGaG6dsGWZZs2aFVjXrl27QH15HeT4d999d78OUBj7/WQLjwIxi3pDAgDyh9uQVaNGjQr0JIQlCTt37szYzv1u0CRB49u2bSsySahRo4Ypp0+f7q+rWrWqt2XLlkBPwoQJE0z58ssvmzLsOPbdd19TyuNKAiNJwoIFC0yssCShd+/epnziiSdM6e777LPPNo19e51bhsWkfPDBB81827ZtTXnCCSeYcv369SbhkNdhzZo1JgZkw/2/U+HRHGC4UXIx3AgAUBo63Mht0OpUUFBQZJJgbxc2LzRJ6Nmzpx8rLEmoU6eOd8stt/gxPZ4qVaqYX+s1SXj//fcDxysN7FatWvnbSVLhOvjgg02SoApLElxhz1Ea9zL/0ksvBeJhdbWUHhJNrpo3b26SAvt53H333VkNuwJs7v+dCo8CMYt6QwIA8kdYg1YcddRR3pQpU7whQ4aYZW3sN2rUqERJgsalkV5YkiBkqM1zzz0XaPTL9pIkDB061I8NGzbMlNLroXWUzjdr1syU0gshiU62SYI8R/Hwww+b0t13y5Ytzetjr3PLsJibJIi99trLlPL8ZcgUSQKKy/2/U+HRHKAnIbnoSQAAlEZYT8LEiRPNclQjVyb55bskSYIM95F10iNQVJIg3McdOHCgN3bsWG/Dhg3+umrVqpl57TWQ7WVZGuJaR4YNaUxkmyS0adPGbCc9G0KGKMmyPqbQx9Hjlnlp5Ou8/VrY27hJwgEHHBA4RpIEFJf9XrOFR3NAMnYkk3yQl7eoNyQAIPm+/vprN1RoozkfhDXKgYog6v0eHs0B+bUAybRjxw43VOai3pAAgOSzf1Fv0qSJPwHIP1FtsvBoDjDcKLkYbgQAKA0ZbvSnP/0pkCDIuH0A+SeqTRYeBWIW9YYEAOQHO0HQXgQdRaDj5ktSyj7s0QgaC6tbnFL3K8vu47h1i1Paxybsx9Bld5tsSns79zWxn4u9TVQJFCaqTRYezQHemMm1detWN1Tmot6QAIDk016DTz75xE8S9J4CAPJLVJssPJoD/8Nwo8RiuBEAoDT06kY2zkkA8lNUmyw8CsQs6g0JAACAshPVJguP5gA9CclFTwIAoDTCehIA5KeoNll4FIhZ1BsSAAAAZSeqTRYezYH58+e7ISTEiBEj3FCZi3pDAkiemTNnuqFi+8Mf/hBYlhtudurUKRBT2Xw+ZFMnW+6xldaSJUvcUOo8++yzbghAnor6PA2P5gDDjZKL4UYAXAsXLvS+/fZbf9m+o+4bb7xhlqXxu3LlShPTm2lJXC7FuG3bNn+bqVOn+tsqe38yn22S8N1335lSbgJp70Pq6PLy5csz7gA8fvx4U7qPq7755htv7ty53tKlSzO2ddnrp0+fbq351axZs/zXReq+99575vXQ5U2bNtnVTUwvazl79mw/br+GWm/KlCneunXr/FhSMNwISI+oNll4FIhZ1BsSQPmw/ycXLFhgyoceesiU2pPw2GOPeSNHjjTzq1atMqVspwmDvQ+5NKZN12lZqVKlQpME6Y12t7HntTz66KMj111++eVmXhIgjVWtWtX7/vvvvTp16mRs5/rwww+9Fi1amHmtc9xxx9lVvOeff96f1zrak2Dv95ZbbjFlzZo1TSnPX0hiIPNfffWVX7dWrVomsYg6LgDIpajPmvBoDtCTkFz0JABwtWvXzpR33nmn+f/USa6HX1SSoOz5hx9+2J8Xsk5+8d9///3NsvySXliS0LdvX79BLo1u+5i0jpb2JI1raWTb+9K42Lx5s1mfTZJQrVo1N5SRJAh9jGuvvdYsa5IwYcKEQB0xadIkU7Zp08aU0psg6+Sx7OfRr1+/yONKAnoSgPSI+qwJj+bA2LFj3RASonv37m6ozEW9IQGUD00SZPiNS4bTCEkStHdBfo0X9v+yPR+WJNjljBkzCk0SwsqwmL1u+PDhgZj0cMj86aef7r300ksm9q9//cvr0KFDVklC7969vXHjxpl56YEQsq3Qm4ktW7bMlEL3o0nCCSec4K+rV6+eKaOShF69evl1pRdmxYoVkceVBK1bt3ZDAPJU1GdNeBSIWdQbEkD50CRBSINW/kfr16/vx/R/tqCgwMxLT4Add+ejkgQ5t0Dm5XyAopIEUaNGDe/SSy81serVq/vrpJGv81LKpOchyLHJ8gcffODX+fOf/2zmr7vuOn97ZT+eSxIMWb927VqzrK/NL7/84tfRx1+0aJG/PGbMGP/x7f1HJQm6nUxnnnmmvwwAcYv6rAmP5gDDjZKL4UZA8hxzzDFuCCWkny/9+/f3kwLkFsONgPSIapOFR4GYRb0hgYrm/7Z3H1BTVOfjxw9VmojYKOIPREQjIoqKUUGI/kTFmFiIQQ32KChWFMVe8kOjEVtirDEWRE2waxT/gIpiQVGKXRCMSJHe6/zPcz3PePfuvS/7vju77+y+3885c+7MM2Vnd+/u3mfv3R0ZrtKiRQs3XGPot+f2lC95TOU4Z511lrsqyD2HJM4DAEpB6P3OH00APQnpRU8CUP26du1qkgOdgFJCTwJQPkJtMn80ASQJ6UWSAFSfFStWZCQHMslfjmqiUFEpP5Zt2bKlWX7kkUfMP/Xouueff967Ty7l9ttvb0o5N/mhrizrOvmhr2+fXEoZby/loEGDTKNSf8dw0kknmb8W1W1//etfZ+2bS9m/f3/zF6KyLNN5550XrVmzJt7mmmuuydonl1L+CalVq1Zm+Y033jDXKZBlWTd58uT49wi+fSsq27RpEy8//PDD8bKQ33DssMMOWfvkUsrjqsvy2xL53Ycsd+/e3fxRhf5F7e677561b66lPK66LD9eJ0kAykeoTeaPAgUWqpBATSEXCZNGl04AAFSHUJvMH00APQnpRU8CkC4kCSg19CQA5SPUJvNHE/DZZ5+5IaTEzTff7IaKLlQhgZqqW7dubghIraFDh7ohACUq1CbzR1HWZJxwdQtVSABA+qXhcwRAMkJtMn80AQw3Si+GGwEA8sFwI6B8hNpk/ihQYKEKCaBmGj9+vBsCABRBqE3mjyaAnoT0oicBSI9//etfbignH374YTy/1VZbxfO1atWK5136F6Q+2223nbl2g61Ro0YZy7mq7Ov7yy+/jF544YWM2EsvvRT8/VRlj+965ZVX3FAslx+Rjx492g2lgvxNq/4tbpJ8jzc9CUD58L3GhT8KFFioQgI1jSQJ8nqoU6dO/LqwXx92TK4grMt//vOf4wTDThLEH//4R1PKtr/73e/ifZ566ql4H4nJdrpOkoQffvjBXAdAyPUR2rdvb+aFJB+1a9eOkxD7nE899dRom222iXr27Bmv6927d9b9OPjggzPujxzriy++yNpO7ueWW24ZJwlyu2eccYZZt3z5clPq/ZBjyG3bx3B9/PHHppRtJPGpKPnRJEGPd+WVV5prOsiyXHdAbveqq64yV3WW29XHRcl2nTt3jvd/8MEHzfxmm20Wx+Rxa968uZm3kz2XbC/Hlun+++/PiGspz6E+J02bNo1GjBgRr7PrS8eOHeP7P2zYMPN82/dR5uW8lixZYmINGzaM2rVrZ+YXLVpkrr8AoDyF3j/9UaDAQhUSqGnsngRtbNqvD5m3fyR69NFHmzLUkyDsxr3Qhr/2JLzzzjvRyy+/bOalYSg0SbAboHocaeCq+vXrx+vFb37zG9MYtWP2+UviYJ+/XOhL2NvoOQh9DPbee2+TJPzzn/+M17nHl8arqqjhr0mCnockKyGSJNjnoxd6E3q72pNg3wdtqMsF78S0adOytjn99NOzYqEkoUuXLvG8/PNVKElQct+0J+G5556L4++++64pJUlQut/ixYszlu15O+ZbBlA+Qq9vfzQBDDdKL4YbAelhJwnXXnutKUONtmOPPTb67W9/a5YrShLkar5C9pGrDrtJwpw5c8y6iy66KCtJkG+j5QrDF1xwQZwk+F6vGjv77LOj119/PSPWrFmzjO3ee++9eNmOq2233daU//nPf6ITTzzRzMs32pIkyLAj2faKK67wNmBl/s4779xkkqCNZTF//nxrbSY53vTp082VnIUcVxIHuQqz3q4mCXvuuWe8n1i2bFnGsrDPdcaMGVmxUJLgPua+JEFceumlZvn777+Pk4QePXrE65UvSZD7ZC/b7OdQuNsw3AgoH+7rW/mjQIGFKiRQ00iSIA3jBQsWxK+LBg0amG+GZVmmV1991TTchW4zc+bMaMWKFWZehub8+OOPZmy/rpfG4qeffmoSA43JMaUBvMsuu5ghQno8iWuSoDGhScLEiRPNOUjDXddp6UsStJSGrSYmGtPGvP0e4JuXUpIEdyiPaNKkSbRmzRozBGndunXRrFmz4nW+H0BrT4Icy348fNzhRlraw4WOOuqo+PmRXhl57M877zzvfpKEXX755eZ83XUilCRIwjFu3Lj4vkmvidyW3q7QUp4Xud8HHnhg9Oijj5rYrrvumrFNRUlC3bp1o/PPP988NvLYCjdJqFevXsYygPIRek/0RxOg38IgfXTMaXUKVUigppGx/6JPnz4ZcRkTbpc77bSTaQTa7G1kat26dcZ6+V3AJ598YuZ1aI7uI9++Dx8+PLrpppvMGHv5Zlh6GIQ2MO1x6HKe2osh9DjSOB4zZkxGTI4lvRtjx47VzeP1mjTotsJ9P5B1ci5/+ctf4mXpnd5///1/3qbBT/tLciMNZ31fkwTLpT0psl2vXr2ib7/91tniZ/L7AyHJx9dff23m3edCEok//OEPZv6RRx6JTjrpJDOv7Aa5+O9//xv96le/ipft+z5p0qR43iU9K9ddd128LEO3+vXrZ5JCJUmXPH+qcePGppQk0b4d+Z2E0rgmCULua6dOneLlli1bxvM33nhjVjKzcOHCjGUApct9D1b+aAIYbpReDDcCkDb27wDycckll7ihotpiiy1MWS7vcdKj4fvHLIYbAeUj9H7ljwIFFqqQAGom/ba/1EkPhPTSpEYCF0aWnhOZjjzySHcVgDIQapP5owmgJyG96EkAqs/IkSPNWH0mplKZZPiZJgo60ZMAlI9Qm8wfBQosVCEBAOliJwf6A20A5SPUJvNHgQILVUgAQLpoggCgPIXaZP5oAhhulF4MNwIA5CKUHDDcCCgfoTaZPwoUWKhCAgAAoHhCbTJ/NAH6v9lIH/e/1qtDqEICANJvxx13dEMASlSoTeaPJsC9iA7So0ePHm6o6EIVEgCQfh06dHBDAEpUqE3mjwIFFqqQAMrL2rVr3VCVhd435GrS9tWFiyl0TgBQKkLvY/5oAvjhcnrxw2UASalfv755Pc+ZMycaN26cme/Zs6dZJ/P6Wm/SpEm8z6pVq0x82rRp8Ta675tvvhlvp3QbPdb8+fMzlu35Cy+8MGPZR9btvPPOGfu///77Gevt/Z955hmzLPf1oYceMvNy0TR729tvvz3eXmMbN/50JTNd7t69e7xNqeOHy0D5CL1f+qNAgYUqJIDSYr+Wf/jhh3heG8jak+BLEmbOnGmW7WO47w3uOjlu27Zt49itt96a0ZOwZMmSeF2IHnP16tXxvFv6YgMHDgyumzJlStS5c+cK9weANAq9R/mjCaAnIb3oSQCQFH0tSzKgiYGtoiRh5cqVZtnXsPYt243ufv36RbNmzYouvvjijCRB1m3qd1f2MbfZZpuM2NZbbx2vU3q8G264IY7p9o0aNcqIueev8XJDTwJQPkLvUf5oAkgS0oskAUBS7Nfy6aefbsoNGzZEixcvNvOaJNSpU8eU0tuQT5Lw1FNPRXvttVcckyRhxYoVWb9JGDJkSMayzT6mJgUac29PVJQkaDlgwIBo8ODBZkhSaJtyQpIAlI/Qe5Q/ChRYqEICKC3t2rXLWO7atWu0dOnSeFn+KnPGjBlmft999zWlDPOR/SRZEPYx3OOJLl26RCNHjozXyZCiXr16mXmNnXrqqaaUhvquu+5q5idMmGBKl30bcr5uTH4fceKJJ8bLxx9/vCnvuuuuOKbb77777mayjRo1apP3CQDSItQm80cTQE9CetGTAKTPaaed5oaA1KInASgfoTaZP5oA+acLpNPo0aPdUNGFKiRQkzzyyCNRixYtzISA7J85IAWef/55NwSgRIXaZP5oAnw/YEM6rF+/3g0VXahCAjXBE088EScHMp133nnuJkCqpeFzBEAyQm0yfzQBDDdKL4YbAdXriCOOyEgSbrnlFncTINUYbgSUj1CbzB8FCixUIYGa5IwzzmC4EQCgWoXaZP5oAuhJSC96EoB0kb8Cvfrqq90wkFr0JADlI9Qm80cTQJKQXiQJAIB8kCQA5SPUJrOi/NAYxROqkAAAlCSaUShRoTaZP5qA6uxJ4HVaMXoSANQEeoE1JI+eBKB8hNpk/ihQYKEKCaC4FixYEO21115uODHua91dzlVV9uvbt68bMvfXpyrHT4Lcrn2F6lzstNNObggAqiz0/uePJmDevHluCCkxduxYN1R0oQoJoPDk9aevQU0SJkyYEL388ssm/sMPP0R/+tOfMl6nc+fONcv237XqcT7//HOzLKV9bDF//vyoW7duZv65556Lpk6dGq874YQTMraV+aFDh8YxKfv37x/P16pVy0xq9erVJj5y5EizfNBBB8W3//jjj8fbvffeeyb29ttvx0lCp06dTKxJkyZm2T7va6+91szfe++98TFcur1My5cvN+XDDz9s1j399NNm2e61/eabb0xM3n/lPuhtSblw4UJT2tcXss9H6DmJ3r17x/HqInUFQHmw32ts/mgCqnO4ESrGcCOg5urSpUvGsp0k1K9f38Ts1+eiRYtMqRfPmjhxoikffPDBeBvdfscddzSlNHptdoPYjdnzduzTTz8NrpP5devWRVtuuaVZlvvQsGFDkyTY26iDDz44ntckQRvkegV63f6jjz6K73NF71O6Th6XNWvWZMR+/PHHeDu9nbVr12ZsI0aNGmWWP/nkk4x17n0V+tykBcONgPIReq/zR4ECC1VIAIUnrz+ZpAFrJwn6DbX9+tQGs480XPVY4p577jGl/KWr7eabbzbl5ZdfHsd0P3t/+3YlCbBjbsN50KBBWccIJQlz5syJ5zVJ6NixY/C299xzz4x1PvY6TQQktmrVqoxzuvvuu+PtdBulScKGDRsy1tn7a6xz587xfmLx4sUZyyg8fu+IchV6r/NHE0BPQnrRkwDUXPKNu5LXYa5Jgr6nH3nkkVnb6HwoSRAy5Mcm++gwJbtxrDaVJNjlmDFjogYNGgSThM0228yUK1asMPf322+/jddJsiDcY7rzLnudnSQIGUYlpPHv/t7A3k+TBBlKZK/znYObJFQ3ehKA8hF6r/NHEyBv2kinAw880A0VXahCAig8ef3JpGP0c0kS5H1D4s2bNzfLV1xxhVlu1qxZvH1FSYLvNa/ncemll8bLypck6KROP/10s6y/U7CThPbt28fz2jNQt27duCdBjyXDi0SHDh3M8syZM+N12267bfwtv8s+DzdJqFevXta5KjumScLgwYNNOWvWLBOX58Ld304SHnrooXi+uujQMgClz/deJfxRoMBCFRIAkqI9FeWmmO+fLVq0cEMAykzoPcUfTQDDjdKL4UYAagJ3iBOqRhIFN1lguBFQPkJtMn8UKLBQhQQApIsmCTI9//zz7moAJS7UJvNHE0BPQnrRkwBUn3PPPdf8JScTU6lMO+ywQ0aiIBM9CUD5CLXJ/NEEpOGCXfDr2bOnGyq6UIUEAKSLnRyoXXbZxdoCQCkLtcn8UaDAQhUSAJAukhzYV8oGUF5CbTJ/NAEMN0ovhhsBAPLBcCOgfITaZP4oUGChCgkAAIDiCbXJ/FGgwEIVEgAAAMUTapP5owlguFF6MdwIAJCPJIYbpe1z4JJLLnFDiVq9enV05513ZsT0MXAfC7ni+LBhwzJiQKG49U/5o0CBhSokAACVkdTnySmnnOKGElW/fn03FEwSxHXXXeeGgILw1T/hjyaAnoT0oicBAJCPJHsSDj300KhevXoZnwsyL9OAAQPi5ebNm8fbHHTQQfE2MrVr1y7eV9StWzfaaqutojp16phl+9jLly+PYzJts8020QEHHBA1adIkGjJkSHTTTTfF69Rdd90Vn6NOl156qVnXoEEDc1u6vfw9rLu/0H+Ikl6CWrVqZWwjpZyrlBs3brR3AwrOravKH03AmjVr3BBS4scff3RDRReqkAByR1MC1WXevHluqNL0c0Aa2Eoa8HPnzo322WefOGZ/6bh27VpTSpKg3M+TRx55JBo6dGhGzN5GkwS5SJxNexIkwVC6nyZF9nAhWffAAw9El112mVmWz9aWLVt6ryGxcOHCeN4+FztJcGOiY8eO8Xyl8QaBHLmvIeWPAgUWqpAAgJrBbYALbcDfd999Zr18ey/Dbl588cV4EhUlCb/97W+j8ePHZ8R8ScKoUaNMXNdpkiA9CkrXHX744aaUHgV7ncTvuOOO+NxeeeUVb5LwwQcfxPO+hMAXE/a5AIXivoaUP5oAhhulF8ONAJQdvjUtqiSHG7lJgjS0lW5z4IEHmlK//a8oSbBjbtm3b19zG9IjsWTJkox13bt3j5e1x6Jbt26mDCUJMjRI95cG/VNPPeVNEmzbbrttPO+e38477xxde+218fpXX301ngcKxfcaEv4oUGChCgkAQDlq06aNG6rQ6NGj3VCF1q9f74aAnITaZP5oAjZs2MAXOyklf8NW3UIVEgCQfqtWrXJD2ITKfu5VdvsWLVoU/G9cUZ5Cdc0fTQDDjdKL4UYAgHwkMdwIyZNEQScgV6E2mT8KFFioQgIA0s9ujDKlewI2JdQm80cTQE9CetGTAADIBz0J6URygKoItcn8UaDAQhUSAABUniYHcp0JoDJCbTJ/NAFffPGFG0JK/OUvf3FDRReqkACA9Lv66qvdEIASFWqT+aMJYLhRejHcCACQD4YbAeUj1CbzR4ECC1VIAAAAFE+oTeaPJoCehPSiJwEAkI9i9iQccsghbqhS5s2b54aiWrVquaG87LHHHm4IKBmhNpk/moAxY8a4IaREjx493FDRhSokACD9dtppJzdUMHXq1HFDeUs6Sdhss83cEFAyQm0yfxQosFCFBADULPJ5ULt2bTMNGTLELOtnxLvvvhvP258bOt+hQ4dom222iXbbbbdo+PDhprHeuHHjeDth9yTosStKEmT9tttum3W7999/fzR48OBo0aJFUZMmTcz5rl27NnrggQfi440aNcqcg+wj65YuXWqWGzRoEDVq1CjjvumxmzdvnnFbMr3yyivxNkCh2XXS5o8mgOFG6cVwIwBAPpIcbuQ2mt157UnwrdNSkoTjjjsuazuhScIRRxwRx9xtfPr3729K3VaTBHtfHTWhPQnuOUqSsGLFiqx1Y8eOjeeFbCdyOS8gaaF6548CBRaqkABQkja6AeTK/jzYddddo4kTJ8aTyDVJmDZtWtZ2QpMEO96wYcN43iY9Fy43SRD77ruviffr188sS5IgPQf2cTVJsJeVJAnyZap9X9evX5917kAxhOqdP5oAehLSi54EAEA+CtmTsHLlSjPfqVOnjPUyvEdsvfXWVUoSFixYEM2aNStat25d1ja2bt26mdK9DSndngQ3gdFy4MCBUcuWLStMEoQMWxIHHHCAKSs6L6BQQvXOH00ASUJ6kSQAAPJRqCRB7LXXXlGrVq3iZUkANmzYYObdxnhlkgSx3377RQcffHBUv359a4tMDz74oDmGNvDltmV59uzZcU+C/O5Bfmeg2rRpE8/Lsa+55hozv6kk4T//+Y+J33jjjVnbAMUSqnf+KFBgoQoJAChNLVq0cEMASkCoTeaPJoCehPSiJwEAkA/tSVi8eLFJDnQCUHpCbTJ/NAEzZ850Q0iJESNGuKGiC1VIAED63XfffRnJAQkCULpCbTJ/NAEbN/JXD2mlYzurU6hCAgDSTz5H5Ae+dpIg/+4DoPSE2mT+aAIYbpReDDcCAOTD/uHy/Pnz6U0ASlioTeaPAgUWqpAAgNIk/0oEoPSE2mT+aALoSUgvehIAAPlI8i9QAVSvUJvMHwUKLFQhAQAAUDyhNpk/ChRYqEICAACgeEJtMn80AQw3Si+GGwGoDitWrHBDeeO9pHqkargRf6YI5CX0PuqPAgUWqpAASpe8rnv06BHNnj07WrRoUVSvXr3o1VdfjdfJJH+T2aZNm3ifZcuWxfE+ffpEl112WTRnzpyofv360erVq+PthP2+UatWrWjIkCEVvpccd9xxUe3atePlSZMmmfLbb7815bp166LmzZtHl19+uVnWc9R1Mj98+PB4nZDbFeeee240YMAAMy9+//vfZ5yLzMt9AIC0C72P+qMJWLJkiRtCSkydOtUNFV2oQgIoXfbreu7cuVlx7UnwJQmzZs0yy5IkKPd9QpfdxrjPlltumTXvJgm6r++6Ptdee208/95775ltP//8c7Os+11//fVmaty4cbyt7xzL0UcffeSGAJSo0PuVP5oAhhulF8ONABSCvq4XLFgQ/fe//82YREVJgkoqSfDF3SRB9O/fP2tbSRrWrFkTLzdq1Chjm9atW5ty5MiRJkmQde59dY9ZblI13AhAXkLvV/4oUGChCgmgdNmv6wkTJsTzbdu2NaUmCdLoFtIYL1SS0LRp03het5FGvejbt2/WNuPHj4/nxU033RTPjxs3rsIkoUGDBvG6OnXqmDJ0XgCQNqH3K380AfQkpBc9CQAKwX5dy+8SZEz+pZdeGsdkPL8Md5SpYcOGVU4ShDTGe/funbWNbf/9948b7eK8884zF/yS3z8I/U2C/BZC6fGkJ0Hm9XwqShLEYYcdllPyUi7oSQDKR+j9yh8FCixUIYGaSBrNL774ohsGAKDgQm0yfxQosFCFBGoa+Ua2RYsWbhiVMG/evKwJAJCbUJvMH00Aw43Si+FGQPWTxMCegFLCcCOgfITaZP4oUGChCgnUBHINATtB2GeffdxNAAAoilCbzB9NAD0J6UVPApAO9CSgVNGTAJSPUJvMH03A2LFj3RBSomfPnm6o6EIVEqiJ9txzz/j/9YFS0LFjRzcEoESF2mT+KFBgoQoJAACA4gm1yfzRBDDcKL0YbgQAyAfDjYDyEWqT+aNAgYUqJAAAAIon1CbzR4ECC1VIoKaT33Pdc889GbEdd9zRW/q88847Ue3atd2wIfvp9PHHH7uri869Hz169MiK5aIq+yjfvr6YuPvuu91QQYXOo6oefPBBN5S3Ro0auSEAJSbUJvNHE8Bwo/RiuBGQXi+99FI0bNgwN2zo66ai109l1p1//vkZy8rdrlDkdr799tuM5arcdtL7hNbdcMMNbihLaN80aNasmRuqMnu40VtvvfXzCgAlJ/S+5Y8CBRaqkEA50vreu3fvjNiGDRtMecstt5gG3HXXXWeSBN0+l1KmpUuXRl26dMlY98QTT5gva84444ys/dTAgQOjm266KWrQoEG0cePGrO3WrFkTnXXWWRkxKf/xj39Ey5cvj5o3b5617sUXX4zuuOOOaPXq1VnrPvroo+irr76KTj311DjmnpMu16pVK2P55ptvNg3TK664Iqpbt645365du8bbyLR27dqoc+fOGfuddtppptTYzJkzzfy6desytpNSYr5zUpok6HpJcORc7Ji9r/QErF+/Po7df//95va33nrrrO31/srVon/1q1/FdSOkott9+OGHo7333ju67LLLogULFkT//ve/TVyThMaNG5vHT87/nHPOMc+zfRw5P3mO3XPT5XvvvTcaNGiQebztOIDSFHoN+6MJoCchvehJAKrf6NGjTamvhblz55pGpSQJZ555polJg3fOnDlZDUG39MVC6+zJ3U4atHayoI1D0aFDB1O6x5VeD2mMCvkrV0kSbL7badiwYRzT29AhVhKbMWOGbho3RCVJUPax3GWdP/jgg+NYkyZNTCmNWyGPqdLtH3/88ayYS5KE1q1bu2HDvZ8nn3xyvO6NN97IWKfzq1atipeFnJckCSp0HpIUuuxtJUmQx9UdXqRJgnsekiS4iYDOS7Jikzoij6PdkxA6TwClIfQa9kcT4HsTQzp8/vnnbqjoQhUSKEdS36dOnZoRmz17drxOyDfzmiRoQ/viiy82DUy3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xx9vhpItX77crDv88MOz9s21nD17drT11lub5aFDh0azZs2KmjZtaqabbrrJlKKypT7Osvzxxx+bx1nI/Ntvvx2vmz59eta+uZb6OMvyVVddFXXp0iVed/7553v3yaVcvHhxvHzUUUeZuih22WWX6KSTTorXtWzZMmvfXMuvvvoqatasmXl9PPbYY9Fnn30Wr3vhhRe8++RStmvXzpQ//vhj9OSTT0YdOnQw69auXRvdf//93n02VXbt2tXURVmW12K3bt2i1atXm3XHHntstP/++2ftk0spr2ldHjhwoKmLsizTZZddZuqiu08u5VZbbRUvT506Na6L48aNM/WvVatWZt2kSZOy9s21lLqgy3/5y1/iuiiuueaaeF1lS3lN63KPHj2iJUuWmGV5zI888sh43a677pq1b67ljBkz4uW7777b1EVd9+ijj3r3yaWU92ZdfvXVV01dlPl58+ZFTz/9dLxuzZo1WfvmUl544YWmLsr7qjj99NOjfffdN96mb9++WfvkUp5wwgnmHGVZ3qfOPvtsUxd1myFDhmTtk0spny9aF5999llTF7fddluzToZpf/LJJ1n75FLutNNO8fKDDz4Y10UxfPjwaLfddsvaJ5dSXtO6LK/pFStWmOXevXubzx+pi0K/fPQdY1Pld999Fy/feOONcV2U6a677orXbb755pUq9b1Ylt97772oTZs2Zl7q9ujRo+N10t5w98217Ny5synFxRdfHO21117xujPPPDNj21zLxo0bm8+XzTbbLNp5553N+6nURSF1Rd5vZZ1o0KCBKXV5U6VuL3VEPl/ktmRd0ZMEehLSK409CbIskzTEJEnYuHFjxnrl7pcrPb79xq5xH91e512+WEitWrUqtX1V5HL8XLZJCz3XTz/91MxrAmPfB/s5ypccRxrhPpu6jU2t96loH1knDSn57+6KtrPZj0WSjwsQQk8CUD5Cnxn+aAJIEtIrjUlCvXr14rhOkii4DR6dl2+d3HWS0cvyOeecE8eU7xj2vHzbZR/PnRfyjaPM9+/fP47JN7PueTRp0sQsjxgxwiz7kgT5BlZi8m2PrpNvwvRYsl7It6ayLN/m6HbyzY17m+7xNSbTt99+G22xxRYZ+8gYTJn/9a9/nbGtzsu3zTaJSfJm3442Yt3zOPnkk01p3x+l66SHRkjvz+uvv56xjZBlOb58u3vE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V7Nu48aN0d/+9jfvPrmU8tsEKU877bSod+/e0cqVK8264447LurTp0+8raxz982llH9smjlzplmWSX7zoL9vkuW77747a59cyg8//DBq3769WX733XdNb4n8tkHWyXMwZsyYrH1yKbt16xYv33zzzRlD+a688srooIMOytpHS8BvoxsAgIIKtcn8UaDAQhWyWKShptMRRxzhrgYAAKgRQm0yfzQBDDdKL4Yb/UwThXXr1rmrAAABDDcCykeoTeaPAgUWqpDV4bHHHmMICGo8BrkAQM0UapP5owmgJyG90tKTwMTExMTExMTEVP2Tjz+agFL6G8Wapn///m4IAICcHX744W4IQJkpWJIAAAAAoDQVLElguFF6pWG4EQCgdPHDZaD8FSxJAAAAAFCaSBJqILmgFgBsEm8VCNiwYYMbAlBmCpYkMNwovRhuBADIB8ONgPJXsCQBAAAAQGkqWJJAT0J60ZMAAMgHPQlA+StYkgAAAACgNAWTBLn62g8//BA999xzUe/evd3VQaGrtiFTEo/To48+6oZy0qpVK1MmcQ5J23rrraP169e74VQYNGiQG0JKSF3+85//HLVt27bCej1p0qRoyy23ND+6vO6669zVXu7xZHnFihUZsVy4x8mF7DNjxoxo4sSJUfPmzd3VQa+//np09NFHu+Esek5VOTek1x577GFeD4cddliFz628Dj755JNozZo10TbbbOOuznLzzTdnHc9dzlVV96tp5DNRnktph1X0mC1dutQNxSraLwlJHL9bt25uKCf6fpzEObjq16/vhhJXu3ZtN5Qq3kfVfWAq8+BXZlvkJ98kIY1uueUWN5QaJAnpZb/vyL93/elPf7LW/mzUqFHRSSedZOZzTRLefPPNjGX9UKqsyr437rbbbhnLldmfJKFm69evXzx/0003WWsySXKgZa5Jgt0+uPDCC6P77rvP2iJ31Lnc/OIXv4jnH3jgAWtNpupMEpKQT5JQykoySQg96HZcvrET+gHqfthIuXz58qyY+Oqrr6IzzjjDu+6bb76JmjVrFq1evTr6/PPPTawc6P2TbwTsZfsxfemll8y3hmLzzTeP12277bbxNjZNEuxjaMNAY19++aUpFy1aFP/1qXvbWsq3SnPnzjXzV1xxhSnr1atnSh/7dr/99ltTSu+T6NChgyl79eplynXr1sXbyze5Qj6Y3F4DTRJ02//93/+NTjzxxGjo0KEZ5y+Plb2dfS4uXScvxl133TUjttlmm5lSjq31dffdd8/Y5uyzz47uuOMOkyQsXLgwY519uzIv96eic0FhuI+5LH///fdxw0frmi9JsPfVde7xrr766jgukyQJUi/POeecOG6XonHjxsF1Oj98+HBT6vuhndy456DseK1atTJi8hqW16CdJDRt2tSU0huh9V22l/dY99y0lMdL5/U9C6XDThLEZZddZkp9f+/Zs6cpfUlC69atTblgwYKoTp06Zn7kyJGmlCRBaMNG6siTTz5p5j/77LPgZ4wkEu+//753nfj1r38dvfXWW9GOO+5olqdOnRpvM2HChHi7mshOEoQ+tx9++KEpu3btakpNEm677bas9zH7sfbFRo8enbF81FFHmXKvvfYypbyf2PR56tixoyndY+rnoNYX33uNS5MEXS+f1WeeeaaZHzJkSLxO2zRaN93jhu7rkUcemRHbd999TTlt2jRTXnXVVaaUOqzbuF+YK11/7733xvP7779/xjrRpUuXjJg8bqHXSMuWLaNXX301fu5821QH7y2HTsiOa5IgsSlTpsRx353yxZS97ve//72ZZF4qVTlxHwMt5Q1Z77dWyCVLlpj1mhyEviFwexLkeWjTpo2ZP/TQQzPWHXDAAfG8fkPpnov44IMPTBKnKrqmgp1AbLfddvG8fBA1atTIzPvqwbHHHhvfZ33xK0kSpCEnyYGS/SRJsJeVvrAPPPDAOObS7XfZZZfoxx9/zIgdfvjh8bm4j5luM2vWrOi4447L6Eno3Llz9O6772bVW3lzrFu3brwdisOuE+6yNOglIZDSlyQIed7kw6JHjx5mWRIAmx5PGuUyr93b+txL43v27NkZtxv6AkXnP/roo3h/mdauXVvpJMF37Pfeey8jSZDkwN1GGl7yoezub98njUmCj9LiJgn2+6c8nzp0zZckCHnfHzx4cJyEKm30ad34z3/+EycJdt2R90d7O33ftWNuPZbp+OOPj48xZsyY4GugJnGThD/84Q/x/Pz58+MvAdx2grYjhPtYK6kLb7zxhmnsnnLKKWadftEndcJ+f9KkRLjHtUv3/UPq0gknnBAvu3VK6fvRp59+apbd516+9PHdj1DpxtzGuZCYvtfrF5n6mhCbShLkMdeEady4caaU+yf3X16Dup22l4cNG2ZKoev0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975WZSqnxyMfeScJffr08U7yALsxnY477jj3MMiTmyQceuihWZW+slPbtm0zjplmbpLQo0fPrPtT2alv374ZxwQqQ8a0unVqU5O8boE0kd5kt55WNN1///3uIVAgbkPfnr74YnZ00EG9zL+pderUOerV65DorrseyNpOp3JqFLdps0PW/avshJ/knSSElFOFK1WHH/7zv6dUdmrdenv3cCVn++3bZN2vXCcSWeTr6aefzqpXFU0zZy6K5s2b5x4GqHa5DmXZd9/93F1RQBUlCZWdyq3N9tVXc7LuY67T//zP/7iHq7FIEspcVd5EnnzyhbK40JPch1deeTPr/m1qou4iKW7dqmjib3eRVq+++mp03XU3ZdVZdxo0aJC7KwqoKp/voancPvfOOuus6IILLs26n5uadt55Z/dQNRpJQg3wzDPP5PRmcswxv4v+9re/ubuXvFtuuSXq1+8PWffXneQxkg9DICm5vO50kp4HIM1C9Vn+hnPYsGHu5iiw0PNRlalc22xynZqnnnox6/7a07vvTi3b+58vkoQa6MwzzzTZskxdu3aNNmzY4G5StuS+yn2Wq0vK/R8wYIC7CZCoXD7Ieb9E2sl7pj3JBavc2MaNG93dUEC5vLfkOtWE96C333472nfffU1d/cUvfhEdc8wx7iZwkCQAQIG1aRP+fYw0tgCgskgSUGgkCQBQJPK+aE8AUFUkCSg0kgQAAIASQ5KAQiNJAAAAKDEkCSg0kgQAAIASc95552U19qs67bnnnu7hgcImCa+99pobBgAAQAKS6E34179edg8LGAVLEgS9CQAAAIVz4YVDshr+lZmOP/5495CAUZAkYf/994/n5b9oAQAAUBijR4+OfvnLA7MSgND0zTfzopYtW7qHATIkniS4vQfnnntuxjIAAACSJ20wufbKe+9Ny0oMZNprr65mmy+++MLdFciSaJKwcOFCN2S4iQMAAACA9Eo0SZg8ebIbipEoAAAAAKUhsSTh9NNPd0MZ5s6d64YAAAAApFAiScLJJ5/shrzoTQAAAADSL5EkoTJuvfVWNwQAAAAgRfJOEirbO9C5c2c3BAAAACBF8k4SquLZZ591QwAAAABSolqSBAAAAADpRZIAAAAAIANJAgAAAIAMhUsSNroBAAAAAKWgcEkCAAAAgJL0/wFvHSwEVfvP9gAAAABJRU5ErkJggg==>
