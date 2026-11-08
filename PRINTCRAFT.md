@@ -26,15 +26,7 @@ DAFTAR ISI
 
 [1.3 Definisi dan Istilah	6](#1.3-definisi-dan-istilah)
 
-[1.4 Referensi	8](#1.4-referensi)
 
-[2\. Deskripsi Produk atau Website	9](#2.-deskripsi-produk-atau-website)
-
-[2.1 Deskripsi Umum Produk atau Website	9](#2.1-deskripsi-umum-produk-atau-website)
-
-[2.2 Kategori Pengguna Produk atau Website	10](#2.2-kategori-pengguna-produk-atau-website)
-
-[2.3 Fitur Website	10](#2.3-fitur-website)
 
 [2.4 Karakteristik Pengguna Website	11](#2.4-karakteristik-pengguna-website)
 
@@ -1829,21 +1821,83 @@ Gambar 53\. Class Diagram Fitur Landing Page dan Daftar Member (PC-00
 
 ## 4.6 Sequence Diagram {#4.6-sequence-diagram}
 
-#### 4.6.1 Sequence Diagram Fitur Landing Page (PC-003)
+Sequence diagram memodelkan interaksi antar-objek berdasarkan urutan waktu (*lifeline*) pada sistem PrintCraft. Sesuai panduan perkuliahan, pembuatan sequence diagram dilakukan dengan memetakan secara konsisten:
+a. **Use Case Deskripsi** (Tabel 15: Use Case Deskripsi Landing Page dan Daftar Member kolom Aktor dan kolom Website).
+b. **Logic Class Diagram** (Subbab 4.5.2.1: 7 komponen arsitektur MVC).
+c. **Gambar Class Diagram** (Gambar 53: Class Diagram Fitur Landing Page dan Daftar Member PC-003).
+
+Ketentuan lifeline dan pesan (*message passing*) yang diterapkan:
+1. **Jenis Lifeline Sesuai Jenis Class:**
+   - Class View menggunakan simbol Lifeline Boundary (`view_landing_page`, `form_member`, `view_konfirmasi_member`).
+   - Class Controller menggunakan simbol Lifeline Control (`LandingPageController`, `DaftarMemberController`).
+   - Class Model menggunakan simbol Lifeline Entity (`DaftarMember`).
+   - Class Database/koneksi menggunakan simbol Lifeline Database (`Database`).
+2. **Sinkronisasi Nama:** Nama class pada class diagram dan nama lifeline pada sequence diagram sinkron 100%.
+3. **Pesan Antar-Lifeline:** Pesan dari aktor ke form mengambil aksi dari use case deskripsi, sedangkan pesan antar-class menggunakan pemanggilan function yang valid pada class diagram (*synchronous message*, *self-call*, dan *return message*).
+4. **Aturan Return Message:** Karena Customer hanya melihat visualisasi pada layar perangkat (bukan menerima wujud fisik), pesan *return* berhenti di Lifeline Boundary (View/Form).
+
+---
+
+### 4.6.1 Logic Sequence Diagram Fitur Landing Page (PC-003)
+
+Berdasarkan rincian use case deskripsi kolom aplikasi (Tabel 15), pemetaan aktivitas use case deskripsi dan function class diagram dijabarkan:
+1. Aktor (Customer) Buka landing page pada browser.
+2. Aktor (Customer) membuka landing page kemudian `view_landing_page` akan mengeksekusi function `daftarMember()` yang terdapat pada `view_landing_page`. Function `daftarMember()` akan memanggil function `index()` yang terdapat pada Controller `LandingPageController`. Kemudian akan menampilkan isi dari function `index()` ke aktor yaitu menampilkan visualisasi halaman landing page pada layar `view_landing_page` Customer. Karena halaman bersifat statis dan informatif, Controller tidak memanggil Model maupun Database.
+
+**Komponen yang terlibat :**
+1. Aktor (Customer)
+2. Class View / Lifeline Boundary (`view_landing_page`)
+3. Class Controller / Lifeline Control (`LandingPageController`)
+
+---
+
+### 4.6.2 Gambar Sequence Diagram Fitur Landing Page (PC-003)
 
 ![][image54]
 
-Gambar 54\. Sequence Diagram Tampil Landing Page.  
-Gambar 54 menampilkan sequence diagram fitur landing page website PrintCraft. Customer berinteraksi dengan view\_landing\_page saat mengakses halaman utama website.Saat halaman diakses, view\_landing\_page memanggil fungsi daftarMember() melalui route GET / menuju LandingPageController, yang kemudian menjalankan *self-call* index(). Karena konten landing page bersifat statis dan tidak memerlukan data dari database, LandingPageController langsung mengembalikan tampilan view\_landing\_page kepada Customer. Pesan *return* berhenti di view\_landing\_page karena pengguna hanya melihat tampilan layar.
+Gambar 54. Sequence Diagram Tampil Landing Page  
+Gambar 54 merupakan sequence diagram tampil landing page website PrintCraft. Customer berinteraksi secara langsung dengan `view_landing_page` saat mengakses alamat website. Customer melakukan aksi buka landing page, maka pada `view_landing_page` akan menjalankan fungsi `daftarMember()` melalui route GET / menuju controller `LandingPageController`. Pada controller `LandingPageController` dijalankan *self-call* fungsi `index()` yang langsung merender antarmuka ke pengguna Customer. Karena konten landing page bersifat statis dan tidak memerlukan pembacaan database, pesan *return* langsung dikembalikan dan berhenti di form `view_landing_page` yang dilihat oleh Customer pada layar perangkatnya.
 
-#### 
+---
 
-#### 4.6.2 Sequence Diagram Fitur Daftar Member (PC-003)
+### 4.6.3 Logic Sequence Diagram Fitur Daftar Member (PC-003)
+
+Berdasarkan rincian use case deskripsi kolom aplikasi (Tabel 15), pemetaan aktivitas use case deskripsi dan function class diagram dijabarkan:
+1. Aktor (Customer) Buka landing page, kemudian pada tampilan `view_landing_page` Customer mengklik tombol "Daftar Member".
+2. Tampilan `view_landing_page` akan mengeksekusi function `daftarMember()` yang terdapat pada `view_landing_page`. Function `daftarMember()` akan memanggil function `create()` yang terdapat pada Controller `DaftarMemberController`. Kemudian Controller akan menampilkan isi dari function `create()` ke aktor yaitu menampilkan visualisasi `form_member` pada layar Customer.
+3. Setelah halaman `form_member` tampil, aktor (Customer) akan mengisikan data diri (nama, nomor WhatsApp, email, dan alamat), kemudian mengklik tombol "Daftar".
+4. Aktor (Customer) mengklik tombol "Daftar", kemudian `form_member` akan mengeksekusi function `prosesDaftar()`. Function `prosesDaftar()` akan memanggil function `store(request)` yang terdapat pada Controller `DaftarMemberController`.
+5. Function `store(request)` yang terdapat pada `DaftarMemberController` terhubung dengan function dan variabel yang terdapat pada Model `DaftarMember`, lalu secara berurutan:
+   - Menjalankan function `validasiData(data)` pada Model `DaftarMember` untuk memvalidasi kelengkapan isian form pendaftaran, kemudian hasilnya di-return ke Controller.
+   - Menjalankan function `nomorWhatsappTerdaftar(nomor_whatsapp)` pada Model `DaftarMember`. Function ini akan mengecek data ke database melalui koneksi yang disetting pada komponen `Database` dengan nama database `printcraft_db` dan variabel `db`, kemudian di-return statusnya ke Controller.
+6. Aplikasi akan melakukan pengecekan kondisi percabangan (*Alt: Interaction Heading*):
+   - **Kondisi Valid dan Nomor Belum Terdaftar [True]:**
+     1. `DaftarMemberController` menjalankan function `ambilKategoriMember()` pada Model `DaftarMember` untuk mengambil ID kategori "Member" dari Database.
+     2. `DaftarMemberController` menjalankan function `buatDataMember(data, id_kategori_customer)` pada Model `DaftarMember` untuk menyusun record data customer baru.
+     3. `DaftarMemberController` menjalankan function `simpanMember(data_member)` pada Model `DaftarMember`. Model mengeksekusi query simpan ke `Database` dan mengembalikan nilai kembalian berupa `id_customer` yang berhasil terbentuk.
+     4. `DaftarMemberController` menjalankan function `ambilInfoPotonganMember(id_kategori_customer)` pada Model `DaftarMember` untuk membaca besaran diskon member dari Database.
+     5. `DaftarMemberController` mengeksekusi *self-call* `berhasil(id_customer)` lalu mengarahkan navigasi (*redirect*) ke `view_konfirmasi_member`.
+     6. Pada `view_konfirmasi_member` dijalankan *self-call* `tampilKonfirmasi()` untuk menampilkan visualisasi halaman konfirmasi pendaftaran member berhasil beserta informasi rincian potongan harga kepada Customer di layar.
+   - **Kondisi Data Tidak Valid atau Nomor WhatsApp Sudah Terdaftar [False]:**
+     `DaftarMemberController` membatalkan proses simpan dan mengembalikan pesan error ke tampilan `form_member` untuk menampilkan pesan data tidak valid atau nomor WhatsApp sudah terdaftar.
+
+**Komponen yang terlibat :**
+1. Aktor (Customer)
+2. Class View / Lifeline Boundary (`view_landing_page`)
+3. Class View / Lifeline Boundary (`form_member`)
+4. Class Controller / Lifeline Control (`DaftarMemberController`)
+5. Class Model / Lifeline Entity (`DaftarMember`)
+6. Class Database/koneksi (`Database`)
+7. Class View / Lifeline Boundary (`view_konfirmasi_member`)
+
+---
+
+### 4.6.4 Gambar Sequence Diagram Fitur Daftar Member (PC-003)
 
 ![][image55]
 
-Gambar 55\. Sequence Diagram Daftar Member  
-Gambar 55 menampilkan sequence diagram fitur pendaftaran member pada website PrintCraft. Customer berinteraksi dengan view\_landing\_page dan form\_member untuk melakukan pendaftaran.Proses diawali saat Customer menekan tombol *Daftar Member* pada view\_landing\_page. Tampilan tersebut memanggil fungsi daftarMember() melalui route GET /daftar-member ke DaftarMemberController, yang menjalankan fungsi create() lalu menampilkan form\_member. Setelah form tampil, Customer mengisi data (nama, nomor WhatsApp, email, dan alamat) lalu menekan tombol *Daftar*. form\_member kemudian memanggil fungsi prosesDaftar() melalui route POST /daftar-member ke DaftarMemberController untuk menjalankan fungsi store(request). DaftarMemberController selanjutnya memanggil fungsi pada Model DaftarMember secara berurutan, yaitu validasiData(data) untuk mengecek kelengkapan form, nomorWhatsappTerdaftar(nomor\_whatsapp) untuk memeriksa keunikan nomor di Database, ambilKategoriMember() untuk mengambil ID kategori *Member* dari tabel master\_data, buatDataMember(data, id\_kategori\_customer) untuk menyusun data Customer, simpanMember(data\_member) untuk menyimpan data baru ke tabel customer dan menghasilkan id\_customer, serta ambilInfoPotonganMember(id\_kategori\_customer) untuk mengambil informasi diskon. Setiap pemanggilan fungsi pada Model yang membutuhkan data diteruskan ke Database dan dikembalikan hasilnya. Pada kondisi *true* (validasi sukses dan nomor belum terdaftar), DaftarMemberController melakukan *self-call* berhasil (id\_customer) lalu mengarahkan ke view\_konfirmasi\_member yang menjalankan *self-call* tampilKonfirmasi(). Sebaliknya, pada kondisi *false* (validasi gagal atau nomor terdaftar), DaftarMemberController mengembalikan Customer ke form\_member disertai pesan error. Seluruh pesan *return* berhenti di layar tampilan yang dilihat oleh pengguna.
+Gambar 55. Sequence Diagram Daftar Member  
+Gambar 55 merupakan sequence diagram pendaftaran member pada website PrintCraft. Customer berinteraksi secara langsung dengan `view_landing_page` dan `form_member` untuk melakukan registrasi member. Proses diawali saat Customer menekan tombol *Daftar Member* pada `view_landing_page`, yang memanggil fungsi `daftarMember()` menuju controller `DaftarMemberController` untuk menjalankan `create()` dan menampilkan `form_member`. Setelah form tampil, Customer mengisi data (nama, nomor WhatsApp, email, dan alamat) lalu menekan tombol *Daftar*. Form kemudian mengeksekusi fungsi `prosesDaftar()` ke controller `DaftarMemberController` untuk menjalankan `store(request)`. Controller memanggil fungsi pada Model `DaftarMember` secara terstruktur, yaitu `validasiData(data)`, pengecekan ke Database melalui `nomorWhatsappTerdaftar(nomor_whatsapp)`, pengambilan kategori via `ambilKategoriMember()`, pembentukan data via `buatDataMember()`, penyimpanan ke Database melalui `simpanMember(data_member)` yang menghasilkan `id_customer`, serta pengambilan informasi diskon via `ambilInfoPotonganMember()`. Pada kondisi valid (*alt condition true*), controller mengeksekusi *self-call* `berhasil(id_customer)` dan mengarahkan ke `view_konfirmasi_member` yang menjalankan `tampilKonfirmasi()` untuk menampilkan status sukses beserta kartu potongan harga. Sebaliknya pada kondisi tidak valid (*alt condition false*), controller mengembalikan pesan error ke `form_member`. Seluruh pesan return berhenti pada form tampilan yang dilihat oleh pengguna di layar perangkat.
 
 5\. Kebutuhan Non-Fungsional Produk atau Aplikasi
 
