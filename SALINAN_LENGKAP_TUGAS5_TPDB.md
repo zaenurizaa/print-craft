@@ -1,69 +1,29 @@
-# DOKUMEN TUGAS 5 TPDB: CLASS DIAGRAM DAN SEQUENCE DIAGRAM LENGKAP
-**Aplikasi:** PrintCraft - Sistem Manajemen Workshop Sablon Kaos Terpadu  
-**Arsitektur Framework:** Laravel (PHP MVC)  
-**Basis Data:** MySQL (`printcraft_db`)  
-**Penyesuaian Ketentuan:** Sinkron dengan Dokumen SRS Revisi Terakhir (PC-001 s.d. PC-006) & Standar Dosen
+# SALINAN LENGKAP TUGAS 5 TPDB (PRINTCRAFT)
+**Framework:** Laravel (PHP MVC) | **Database:** MySQL (`printcraft_db`)  
+**Penyesuaian:** Sinkron dengan SRS Revisi Terakhir (PC-001 s.d. PC-006)
 
 ---
 
-## PANDUAN PENGGUNAAN KODE DRAW.IO
+## DAFTAR ISI DOKUMEN:
+1. **[BAGIAN 1: KODE DRAW.IO LENGKAP (SATU WINDOW)](#bagian-1-kode-drawio-lengkap-satu-window)**  
+   *Seluruh 14 diagram dalam 1 blok XML. Saat di-paste ke draw.io, langsung tampil dalam 1 jendela browser dengan 14 tab diagram di bagian bawah.*
+2. **[BAGIAN 2: PENJELASAN CLASS DIAGRAM (FORMAT TANPA NOMOR GAMBAR)](#bagian-2-penjelasan-class-diagram)**
+3. **[BAGIAN 3: PENJELASAN SEQUENCE DIAGRAM (FORMAT TANPA NOMOR GAMBAR)](#bagian-3-penjelasan-sequence-diagram)**
 
-Untuk melihat, mengedit, atau mengekspor diagram ke format gambar (PNG/PDF/SVG) dari kode Draw.io XML yang ada di dokumen ini:
-1. Buka situs [draw.io](https://app.diagrams.net/) di browser atau buka aplikasi Draw.io Desktop.
-2. Buat diagram baru (*Create New Diagram* -> *Blank Diagram*).
-3. Pada bilah menu atas, klik menu **Arrange** (atau klik ikon **+** di toolbar) -> pilih **Insert** -> pilih **Advanced** -> pilih **XML...**.
-4. Salin (*copy*) seluruh kode XML yang terdapat di dalam blok kode ```xml ... ``` di bawah ini.
-5. Tempelkan (*paste*) ke kotak dialog XML pada Draw.io, lalu klik tombol **Apply**.
-6. Diagram akan langsung muncul lengkap dengan bentuk (*shape*), teks atribut/operasi, garis relasi panah, dan angka *multiplicity*.
-7. Diagram dapat langsung diekspor melalui menu **File** -> **Export as** -> **PNG** (centang *Include a copy of my diagram*).
-
----
-
-## TABEL SIMBOL DAN ARTI SIMBOL UML
-
-Sebelum penyajian diagram, berikut adalah tabel simbol UML yang digunakan pada Class Diagram dan Sequence Diagram sesuai panduan dosen:
-
-| Simbol / Notasi | Nama Notasi | Keterangan & Penggunaan pada Laravel MVC |
-| :--- | :--- | :--- |
-| **Kotak Class (Shape UML 2.5 / Class 5)** | Class Model (Entity) | Memodelkan kelas entitas Eloquent ORM yang memiliki field atribut tabel dan method operasi logika data bisnis. |
-| **Kotak Class (<<Controller>>)** | Class Controller (Control) | Memodelkan kelas controller penghubung (*control class*) yang memproses request route, memvalidasi input, memanggil model, dan mengembalikan view. |
-| **Kotak Class (View)** | Class View (Boundary) | Memodelkan file template Blade (`.blade.php`) sebagai antarmuka antarmuka pengguna (*user interface*). Berisi fungsi pemanggilan event/tombol. |
-| **Kotak Class (Database)** | Database Connection | Memodelkan koneksi basis data global MySQL melalui konfigurasi database Laravel (`config/database.php`). |
-| **Panah Putus-putus Terbuka (`-->`)** | Dependency Relasi (<<Dependency>>) | Menunjukkan ketergantungan antar-class, misal: View memanggil Controller via Route HTTP, Controller memanggil Model, atau Model mengakses Database. |
-| **Garis Lurus Solid (`---`)** | Association Relasi | Menunjukkan hubungan asosiasi struktural antar-entitas data bisnis (Model ke Model). |
-| **Multiplicity (1, *, 1..*, 0..*)** | Kardinalitas Relasi | Menunjukkan jumlah relasi data, contoh: 1 Cabang memiliki * (banyak) Akun; 1 Customer memiliki 0..* Pesanan. |
-| **Stickman** | Actor Lifeline | Pengguna yang berinteraksi langsung dengan antarmuka sistem (Customer, Owner, Admin). |
-| **Lifeline Boundary (Bulatan bergaris kiri)** | View Boundary Lifeline | Komponen antarmuka (Blade form/halaman) tempat interaksi pengguna berlangsung. |
-| **Lifeline Control (Bulatan berpanah melingkar)** | Controller Lifeline | Komponen logika pengendali alur aplikasi (Laravel Controller). |
-| **Lifeline Entity (Bulatan bergaris bawah)** | Model Entity Lifeline | Komponen pengelola data bisnis (Eloquent Model). |
-| **Panah Solid Berisi (`->`)** | Synchronous Message / Call | Pemanggilan method atau rute fungsi secara berurutan. |
-| **Panah Melingkar ke Diri Sendiri** | Self-Call Message | Eksekusi internal method di dalam class yang sama (misal `index()`, `hitung()`). |
-| **Panah Putus-putus Terbuka (`-->`)** | Return Message | Nilai balikan atau hasil respon data/tampilan yang dikirim kembali ke pemanggil. |
+File ini juga dipisahkan menjadi 2 file terpisah untuk kemudahan Anda:
+- File Khusus Kode: [`KODE_DRAWIO_SATU_WINDOW.md`](file:///d:/laragon/www/PrintCraft/KODE_DRAWIO_SATU_WINDOW.md)
+- File Khusus Penjelasan: [`PENJELASAN_DIAGRAM_TUGAS5.md`](file:///d:/laragon/www/PrintCraft/PENJELASAN_DIAGRAM_TUGAS5.md)
+- File Draw.io Siap Buka: [`printcraft-semua-diagram.drawio`](file:///d:/laragon/www/PrintCraft/printcraft-semua-diagram.drawio)
 
 ---
 
-# BAGIAN 1: KUMPULAN CLASS DIAGRAM (SEMUA FITUR PC-001 s.d. PC-006)
+# BAGIAN 1: KODE DRAW.IO LENGKAP (SATU WINDOW)
 
-Tabel Pemetaan Fitur & Class Diagram:
+> **Petunjuk:** Cukup salin kode XML di bawah ini sekali saja, buka [draw.io](https://app.diagrams.net/), lalu pilih menu **Arrange** -> **Insert** -> **Advanced** -> **XML...** dan klik **Apply**. Seluruh 14 diagram otomatis tersusun dalam 1 window dengan tab halaman!
 
-| Kategori Pengguna | ID Fitur | Fitur | Nomor Diagram | File Draw.io |
-| :---: | :---: | :---: | :---: | :---: |
-| Owner, Admin | PC-001 | Login, Akun, dan Cabang | Gambar 7 TPDB | `class-diagram-pc001.drawio` |
-| Owner, Admin | PC-002 | Master Data dan Kalkulator Harga | Gambar 6 TPDB | `class-diagram-pc002.drawio` |
-| Customer | PC-003 | Landing Page dan Daftar Member | Gambar 5 TPDB / Gbr 53 SRS | `class-diagram-pc003.drawio` |
-| Owner, Admin | PC-003 | Pesanan Sablon dan Data Customer | Gambar 5b TPDB | `class-diagram-pesanan.drawio` |
-| Owner, Admin | PC-004 | Pengadaan Stok Kaos Polos | Gambar 8 TPDB | `class-diagram-pc004.drawio` |
-| Owner, Admin | PC-005 | Invoice dan Work Order Production (WOP) | Gambar 9 TPDB | `class-diagram-pc005.drawio` |
-| Owner, Admin | PC-006 | Dashboard dan Rekap Laporan Keuangan | Gambar 10 TPDB | `class-diagram-pc006.drawio` |
-
----
-
-### 1.1 Class Diagram Fitur Login, Akun, dan Cabang (PC-001)
-
-#### Kode Draw.io XML:
 ```xml
-<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
-  <diagram id="class-pc001" name="Class Diagram PC-001">
+<mxfile host="app.diagrams.net" modified="2026-11-09T01:10:00.000Z" agent="Antigravity" version="24.0.0">
+  <diagram id="page-1" name="Class Diagram Login, Akun, Cabang">
     <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -162,36 +122,7 @@ Tabel Pemetaan Fitur & Class Diagram:
       </root>
     </mxGraphModel>
   </diagram>
-</mxfile>
-```
-
-#### Penjelasan Gambar 7. Class Diagram Fitur Login, Akun, dan Cabang:
-Gambar 7 memodelkan struktur kelas pada modul autentikasi dan manajemen hierarki organisasi PrintCraft:
-1. **Lapisan View (Boundary):**
-   - `view_login`: Antarmuka formulir otentikasi login (`resources/views/auth/login.blade.php`) dengan event `submitLogin()`.
-   - `view_cabang`: Antarmuka kelola cabang workshop (`resources/views/cabang/index.blade.php`) dengan event `tambahCabang()` dan `ubahCabang()`.
-   - `view_akun`: Antarmuka manajemen hak akses akun (`resources/views/akun/index.blade.php`) dengan event `tambahAkun()` dan `ubahStatusAkun()`.
-2. **Lapisan Controller (Control):**
-   - `AuthController`: Menangani route rute autentikasi via method `showLoginForm()`, `login(request)`, dan `logout(request)`.
-   - `CabangController`: Menangani operasi CRUD cabang melalui `index()`, `store(request)`, dan `update(request, id)`.
-   - `AkunController`: Menangani operasi akun staf workshop via `index()`, `store(request)`, `update(request, id)`, dan `destroy(id)`.
-3. **Lapisan Model (Entity):**
-   - `Cabang`: Mewakili tabel `cabang` dengan atribut identitas workshop dan method `tambahCabang(data)`, `ubahCabang(id, data)`, `getCabangAktif()`.
-   - `Akun`: Mewakili tabel `akun` dengan atribut kredensial pengguna (termasuk `password_hash` dan `role`) serta method `autentikasi(username, password)`, `buatAkun(data)`, `ubahStatus(id, status)`.
-4. **Relasi & Multiplicity:**
-   - Model `Cabang` berelasi asosiasi dengan Model `Akun` dengan kardinalitas `1` ke `*` (satu cabang dapat menaungi banyak akun staf, namun setiap akun terdaftar pada satu cabang tertentu).
-   - Seluruh View terhubung ke Controller masing-masing dengan relasi *Dependency*.
-   - Seluruh Controller terhubung ke Model dengan relasi *Dependency*.
-   - Model `Cabang` dan `Akun` terhubung ke kelas koneksi `Database` via relasi *Dependency*.
-
----
-
-### 1.2 Class Diagram Fitur Master Data dan Kalkulator Harga (PC-002)
-
-#### Kode Draw.io XML:
-```xml
-<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
-  <diagram id="class-pc002" name="Class Diagram PC-002">
+  <diagram id="page-2" name="Class Diagram Master Data dan Kalkulator">
     <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -286,35 +217,7 @@ Gambar 7 memodelkan struktur kelas pada modul autentikasi dan manajemen hierarki
       </root>
     </mxGraphModel>
   </diagram>
-</mxfile>
-```
-
-#### Penjelasan Gambar 6. Class Diagram Fitur Master Data dan Kalkulator Harga:
-Gambar 6 memodelkan pengelolaan data konfigurasi dasar produksi sablon dan mesin kalkulasi harga pesanan:
-1. **Lapisan View (Boundary):**
-   - `view_master_produk`: Antarmuka data jenis kain, variasi warna, dan ukuran kaos polos (`tambahProduk()`, `editProduk()`).
-   - `view_tarif_sablon`: Antarmuka pengelolaan tarif teknik sablon (DTF, Rubber, Plastisol) dan dimensi cetak (`updateTarif()`).
-   - `view_kalkulator`: Antarmuka simulasi estimasi biaya otomatis sebelum pesanan dibuat (`hitungEstimasi()`, `resetForm()`).
-2. **Lapisan Controller (Control):**
-   - `MasterDataController`: Menangani rute pengelolaan katalog barang dan tarif (`index()`, `storeProduk(request)`, `updateTarif(request)`).
-   - `KalkulatorController`: Mengkalkulasi formula matematis biaya produksi secara real-time via `hitung(request)` dan `getHargaDasar(id_produk)`.
-3. **Lapisan Model (Entity):**
-   - `ProdukKaos`: Entitas data katalog kaos polos (atribut tipe bahan, ukuran, warna, stok dasar, harga pokok).
-   - `TarifSablon`: Entitas tarif jenis sablon berdasarkan variasi teknik dan area cetak (A4, A3, Logo).
-   - `KalkulatorHarga`: Service model pengolah algoritma: `total = (harga_kaos + tarif_sablon + biaya_desain) * jumlah_pcs - diskon_member`.
-4. **Relasi & Multiplicity:**
-   - `ProdukKaos` berelasi asosiasi `1` ke `*` dengan `TarifSablon` saat membentuk kombinasi paket sablon.
-   - `KalkulatorHarga` memiliki dependensi terhadap `ProdukKaos` dan `TarifSablon` untuk membaca harga acuan.
-   - Seluruh Model berelasi *Dependency* ke class `Database`.
-
----
-
-### 1.3 Class Diagram Fitur Landing Page dan Daftar Member (PC-003)
-
-#### Kode Draw.io XML:
-```xml
-<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
-  <diagram id="class-diagram-pc003" name="Class Diagram PC-003">
+  <diagram id="page-3" name="Class Diagram Landing Page dan Member">
     <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -439,35 +342,7 @@ Gambar 6 memodelkan pengelolaan data konfigurasi dasar produksi sablon dan mesin
       </root>
     </mxGraphModel>
   </diagram>
-</mxfile>
-```
-
-#### Penjelasan Gambar 5. Class Diagram Fitur Landing Page dan Daftar Member:
-Diagram ini identik dengan Gambar 53 pada dokumen SRS PrintCraft yang menjadi acuan resmi:
-1. **Lapisan View (Boundary):**
-   - `view_landing_page`: Halaman depan publik profil workshop PrintCraft (`daftarMember()`).
-   - `form_member`: Formulir pendaftaran member baru (`prosesDaftar()`).
-   - `view_konfirmasi_member`: Halaman ucapan selamat dan tampilan nomor WhatsApp terdaftar (`tampilKonfirmasi()`).
-2. **Lapisan Controller (Control):**
-   - `LandingPageController`: Menangani rute beranda publik (`index()`).
-   - `DaftarMemberController`: Menangani registrasi member via `create()`, `store(request)`, dan `berhasil(id_customer)`.
-3. **Lapisan Model (Entity):**
-   - `DaftarMember`: Mengelola validasi data unik pelanggan via method `validasiData(data)`, `nomorWhatsappTerdaftar(no_wa)`, `buatDataMember(data, id_kategori)`, `simpanMember(data)`, `ambilKategoriMember()`, dan `ambilInfoPotonganMember(id_kategori)`.
-   - `KategoriCustomer (PC-002)`: Entitas acuan tingkatan keanggotaan customer (Reguler, Member Diskon, Reseller).
-   - `Pesanan (PC-003)`: Entitas pesanan yang berelasi dengan customer saat bertransaksi.
-4. **Relasi & Multiplicity:**
-   - `DaftarMember` berelasi `*` ke `1` terhadap `KategoriCustomer` (banyak member berada dalam 1 kategori).
-   - `DaftarMember` berelasi `1` ke `0..*` terhadap `Pesanan` (satu member dapat memiliki nol atau banyak pesanan).
-   - Seluruh controller dan model terhubung ke `Database` via relasi *Dependency*.
-
----
-
-### 1.4 Class Diagram Fitur Kelola Pesanan dan Data Customer (PC-003)
-
-#### Kode Draw.io XML:
-```xml
-<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
-  <diagram id="class-pesanan" name="Class Diagram Pesanan">
+  <diagram id="page-4" name="Class Diagram Pesanan dan Customer">
     <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -558,37 +433,7 @@ Diagram ini identik dengan Gambar 53 pada dokumen SRS PrintCraft yang menjadi ac
       </root>
     </mxGraphModel>
   </diagram>
-</mxfile>
-```
-
-#### Penjelasan Gambar 5b. Class Diagram Fitur Pesanan dan Data Customer:
-Diagram ini memodelkan proses inti transaksi penjualan sablon kaos di workshop:
-1. **Lapisan View (Boundary):**
-   - `view_pesanan`: Tampilan daftar pesanan dengan filter status produksi dan pembayaran (`tambahPesanan()`, `filterStatus()`).
-   - `form_pesanan`: Formulir input transaksi sablon (pemilihan customer, spesifikasi kain, unggah file desain sablon, DP 50%).
-   - `view_detail_pesanan`: Halaman detail transaksi, linimasa progres pengerjaan, dan pencatatan pelunasan.
-2. **Lapisan Controller (Control):**
-   - `PesananController`: Mengendalikan aliran transaksi via `index()`, `create()`, `store(request)`, `show(id)`, `updateStatusProduksi(id, status)`.
-   - `PembayaranController`: Mengelola validasi pembayaran awal (DP minimal 50%) dan pelunasan (`storePembayaran(request)`).
-3. **Lapisan Model (Entity):**
-   - `Customer`: Entitas penyimpan data profil pembeli (`id_customer`, `nama`, `nomor_whatsapp`, `email`).
-   - `Pesanan`: Entitas master transaksi (`id_pesanan`, `kode_pesanan`, `total_harga`, `sisa_pembayaran`, `status_produksi`, `status_pembayaran`).
-   - `DetailPesanan`: Entitas rincian item pesanan (tipe sablon, ukuran, jumlah pcs, subtotal).
-   - `Pembayaran`: Entitas pencatatan transaksi uang muka dan pelunasan (`id_pembayaran`, `jumlah_bayar`, `metode_transfer`, `bukti_transfer`).
-4. **Relasi & Multiplicity:**
-   - `Customer` `1` ke `0..*` `Pesanan`: Satu pelanggan dapat melakukan banyak transaksi pesanan.
-   - `Pesanan` `1` ke `1..*` `DetailPesanan`: Satu pesanan wajib memiliki minimal satu baris rincian item sablon.
-   - `Pesanan` `1` ke `1..*` `Pembayaran`: Satu pesanan memiliki riwayat pembayaran (minimal 1 kali saat DP, hingga pelunasan).
-   - Model mengakses `Database` via relasi *Dependency*.
-
----
-
-### 1.5 Class Diagram Fitur Pengadaan Stok Kaos Polos (PC-004)
-
-#### Kode Draw.io XML:
-```xml
-<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
-  <diagram id="class-pc004" name="Class Diagram PC-004">
+  <diagram id="page-5" name="Class Diagram Pengadaan Kaos">
     <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -649,33 +494,7 @@ Diagram ini memodelkan proses inti transaksi penjualan sablon kaos di workshop:
       </root>
     </mxGraphModel>
   </diagram>
-</mxfile>
-```
-
-#### Penjelasan Gambar 8. Class Diagram Fitur Pengadaan Stok Kaos Polos:
-Gambar 8 memodelkan rantai pasok pengadaan bahan baku kaos polos ke vendor:
-1. **Lapisan View (Boundary):**
-   - `view_pengadaan`: Antarmuka monitoring status pengadaan kaos antar-cabang (`buatPengadaan()`, `filterVendor()`).
-   - `form_pengadaan`: Formulir input pemesanan kaos polos ke vendor rekanan (`submitPengadaan()`).
-2. **Lapisan Controller (Control):**
-   - `PengadaanController`: Mengendalikan penerbitan Purchase Order (PO) kaos polos melalui `index()`, `store(request)`, `updateStatusTiba(id)`.
-3. **Lapisan Model (Entity):**
-   - `Vendor`: Entitas penyedia bahan kain kaos (`id_vendor`, `nama_vendor`, `kontak`, `alamat`).
-   - `PengadaanKaos`: Entitas transaksi PO (`id_pengadaan`, `nomor_po`, `total_pcs`, `biaya_pengadaan`, `status_pengiriman`).
-   - `ItemPengadaan`: Rincian spesifikasi kaos yang diadakan (ukuran S/M/L/XL/XXL, gramasi 30s/24s, warna).
-4. **Relasi & Multiplicity:**
-   - `Vendor` berelasi `1` ke `*` dengan `PengadaanKaos` (satu vendor dapat menerima banyak pesanan pengadaan).
-   - `PengadaanKaos` berelasi `1` ke `1..*` dengan `ItemPengadaan`.
-   - `PengadaanKaos` berelasi asosiasi dengan Model `Pesanan` untuk pelacakan alokasi stok pesanan pelanggan.
-
----
-
-### 1.6 Class Diagram Fitur Cetak Invoice dan Work Order Production (PC-005)
-
-#### Kode Draw.io XML:
-```xml
-<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
-  <diagram id="class-pc005" name="Class Diagram PC-005">
+  <diagram id="page-6" name="Class Diagram Invoice dan WOP">
     <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -754,30 +573,7 @@ Gambar 8 memodelkan rantai pasok pengadaan bahan baku kaos polos ke vendor:
       </root>
     </mxGraphModel>
   </diagram>
-</mxfile>
-```
-
-#### Penjelasan Gambar 9. Class Diagram Fitur Cetak Invoice dan WOP:
-Gambar 9 memodelkan pencetakan dokumen resmi transaksi dan lembar kerja produksi:
-1. **Lapisan View (Boundary):**
-   - `view_detail_pesanan`: Halaman detail pesanan yang menyediakan tombol aksi cetak (`cetakInvoice()`, `cetakWOP()`).
-   - `view_pdf_preview`: Antarmuka pratinjau dokumen PDF pada tab browser sebelum dicetak fisik.
-2. **Lapisan Controller (Control):**
-   - `DokumenController`: Mengatur ekstraksi data dan pemanggilan library cetak melalui `cetakInvoice(id_pesanan)` dan `cetakWOP(id_pesanan)`.
-3. **Lapisan Library & Model:**
-   - `Dompdf / PDFRenderer`: Service library (*barryvdh/laravel-dompdf*) untuk mengonversi view Blade menjadi file PDF siap cetak ukuran A4.
-   - `Pesanan` & `Pembayaran`: Model entity yang menyediakan seluruh data transaksi.
-4. **Relasi & Batasan Keamanan:**
-   - `DokumenController` memiliki klausul khusus di mana method `cetakWOP()` secara eksplisit memfilter kolom nominal uang, tarif sablon, dan informasi pembayaran agar tidak muncul pada lembar kerja operator sablon.
-
----
-
-### 1.7 Class Diagram Fitur Dashboard dan Rekap Laporan Keuangan (PC-006)
-
-#### Kode Draw.io XML:
-```xml
-<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
-  <diagram id="class-pc006" name="Class Diagram PC-006">
+  <diagram id="page-7" name="Class Diagram Dashboard dan Rekap Laporan">
     <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -843,58 +639,7 @@ Gambar 9 memodelkan pencetakan dokumen resmi transaksi dan lembar kerja produksi
       </root>
     </mxGraphModel>
   </diagram>
-</mxfile>
-```
-
-#### Penjelasan Gambar 10. Class Diagram Fitur Dashboard dan Rekap Laporan:
-Gambar 10 memodelkan agregasi statistik eksekutif dan rekapitulasi keuangan workshop:
-1. **Lapisan View (Boundary):**
-   - `view_dashboard`: Tampilan panel utama (*cards summary* pendapatan, jumlah pesanan aktif, antrean sablon).
-   - `view_laporan`: Antarmuka filter laporan keuangan berkala (`filterLaporan()`, `eksporExcel()`, `eksporPDF()`).
-2. **Lapisan Controller (Control):**
-   - `DashboardController`: Memproses widget data statistik harian (`index()`).
-   - `LaporanController`: Menghitung kueri agregasi pendapatan kotor, sisa piutang, dan tren produk terlaris via `filterLaporan(cabang_id, periode)`.
-3. **Lapisan Model (Entity):**
-   - Mengakses Model `Pesanan`, `Pembayaran`, dan `Cabang` untuk mengeksekusi fungsi kueri agregat (`SUM(total_harga)`, `SUM(jumlah_bayar)`, `COUNT(id_pesanan)`).
-4. **Relasi & Otorisasi:**
-   - Owner memiliki otorisasi multi-cabang (dapat memilih filter seluruh cabang atau cabang spesifik).
-   - Admin dibatasi secara otomatis oleh sistem (*session branching*) hanya dapat mengakses data cabang tempat ia ditugaskan.
-
----
-
-# BAGIAN 2: KUMPULAN SEQUENCE DIAGRAM (SEMUA FITUR PC-001 s.d. PC-006)
-
-Tabel Pemetaan Sequence Diagram:
-
-| ID Fitur | Nama Skenario Sequence | Lifeline Aktor | Lifeline Boundary & Control | Nomor Diagram | File Draw.io |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| PC-003 | Tampil Landing Page Publik | Customer | `view_landing_page`, `LandingPageController` | Gambar 11 TPDB / Gbr 54 SRS | `sequence-landing-page.drawio` |
-| PC-003 | Pendaftaran Member & Simpan Data | Customer | `form_member`, `DaftarMemberController`, `DaftarMember`, `Database` | Gambar 12 TPDB / Gbr 55 SRS | `sequence-daftar-member.drawio` |
-| PC-001 | Login Pengguna Owner / Admin | Owner, Admin | `view_login`, `AuthController`, `Akun`, `Database`, `view_dashboard` | Gambar 13 TPDB | `sequence-login.drawio` |
-| PC-003 | Pembuatan Pesanan Sablon & DP 50% | Owner, Admin | `form_pesanan`, `PesananController`, `Pesanan`, `Pembayaran`, `Database` | Skenario Inti PC-003 | `sequence-pesanan.drawio` |
-| PC-004 | Pengadaan Stok Kaos Polos | Owner, Admin | `form_pengadaan`, `PengadaanController`, `PengadaanKaos`, `Database` | Gambar 14 TPDB | `sequence-pengadaan.drawio` |
-| PC-005 | Cetak Dokumen Invoice & WOP (PDF) | Owner, Admin | `view_detail_pesanan`, `DokumenController`, `Dompdf`, `Pesanan` | Gambar 15 TPDB | `sequence-invoice.drawio` |
-| PC-006 | Dashboard & Rekap Laporan Keuangan | Owner, Admin | `view_laporan`, `LaporanController`, `Pesanan`, `Database` | Gambar 16 TPDB | `sequence-dashboard.drawio` |
-
----
-
-### 2.1 Sequence Diagram Fitur Landing Page (PC-003)
-
-#### Pemetaan Aktivitas Use Case ke Function Class Diagram:
-1. Customer membuka alamat website PrintCraft pada peramban web (*browser*).
-2. Form `view_landing_page` mengeksekusi request route `GET /` yang memanggil fungsi `daftarMember()` pada antarmuka.
-3. Fungsi tersebut memanggil method `index()` pada `LandingPageController`.
-4. `LandingPageController` melakukan *self-call* dan mengembalikan render tampilan beranda ke antarmuka `view_landing_page`.
-
-#### Komponen yang Terlibat:
-1. Aktor: Customer
-2. Class View / Boundary: `view_landing_page`
-3. Class Controller / Control: `LandingPageController`
-
-#### Kode Draw.io XML:
-```xml
-<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
-  <diagram id="seq-landing-page" name="Sequence Tampil Landing Page">
+  <diagram id="page-8" name="Sequence Diagram Landing Page">
     <mxGraphModel dx="1000" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -992,37 +737,7 @@ Tabel Pemetaan Sequence Diagram:
       </root>
     </mxGraphModel>
   </diagram>
-</mxfile>
-```
-
-#### Penjelasan Gambar 11. Sequence Diagram Fitur Landing Page:
-Gambar 11 merupakan sequence diagram tampil landing page website PrintCraft (sesuai Gambar 54 SRS). Customer berinteraksi secara langsung dengan form `view_landing_page` untuk melakukan buka website. Ketika website dibuka, form `view_landing_page` mengeksekusi fungsi `daftarMember()` via route `GET /` ke controller `LandingPageController`. Controller menjalankan operasi internal `index()` dan mengembalikan tampilan halaman landing page kepada Customer. Pesan return berhenti di tampilan `view_landing_page` tempat Customer melihat visualisasi antarmuka.
-
----
-
-### 2.2 Sequence Diagram Fitur Pendaftaran Member (PC-003)
-
-#### Pemetaan Aktivitas Use Case ke Function Class Diagram:
-1. Customer mengklik tombol "Daftar Member" pada halaman beranda `view_landing_page`.
-2. Antarmuka mengeksekusi rute `GET /daftar-member` ke method `create()` pada `DaftarMemberController`, lalu menampilkan form input `form_member`.
-3. Customer mengisi identitas diri (nama, nomor WhatsApp, email, alamat) dan mengklik tombol "Daftar".
-4. Form `form_member` mengeksekusi `prosesDaftar()` via `POST /daftar-member` ke method `store(request)` pada `DaftarMemberController`.
-5. `DaftarMemberController` memanggil method `validasiData(data)` dan `nomorWhatsappTerdaftar(no_wa)` pada Model `DaftarMember` yang memeriksa keunikan nomor ponsel ke `Database`.
-6. Alur percabangan (*Alt Fragment*):
-   - **Kondisi Valid & Nomor Belum Terdaftar [True]:** Controller memanggil `ambilKategoriMember()`, membuat entitas member via `buatDataMember()`, menyimpan ke basis data via `simpanMember()` (return `id_customer`), membaca besaran diskon via `ambilInfoPotonganMember()`, mengeksekusi internal method `berhasil(id_customer)`, dan mengarahkan navigasi ke `view_konfirmasi_member` yang menjalankan `tampilKonfirmasi()`.
-   - **Kondisi Data Tidak Valid / Nomor Sudah Ada [False]:** Controller mengembalikan pesan error (`return pesan error`) ke tampilan `form_member` untuk diperbaiki pengguna.
-
-#### Komponen yang Terlibat:
-1. Aktor: Customer
-2. Class View / Boundary: `view_landing_page`, `form_member`, `view_konfirmasi_member`
-3. Class Controller / Control: `DaftarMemberController`
-4. Class Model / Entity: `DaftarMember`
-5. Class Database: `Database`
-
-#### Kode Draw.io XML:
-```xml
-<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
-  <diagram id="seq-daftar-member" name="Sequence Daftar Member">
+  <diagram id="page-9" name="Sequence Diagram Daftar Member">
     <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -1328,37 +1043,7 @@ Gambar 11 merupakan sequence diagram tampil landing page website PrintCraft (ses
       </root>
     </mxGraphModel>
   </diagram>
-</mxfile>
-```
-
-#### Penjelasan Gambar 12. Sequence Diagram Fitur Daftar Member:
-Gambar 12 memodelkan siklus lengkap registrasi member baru di website PrintCraft (sesuai Gambar 55 SRS). Customer berinteraksi dengan `view_landing_page` untuk mengakses form pendaftaran. Setelah data diisi dan dikirim melalui `form_member`, controller memvalidasi integritas data dan memeriksa keunikan nomor WhatsApp ke database melalui model `DaftarMember`. Apabila data valid, record member baru disimpan, voucher/diskon member diambil, dan pengguna dialihkan ke layar `view_konfirmasi_member`. Jika terjadi kegagalan validasi, pesan kesalahan langsung dikembalikan ke layar formulir pendaftaran.
-
----
-
-### 2.3 Sequence Diagram Fitur Login Pengguna (PC-001)
-
-#### Pemetaan Aktivitas Use Case ke Function Class Diagram:
-1. Aktor (Owner, Admin) membuka browser dan mengakses URL login `/login`.
-2. Form `view_login` memanggil request `GET /login` ke `AuthController` yang mengeksekusi method `showLoginForm()`, menampilkan form login.
-3. Aktor mengisikan username dan password, lalu menekan tombol "Login".
-4. Form `view_login` mengeksekusi request `POST /login` ke method `login(request)` pada `AuthController`.
-5. `AuthController` memanggil model `Akun` via `cekKredensial(username, password)` yang memeriksa hash password ke tabel `akun` di `Database`.
-6. Evaluasi kredensial:
-   - Jika valid, dibuat sesi autentikasi dan dialihkan ke `view_dashboard`.
-   - Jika salah, pesan kesalahan dikembalikan ke `view_login`.
-
-#### Komponen yang Terlibat:
-1. Aktor: Owner, Admin
-2. Class View / Boundary: `view_login`, `view_dashboard`
-3. Class Controller / Control: `AuthController`
-4. Class Model / Entity: `Akun`
-5. Class Database: `Database`
-
-#### Kode Draw.io XML:
-```xml
-<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
-  <diagram id="seq-login" name="Sequence Login">
+  <diagram id="page-10" name="Sequence Diagram Login Pengguna">
     <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -1528,36 +1213,7 @@ Gambar 12 memodelkan siklus lengkap registrasi member baru di website PrintCraft
       </root>
     </mxGraphModel>
   </diagram>
-</mxfile>
-```
-
-#### Penjelasan Gambar 13. Sequence Diagram Fitur Login Pengguna:
-Gambar 13 memodelkan proses autentikasi hak akses petugas workshop. Pengguna mengisi kredensial pada antarmuka `view_login`. Controller `AuthController` menerima request `POST` dan memanggil model `Akun` untuk verifikasi keamanan hash Bcrypt ke basis data. Jika kredensial cocok, pengguna diarahkan ke antarmuka dashboard sesuai hak akses cabangnya masing-masing.
-
----
-
-### 2.4 Sequence Diagram Fitur Pembuatan Pesanan Sablon & DP 50% (PC-003)
-
-#### Pemetaan Aktivitas Use Case ke Function Class Diagram:
-1. Petugas (Owner/Admin) membuka formulir pesanan baru pada antarmuka `form_pesanan`.
-2. Petugas menginput data pelanggan, memilih bahan kaos, spesifikasi cetak sablon, serta mencatat pembayaran uang muka (DP minimal 50%).
-3. Form `form_pesanan` mengirimkan request `POST /pesanan` ke method `store(request)` pada `PesananController`.
-4. `PesananController` memvalidasi nilai uang muka terhadap total biaya kalkulasi:
-   - Apabila `uang_muka >= total_harga * 0.50`, data pesanan disimpan ke model `Pesanan`, rincian item ke model `DetailPesanan`, dan bukti bayar ke model `Pembayaran`. Status pesanan otomatis diubah menjadi `Menunggu Antrean Produksi`.
-   - Apabila uang muka kurang dari 50%, proses dibatalkan dan sistem mengembalikan peringatan validasi uang muka.
-5. Sistem mengalihkan pengguna ke layar `view_detail_pesanan` dengan nomor pesanan resmi.
-
-#### Komponen yang Terlibat:
-1. Aktor: Owner, Admin
-2. Class View / Boundary: `form_pesanan`, `view_detail_pesanan`
-3. Class Controller / Control: `PesananController`
-4. Class Model / Entity: `Pesanan`, `Pembayaran`
-5. Class Database: `Database`
-
-#### Kode Draw.io XML:
-```xml
-<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
-  <diagram id="seq-pesanan" name="Sequence Pesanan">
+  <diagram id="page-11" name="Sequence Diagram Pesanan dan DP 50%">
     <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -1685,35 +1341,7 @@ Gambar 13 memodelkan proses autentikasi hak akses petugas workshop. Pengguna men
       </root>
     </mxGraphModel>
   </diagram>
-</mxfile>
-```
-
-#### Penjelasan Sequence Diagram Fitur Pesanan dan Pembayaran DP 50%:
-Diagram ini memodelkan kepatuhan klausul bisnis utama PrintCraft di mana pengerjaan sablon kaos hanya dapat dimulai apabila pelanggan telah menyetorkan uang muka sekurang-kurangnya 50% dari total estimasi tagihan. Controller bertindak sebagai validator ketat sebelum entitas pesanan dan mutasi pembayaran dicatat permanen ke dalam tabel database.
-
----
-
-### 2.5 Sequence Diagram Fitur Pengadaan Stok Kaos Polos (PC-004)
-
-#### Pemetaan Aktivitas Use Case ke Function Class Diagram:
-1. Petugas workshop membuka menu pengadaan kaos pada antarmuka `form_pengadaan`.
-2. Petugas memilih vendor rekanan dan menginput rincian kaos (tipe bahan, warna, dan ukuran) sesuai kebutuhan pesanan.
-3. Form `form_pengadaan` mengirimkan request `POST /pengadaan` ke method `store(request)` pada `PengadaanController`.
-4. `PengadaanController` memvalidasi data dan menerbitkan Purchase Order (PO) baru melalui model `PengadaanKaos` ke tabel `Database`.
-5. Saat paket kaos tiba di cabang workshop, petugas mengklik tombol konfirmasi tiba di `view_pengadaan`.
-6. Controller menjalankan `updateStatusTiba(id)` yang memperbarui status bahan baku menjadi tersedia, sehingga antrean produksi sablon dapat segera diproses.
-
-#### Komponen yang Terlibat:
-1. Aktor: Owner, Admin
-2. Class View / Boundary: `form_pengadaan`, `view_pengadaan`
-3. Class Controller / Control: `PengadaanController`
-4. Class Model / Entity: `PengadaanKaos`
-5. Class Database: `Database`
-
-#### Kode Draw.io XML:
-```xml
-<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
-  <diagram id="seq-pengadaan" name="Sequence Pengadaan">
+  <diagram id="page-12" name="Sequence Diagram Pengadaan Kaos">
     <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -1811,36 +1439,7 @@ Diagram ini memodelkan kepatuhan klausul bisnis utama PrintCraft di mana pengerj
       </root>
     </mxGraphModel>
   </diagram>
-</mxfile>
-```
-
-#### Penjelasan Gambar 14. Sequence Diagram Fitur Pengadaan Stok Kaos:
-Gambar 14 memodelkan alur pengadaan bahan baku kaos polos ke vendor pihak ketiga. Sistem mencatat penerbitan PO pengadaan dan menghubungkannya dengan pesanan sablon terkait. Ketika stok bahan tiba dan dikonfirmasi di workshop, status pesanan secara otomatis dialirkan ke tahap sablon siap cetak.
-
----
-
-### 2.6 Sequence Diagram Fitur Cetak Invoice dan WOP (PC-005)
-
-#### Pemetaan Aktivitas Use Case ke Function Class Diagram:
-1. Petugas membuka halaman detail pesanan (`view_detail_pesanan`) dan menekan tombol "Cetak Invoice" atau "Cetak WOP".
-2. View mengirimkan request `GET /pesanan/{id}/invoice` atau `GET /pesanan/{id}/wop` ke `DokumenController`.
-3. `DokumenController` mengeksekusi `cetakInvoice(id)` atau `cetakWOP(id)` dengan memanggil data transaksi dari model `Pesanan` dan `Pembayaran`.
-4. Khusus dokumen WOP, Controller secara otomatis memfilter dan menghapus seluruh informasi harga serta rincian tarif sebelum dicetak.
-5. Controller memanggil library `Dompdf` melalui method `generatePDF(view, data)` untuk merender template Blade menjadi berkas PDF A4.
-6. Berkas stream PDF dikembalikan ke browser pengguna pada jendela `view_pdf_preview` untuk diunduh atau dicetak langsung ke printer.
-
-#### Komponen yang Terlibat:
-1. Aktor: Owner, Admin
-2. Class View / Boundary: `view_detail_pesanan`, `view_pdf_preview`
-3. Class Controller / Control: `DokumenController`
-4. Class Model / Entity: `Pesanan`, `Pembayaran`
-5. Library: `Dompdf`
-6. Class Database: `Database`
-
-#### Kode Draw.io XML:
-```xml
-<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
-  <diagram id="seq-invoice" name="Sequence Invoice">
+  <diagram id="page-13" name="Sequence Diagram Invoice dan WOP">
     <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -1946,35 +1545,7 @@ Gambar 14 memodelkan alur pengadaan bahan baku kaos polos ke vendor pihak ketiga
       </root>
     </mxGraphModel>
   </diagram>
-</mxfile>
-```
-
-#### Penjelasan Gambar 15. Sequence Diagram Fitur Cetak Invoice dan WOP:
-Gambar 15 memodelkan proses pembuatan dokumen transaksi PDF. Controller mengekstraksi data pesanan dari database, memformatnya ke dalam template Blade cetak ukuran A4, dan memprosesnya lewat library Dompdf. Perbedaan fundamental terletak pada proteksi data: dokumen Invoice mencantumkan rincian keuangan lengkap untuk customer, sedangkan dokumen WOP menyembunyikan kolom harga demi kerahasiaan operasional workshop sablon.
-
----
-
-### 2.7 Sequence Diagram Fitur Dashboard dan Rekap Laporan (PC-006)
-
-#### Pemetaan Aktivitas Use Case ke Function Class Diagram:
-1. Petugas (Owner/Admin) mengakses menu laporan pada antarmuka `view_laporan` dan memilih rentang tanggal serta filter cabang.
-2. Form `view_laporan` mengirimkan request `GET /laporan` ke `LaporanController`.
-3. `LaporanController` mengeksekusi `filterLaporan(cabang_id, periode)`. Sistem memvalidasi hak akses: Owner dapat melihat seluruh cabang, sedangkan Admin terkunci pada cabangnya sendiri.
-4. Controller mengeksekusi kueri agregasi total pendapatan, piutang, dan volume sablon melalui model `Pesanan` dan `Pembayaran` ke basis data.
-5. Hasil kalkulasi agregasi dikembalikan oleh Database ke Controller.
-6. Controller mengembalikan data terstruktur ke antarmuka `view_laporan` untuk disajikan dalam bentuk diagram visual tren dan tabel rekapitulasi.
-
-#### Komponen yang Terlibat:
-1. Aktor: Owner, Admin
-2. Class View / Boundary: `view_dashboard`, `view_laporan`
-3. Class Controller / Control: `LaporanController`
-4. Class Model / Entity: `Pesanan`, `Pembayaran`
-5. Class Database: `Database`
-
-#### Kode Draw.io XML:
-```xml
-<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
-  <diagram id="seq-dashboard" name="Sequence Dashboard">
+  <diagram id="page-14" name="Sequence Diagram Dashboard dan Rekap Laporan">
     <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -2071,8 +1642,337 @@ Gambar 15 memodelkan proses pembuatan dokumen transaksi PDF. Controller mengekst
 </mxfile>
 ```
 
-#### Penjelasan Gambar 16. Sequence Diagram Fitur Dashboard dan Rekap Laporan:
-Gambar 16 memodelkan pengolahan data intelijen bisnis workshop PrintCraft. Pengguna memilih parameter periode dan cabang di antarmuka laporan. Controller menjalankan kalkulasi matematis terhadap seluruh transaksi yang tersimpan di basis data, lalu memvisualisasikan hasilnya dalam bentuk ringkasan keuangan dan grafik performa workshop.
+---
+
+## DAFTAR SIMBOL DAN ARTI SIMBOL
+
+| Simbol UML | Nama Simbol | Arti & Fungsi dalam Laravel MVC |
+| :--- | :--- | :--- |
+| **Class Model (Shape UML 2.5)** | Entity Class | Entitas Eloquent Model pengelola logika data bisnis dan atribut tabel database. |
+| **Class Controller (<<Controller>>)** | Control Class | Pengendali alur sistem penghubung antara View dan Model/Database. |
+| **Class View** | Boundary Class | File antarmuka pengguna berbasis template Blade (`.blade.php`). |
+| **Class Database** | Database Connection | Komponen konfigurasi koneksi database MySQL (`config/database.php`). |
+| **Panah Putus-putus (`-->`)** | Dependency | Ketergantungan pemanggilan (View ke Controller via Route, Controller ke Model, Model ke Database). |
+| **Garis Lurus Solid (`---`)** | Association | Hubungan struktural relasi data bisnis antar-tabel/model dengan angka multiplicity (1, *, 0..*). |
+| **Lifeline Boundary** | Boundary Lifeline | Layar antarmuka input/output tempat pengguna berinteraksi langsung. |
+| **Lifeline Control** | Control Lifeline | Controller logika pengendali alur eksekusi aplikasi. |
+| **Lifeline Entity** | Entity Lifeline | Model bisnis pengelola data tabel. |
+| **Panah Solid Berisi (`->`)** | Synchronous Call | Pemanggilan method fungsi secara berurutan. |
+| **Panah Melingkar** | Self-Call | Eksekusi internal method di dalam kelas yang sama. |
+| **Panah Putus-putus Terbuka** | Return Message | Nilai balikan atau hasil respon data/tampilan yang dikirim kembali ke pemanggil. |
 
 ---
-*Dokumen ini disusun untuk memenuhi kelengkapan Tugas 5 TPDB Sistem Informasi Workshop PrintCraft sesuai standar pedoman dosen dan dokumen SRS.*
+
+# BAGIAN 1: PENJELASAN CLASS DIAGRAM
+
+---
+
+### Gambar Class Diagram Fitur Login, Akun, dan Cabang
+
+Gambar Class Diagram Fitur Login, Akun, dan Cabang memodelkan arsitektur kelas pada modul autentikasi dan manajemen hierarki organisasi workshop PrintCraft:
+1. **Lapisan View (Boundary):**
+   - `view_login`: Antarmuka formulir login (`resources/views/auth/login.blade.php`) dengan fungsi event `submitLogin()`.
+   - `view_cabang`: Antarmuka pengelolaan data cabang workshop (`resources/views/cabang/index.blade.php`) dengan fungsi event `tambahCabang()` dan `ubahCabang()`.
+   - `view_akun`: Antarmuka manajemen hak akses pengguna (`resources/views/akun/index.blade.php`) dengan fungsi event `tambahAkun()` dan `ubahStatusAkun()`.
+2. **Lapisan Controller (Control):**
+   - `AuthController`: Mengendalikan rute otentikasi melalui method `showLoginForm()`, `login(request)`, dan `logout(request)`.
+   - `CabangController`: Mengendalikan operasi cabang workshop via `index()`, `store(request)`, dan `update(request, id)`.
+   - `AkunController`: Mengendalikan operasi staf workshop via `index()`, `store(request)`, `update(request, id)`, dan `destroy(id)`.
+3. **Lapisan Model (Entity):**
+   - `Cabang`: Mewakili tabel `cabang` yang menyimpan data identitas workshop dengan method `tambahCabang(data)`, `ubahCabang(id, data)`, dan `getCabangAktif()`.
+   - `Akun`: Mewakili tabel `akun` dengan atribut kredensial pengguna (`id_akun`, `username`, `password_hash`, `role`, `status_aktif`) serta method `autentikasi(username, password)`, `buatAkun(data)`, dan `ubahStatus(id, status)`.
+4. **Relasi dan Multiplicity:**
+   - Model `Cabang` berelasi asosiasi struktural dengan Model `Akun` dengan kardinalitas `1` ke `*` (satu cabang dapat memiliki banyak staf akun pengguna, namun setiap akun terdaftar secara unik pada satu cabang tertentu).
+   - Setiap Class View terhubung ke Controller yang bersangkutan menggunakan relasi *Dependency* (pemanggilan route HTTP).
+   - Setiap Class Controller terhubung ke Model yang bersangkutan melalui relasi *Dependency*.
+   - Model `Cabang` dan `Akun` terhubung ke class `Database` via relasi *Dependency*.
+
+---
+
+### Gambar Class Diagram Fitur Master Data dan Kalkulator Harga
+
+Gambar Class Diagram Fitur Master Data dan Kalkulator Harga memodelkan konfigurasi dasar produksi sablon dan logika simulasi perhitungan harga:
+1. **Lapisan View (Boundary):**
+   - `view_master_produk`: Antarmuka manajemen katalog bahan kaos (`tambahProduk()`, `editProduk()`).
+   - `view_tarif_sablon`: Antarmuka konfigurasi tarif teknik sablon (`updateTarif()`).
+   - `view_kalkulator`: Antarmuka formulir simulasi estimasi harga sablon secara otomatis (`hitungEstimasi()`, `resetForm()`).
+2. **Lapisan Controller (Control):**
+   - `MasterDataController`: Mengelola rute katalog barang dan tarif via `index()`, `storeProduk(request)`, dan `updateTarif(request)`.
+   - `KalkulatorController`: Menghitung formula estimasi biaya secara otomatis melalui method `hitung(request)` dan `getHargaDasar(id_produk)`.
+3. **Lapisan Model (Entity):**
+   - `ProdukKaos`: Entitas data katalog kain kaos polos (tipe bahan kain, ukuran, warna, harga pokok per pcs).
+   - `TarifSablon`: Entitas tarif jenis sablon berdasarkan teknik (DTF, Rubber, Plastisol) dan ukuran area cetak (A4, A3, Logo).
+   - `KalkulatorHarga`: Service model pengolah formula biaya dengan method kalkulasi: `total = (harga_kaos + tarif_sablon + biaya_desain) * jumlah_pcs - diskon_member`.
+4. **Relasi dan Multiplicity:**
+   - `ProdukKaos` berelasi asosiasi `1` ke `*` terhadap `TarifSablon` saat dikombinasikan dalam paket sablon.
+   - `KalkulatorHarga` memiliki relasi ketergantungan (*Dependency*) terhadap `ProdukKaos` dan `TarifSablon` untuk membaca data harga dasar.
+   - Model berelasi *Dependency* ke class koneksi `Database`.
+
+---
+
+### Gambar Class Diagram Fitur Landing Page dan Daftar Member
+
+Gambar Class Diagram Fitur Landing Page dan Daftar Member memodelkan interaksi publik calon pelanggan pada portal website PrintCraft (sesuai Gambar 53 SRS):
+1. **Lapisan View (Boundary):**
+   - `view_landing_page`: Halaman utama profil workshop PrintCraft dengan tombol aksi `daftarMember()`.
+   - `form_member`: Formulir pendaftaran member baru dengan event `prosesDaftar()`.
+   - `view_konfirmasi_member`: Halaman ucapan selamat dan informasi nomor WhatsApp terdaftar dengan event `tampilKonfirmasi()`.
+2. **Lapisan Controller (Control):**
+   - `LandingPageController`: Menangani rute beranda publik melalui method `index()`.
+   - `DaftarMemberController`: Menangani proses registrasi member via method `create()`, `store(request)`, dan `berhasil(id_customer)`.
+3. **Lapisan Model (Entity):**
+   - `DaftarMember`: Mengelola data dan validasi pelanggan dengan atribut identitas (`id_customer`, `nama`, `nomor_whatsapp`, `email`, `alamat`, `id_kategori_customer`) serta method `validasiData(data)`, `nomorWhatsappTerdaftar(nomor_whatsapp)`, `ambilKategoriMember()`, `buatDataMember(data, id_kategori_customer)`, `simpanMember(data_member)`, dan `ambilInfoPotonganMember(id_kategori_customer)`.
+   - `KategoriCustomer (PC-002)`: Entitas acuan tingkatan keanggotaan pelanggan.
+   - `Pesanan (PC-003)`: Entitas pesanan yang terhubung ke data member.
+4. **Relasi dan Multiplicity:**
+   - Model `DaftarMember` berelasi asosiasi `*` ke `1` dengan `KategoriCustomer` (banyak member berada dalam 1 kategori).
+   - Model `DaftarMember` berelasi asosiasi `1` ke `0..*` dengan `Pesanan` (satu member dapat memiliki nol atau banyak pesanan).
+   - Controller dan Model terhubung ke class `Database` via relasi *Dependency*.
+
+---
+
+### Gambar Class Diagram Fitur Pesanan dan Data Customer
+
+Gambar Class Diagram Fitur Pesanan dan Data Customer memodelkan proses inti operasional transaksi workshop sablon:
+1. **Lapisan View (Boundary):**
+   - `view_pesanan`: Tampilan daftar pesanan dengan filter status produksi dan status pembayaran (`tambahPesanan()`, `filterStatus()`).
+   - `form_pesanan`: Formulir pembuatan pesanan baru (pemilihan bahan, ukuran, jumlah pcs, file desain sablon, dan pencatatan DP minimal 50%).
+   - `view_detail_pesanan`: Halaman rincian pengerjaan, linimasa status sablon, dan pelunasan pembayaran.
+2. **Lapisan Controller (Control):**
+   - `PesananController`: Mengendalikan aliran transaksi via `index()`, `create()`, `store(request)`, `show(id)`, dan `updateStatusProduksi(id, status)`.
+   - `PembayaranController`: Mengelola pencatatan transaksi uang muka dan pelunasan via `storePembayaran(request)`.
+3. **Lapisan Model (Entity):**
+   - `Customer`: Entitas penyimpan data profil pembeli (`id_customer`, `nama`, `nomor_whatsapp`, `email`).
+   - `Pesanan`: Entitas master pesanan (`id_pesanan`, `kode_pesanan`, `total_harga`, `sisa_pembayaran`, `status_produksi`, `status_pembayaran`).
+   - `DetailPesanan`: Entitas rincian item pesanan (tipe sablon, ukuran, jumlah pcs, subtotal).
+   - `Pembayaran`: Entitas pencatatan pembayaran DP dan pelunasan (`id_pembayaran`, `jumlah_bayar`, `metode_transfer`, `bukti_transfer`).
+4. **Relasi dan Multiplicity:**
+   - `Customer` berelasi asosiasi `1` ke `0..*` dengan `Pesanan` (satu pelanggan dapat memiliki banyak transaksi).
+   - `Pesanan` berelasi asosiasi `1` ke `1..*` dengan `DetailPesanan` (satu pesanan memiliki satu atau lebih rincian item sablon).
+   - `Pesanan` berelasi asosiasi `1` ke `1..*` dengan `Pembayaran` (satu pesanan memiliki riwayat pembayaran DP hingga pelunasan).
+   - Seluruh model berelasi *Dependency* ke class `Database`.
+
+---
+
+### Gambar Class Diagram Fitur Pengadaan Kaos
+
+Gambar Class Diagram Fitur Pengadaan Kaos memodelkan pengelolaan rantai pasok bahan baku kaos polos ke vendor rekanan:
+1. **Lapisan View (Boundary):**
+   - `view_pengadaan`: Antarmuka monitoring status pengadaan bahan antar-cabang (`buatPengadaan()`, `filterVendor()`).
+   - `form_pengadaan`: Formulir pemesanan stok kaos polos ke vendor (`submitPengadaan()`).
+2. **Lapisan Controller (Control):**
+   - `PengadaanController`: Mengendalikan siklus pengadaan melalui method `index()`, `store(request)`, dan `updateStatusTiba(id)`.
+3. **Lapisan Model (Entity):**
+   - `Vendor`: Entitas rekanan penyedia kaos (`id_vendor`, `nama_vendor`, `kontak`, `alamat`).
+   - `PengadaanKaos`: Entitas transaksi pengadaan (`id_pengadaan`, `nomor_po`, `total_pcs`, `biaya_pengadaan`, `status_pengiriman`).
+   - `ItemPengadaan`: Rincian spesifikasi kaos yang dipesan (ukuran, gramasi kain 30s/24s, warna).
+4. **Relasi dan Multiplicity:**
+   - `Vendor` berelasi asosiasi `1` ke `*` terhadap `PengadaanKaos` (satu vendor dapat menerima banyak pesanan pengadaan).
+   - `PengadaanKaos` berelasi asosiasi `1` ke `1..*` terhadap `ItemPengadaan`.
+   - Model berelasi *Dependency* ke class `Database`.
+
+---
+
+### Gambar Class Diagram Fitur Invoice dan WOP
+
+Gambar Class Diagram Fitur Invoice dan WOP memodelkan pencetakan berkas resmi penagihan dan surat perintah kerja produksi sablon:
+1. **Lapisan View (Boundary):**
+   - `view_detail_pesanan`: Halaman rincian pesanan yang menyediakan tombol aksi cetak (`cetakInvoice()`, `cetakWOP()`).
+   - `view_pdf_preview`: Antarmuka penampil pratinjau berkas PDF di tab browser sebelum dicetak fisik.
+2. **Lapisan Controller (Control):**
+   - `DokumenController`: Mengatur ekstraksi data dan pemanggilan generator PDF via `cetakInvoice(id_pesanan)` dan `cetakWOP(id_pesanan)`.
+3. **Lapisan Library & Model:**
+   - `Dompdf / PDFRenderer`: Service library (*barryvdh/laravel-dompdf*) pengonversi view Blade menjadi file PDF ukuran A4.
+   - `Pesanan` & `Pembayaran`: Model entity penyedia data transaksi.
+4. **Relasi dan Batasan Keamanan:**
+   - Method `cetakWOP()` secara sistematis memfilter dan menyembunyikan kolom harga serta informasi nominal uang agar informasi rahasia biaya tidak beredar di area produksi bengkel sablon.
+
+---
+
+### Gambar Class Diagram Fitur Dashboard dan Rekap Laporan
+
+Gambar Class Diagram Fitur Dashboard dan Rekap Laporan memodelkan visualisasi statistik transaksi dan laporan manajerial:
+1. **Lapisan View (Boundary):**
+   - `view_dashboard`: Panel utama penyaji ringkasan statistik harian (*revenue*, antrean sablon, pesanan selesai).
+   - `view_laporan`: Antarmuka penyaring laporan keuangan berkala (`filterLaporan()`, `eksporExcel()`, `eksporPDF()`).
+2. **Lapisan Controller (Control):**
+   - `DashboardController`: Memproses widget data statistik harian via method `index()`.
+   - `LaporanController`: Menghitung kueri agregasi keuangan via method `filterLaporan(cabang_id, periode)`.
+3. **Lapisan Model (Entity):**
+   - Mengakses Model `Pesanan`, `Pembayaran`, dan `Cabang` untuk mengeksekusi kalkulasi agregat (`SUM(total_harga)`, `SUM(jumlah_bayar)`, `COUNT(id_pesanan)`).
+4. **Relasi dan Hak Akses:**
+   - Owner memiliki otorisasi multi-cabang (dapat memilih seluruh cabang workshop).
+   - Admin workshop dibatasi secara otomatis oleh sistem (*session branching*) hanya dapat mengakses data cabang tempat ia bertugas.
+
+---
+
+# BAGIAN 2: PENJELASAN SEQUENCE DIAGRAM
+
+---
+
+### Gambar Sequence Diagram Fitur Landing Page
+
+#### Pemetaan Aktivitas Use Case ke Function Class Diagram:
+1. Aktor (Customer) membuka alamat website PrintCraft pada peramban web (*browser*).
+2. Form `view_landing_page` mengeksekusi request route `GET /` yang memanggil fungsi `daftarMember()` pada antarmuka.
+3. Fungsi tersebut memanggil method `index()` yang terdapat pada `LandingPageController`.
+4. `LandingPageController` mengeksekusi operasi internal dan mengembalikan visualisasi halaman beranda landing page ke layar `view_landing_page` Customer. Karena halaman bersifat statis, Controller tidak memanggil Model maupun Database.
+
+#### Komponen yang Terlibat:
+1. Aktor (Customer)
+2. Class View / Boundary (`view_landing_page`)
+3. Class Controller / Control (`LandingPageController`)
+
+#### Penjelasan Gambar Sequence Diagram Fitur Landing Page:
+Gambar Sequence Diagram Fitur Landing Page memodelkan alur saat Customer mengakses website publik PrintCraft (sesuai Gambar 54 SRS). Customer berinteraksi langsung dengan form `view_landing_page` untuk membuka website. Form mengeksekusi rute fungsi `daftarMember()` via route `GET /` ke controller `LandingPageController`, sehingga controller mengeksekusi method internal `index()` dan mengembalikan tampilan visual beranda ke pengguna. Respon pesan balikan (*return message*) berhenti pada layar `view_landing_page`.
+
+---
+
+### Gambar Sequence Diagram Fitur Daftar Member
+
+#### Pemetaan Aktivitas Use Case ke Function Class Diagram:
+1. Aktor (Customer) membuka landing page, lalu mengklik tombol "Daftar Member" pada `view_landing_page`.
+2. Antarmuka mengeksekusi rute `GET /daftar-member` ke method `create()` pada `DaftarMemberController`, lalu menampilkan form pendaftaran `form_member` di layar Customer.
+3. Customer mengisikan data diri (nama, nomor WhatsApp, email, dan alamat), kemudian menekan tombol "Daftar".
+4. Antarmuka `form_member` mengeksekusi function `prosesDaftar()` via `POST /daftar-member` yang memanggil method `store(request)` pada `DaftarMemberController`.
+5. `DaftarMemberController` memanggil Model `DaftarMember` untuk:
+   - Menjalankan `validasiData(data)` guna memeriksa kelengkapan isian formulir.
+   - Menjalankan `nomorWhatsappTerdaftar(nomor_whatsapp)` guna memeriksa keunikan nomor ponsel ke tabel `Database`.
+6. Evaluasi kondisi percabangan (*Alt Fragment*):
+   - **Kondisi Valid dan Nomor Belum Terdaftar [True]:**
+     a. Controller memanggil `ambilKategoriMember()` pada Model.  
+     b. Controller memanggil `buatDataMember(data, id_kategori_customer)` pada Model.  
+     c. Controller memanggil `simpanMember(data_member)` untuk menyimpan data ke `Database` (return `id_customer`).  
+     d. Controller memanggil `ambilInfoPotonganMember(id_kategori_customer)` untuk membaca diskon.  
+     e. Controller menjalankan *self-call* `berhasil(id_customer)` dan mengarahkan navigasi ke `view_konfirmasi_member`.  
+     f. Pada `view_konfirmasi_member` dijalankan *self-call* `tampilKonfirmasi()` untuk merender konfirmasi pendaftaran berhasil.  
+   - **Kondisi Data Tidak Valid atau Nomor WhatsApp Sudah Terdaftar [False]:**
+     Controller membatalkan proses simpan dan mengembalikan pesan kesalahan (`return pesan error`) ke tampilan `form_member` untuk diperbaiki pengguna.
+
+#### Komponen yang Terlibat:
+1. Aktor (Customer)
+2. Class View / Boundary (`view_landing_page`, `form_member`, `view_konfirmasi_member`)
+3. Class Controller / Control (`DaftarMemberController`)
+4. Class Model / Entity (`DaftarMember`)
+5. Class Database (`Database`)
+
+#### Penjelasan Gambar Sequence Diagram Fitur Daftar Member:
+Gambar Sequence Diagram Fitur Daftar Member memodelkan alur pendaftaran member pelanggan baru website PrintCraft (sesuai Gambar 55 SRS). Customer berinteraksi dengan antarmuka `view_landing_page` dan `form_member`. Controller menerima data pendaftaran dan memanggil model `DaftarMember` untuk validasi isian serta pemeriksaan nomor WhatsApp ke basis data. Jika data valid dan nomor belum pernah terdaftar, sistem menyimpan identitas member baru, menentukan kategori diskon, dan menampilkan kartu konfirmasi pada `view_konfirmasi_member`. Jika terjadi kesalahan atau nomor telah terdaftar, sistem menampilkan pesan error pada form pendaftaran.
+
+---
+
+### Gambar Sequence Diagram Fitur Login Pengguna
+
+#### Pemetaan Aktivitas Use Case ke Function Class Diagram:
+1. Aktor (Owner, Admin) membuka peramban web dan mengakses URL login PrintCraft.
+2. Form `view_login` memanggil request `GET /login` ke `AuthController` yang mengeksekusi method `showLoginForm()`, menampilkan form login.
+3. Aktor mengisikan username dan password, kemudian mengklik tombol "Login".
+4. Form `view_login` mengeksekusi request `POST /login` ke method `login(request)` pada `AuthController`.
+5. `AuthController` memanggil Model `Akun` dengan function `cekKredensial(username, password)` yang memeriksa kesesuaian data ke tabel `akun` di `Database`.
+6. Evaluasi kredensial:
+   - Jika kredensial valid, `AuthController` membuat sesi login (`session(role, id_cabang)`) dan mengarahkan pengguna ke halaman `view_dashboard` sesuai hak akses cabangnya.
+   - Jika username atau password salah, `AuthController` mengembalikan respon galat (`return error`) ke form `view_login`.
+
+#### Komponen yang Terlibat:
+1. Aktor (Owner, Admin)
+2. Class View / Boundary (`view_login`, `view_dashboard`)
+3. Class Controller / Control (`AuthController`)
+4. Class Model / Entity (`Akun`)
+5. Class Database (`Database`)
+
+#### Penjelasan Gambar Sequence Diagram Fitur Login Pengguna:
+Gambar Sequence Diagram Fitur Login Pengguna memodelkan alur autentikasi hak akses petugas workshop. Pengguna berinteraksi dengan formulir login untuk mengirimkan username dan password. Controller `AuthController` memverifikasi kredensial melalui model `Akun` ke basis data MySQL. Jika verifikasi cocok, sistem membentuk session dan mengalihkan halaman ke dashboard workshop. Jika gagal, pesan kesalahan ditampilkan kembali pada formulir login.
+
+---
+
+### Gambar Sequence Diagram Fitur Pesanan dan Validasi DP 50%
+
+#### Pemetaan Aktivitas Use Case ke Function Class Diagram:
+1. Petugas (Owner, Admin) membuka antarmuka formulir pesanan baru pada `form_pesanan`.
+2. Petugas menginput identitas customer, spesifikasi kaos sablon, jumlah pcs, serta mencatat setoran uang muka (DP).
+3. Form `form_pesanan` mengirimkan request `POST /pesanan` ke method `store(request)` pada `PesananController`.
+4. `PesananController` memverifikasi nilai uang muka:
+   - Apabila uang muka minimal 50% dari total tagihan (`uang_muka >= total_harga * 0.50`), controller memanggil Model `Pesanan` dan `Pembayaran` untuk menyimpan data ke `Database`, lalu menetapkan status pesanan menjadi `Menunggu Antrean Produksi`.
+   - Apabila uang muka kurang dari 50%, sistem menolak penyimpanan dan mengembalikan respon validasi uang muka.
+5. Sistem mengarahkan navigasi ke layar `view_detail_pesanan` yang menampilkan kode pesanan resmi.
+
+#### Komponen yang Terlibat:
+1. Aktor (Owner, Admin)
+2. Class View / Boundary (`form_pesanan`, `view_detail_pesanan`)
+3. Class Controller / Control (`PesananController`)
+4. Class Model / Entity (`Pesanan`, `Pembayaran`)
+5. Class Database (`Database`)
+
+#### Penjelasan Gambar Sequence Diagram Fitur Pesanan dan Validasi DP 50%:
+Gambar Sequence Diagram Fitur Pesanan memodelkan kepatuhan klausul bisnis utama PrintCraft di mana antrean sablon kaos hanya dapat diproses apabila pelanggan telah menyetorkan uang muka sekurang-kurangnya 50% dari total nilai transaksi. Controller memvalidasi nominal uang muka sebelum mencatat mutasi pesanan dan pembayaran ke dalam basis data.
+
+---
+
+### Gambar Sequence Diagram Fitur Pengadaan Stok Kaos
+
+#### Pemetaan Aktivitas Use Case ke Function Class Diagram:
+1. Petugas workshop membuka antarmuka pengadaan pada form `form_pengadaan`.
+2. Petugas memilih vendor rekanan dan menginput rincian kebutuhan kaos polos (tipe bahan kain, warna, dan ukuran).
+3. Form `form_pengadaan` mengirimkan request `POST /pengadaan` ke method `store(request)` pada `PengadaanController`.
+4. `PengadaanController` memvalidasi data dan menyimpan penerbitan Purchase Order (PO) baru melalui model `PengadaanKaos` ke tabel `Database`.
+5. Saat paket kaos tiba di workshop cabang, petugas mengklik tombol "Konfirmasi Tiba" pada antarmuka `view_pengadaan`.
+6. Controller menjalankan method `updateStatusTiba(id)` yang memperbarui ketersediaan bahan baku di basis data, sehingga antrean sablon dapat segera dieksekusi operator.
+
+#### Komponen yang Terlibat:
+1. Aktor (Owner, Admin)
+2. Class View / Boundary (`form_pengadaan`, `view_pengadaan`)
+3. Class Controller / Control (`PengadaanController`)
+4. Class Model / Entity (`PengadaanKaos`)
+5. Class Database (`Database`)
+
+#### Penjelasan Gambar Sequence Diagram Fitur Pengadaan Stok Kaos:
+Gambar Sequence Diagram Fitur Pengadaan Stok Kaos memodelkan alur pemesanan bahan baku kaos polos ke vendor pihak ketiga. Sistem mencatat penerbitan PO pengadaan dan menghubungkannya dengan alokasi pesanan sablon. Ketika stok kaos tiba dan dikonfirmasi di workshop cabang, sistem memperbarui status bahan menjadi siap produksi.
+
+---
+
+### Gambar Sequence Diagram Fitur Cetak Invoice dan WOP
+
+#### Pemetaan Aktivitas Use Case ke Function Class Diagram:
+1. Petugas membuka layar detail pesanan (`view_detail_pesanan`) dan menekan tombol "Cetak Invoice" atau "Cetak WOP".
+2. Antarmuka mengirimkan request `GET /pesanan/{id}/invoice` atau `GET /pesanan/{id}/wop` ke `DokumenController`.
+3. `DokumenController` mengeksekusi `cetakInvoice(id)` atau `cetakWOP(id)` dengan memanggil data transaksi dari model `Pesanan` dan `Pembayaran`.
+4. Untuk dokumen WOP, Controller secara ketat memfilter data agar kolom harga, tarif, dan informasi pembayaran dihilangkan.
+5. Controller memanggil library `Dompdf` via `generatePDF(view, data)` untuk merender template Blade ukuran A4 menjadi dokumen PDF.
+6. Berkas stream PDF dikembalikan ke jendela `view_pdf_preview` pada browser pengguna untuk dicetak langsung ke mesin printer atau diunduh.
+
+#### Komponen yang Terlibat:
+1. Aktor (Owner, Admin)
+2. Class View / Boundary (`view_detail_pesanan`, `view_pdf_preview`)
+3. Class Controller / Control (`DokumenController`)
+4. Class Model / Entity (`Pesanan`, `Pembayaran`)
+5. Library Cetak (`Dompdf`)
+6. Class Database (`Database`)
+
+#### Penjelasan Gambar Sequence Diagram Fitur Cetak Invoice dan WOP:
+Gambar Sequence Diagram Fitur Cetak Invoice dan WOP memodelkan alur penerbitan dokumen resmi transaksi dan surat perintah kerja produksi. Controller mengekstraksi data transaksi, memformat dokumen sesuai template, dan mengonversinya menjadi berkas PDF siap cetak. Dokumen invoice memuat rincian nominal penagihan untuk customer, sedangkan lembar kerja WOP menyembunyikan kolom harga demi keamanan data bengkel sablon.
+
+---
+
+### Gambar Sequence Diagram Fitur Dashboard dan Rekap Laporan
+
+#### Pemetaan Aktivitas Use Case ke Function Class Diagram:
+1. Petugas (Owner, Admin) mengakses menu laporan pada antarmuka `view_laporan` dan memilih rentang tanggal serta filter cabang.
+2. Form `view_laporan` mengirimkan request `GET /laporan` ke `LaporanController`.
+3. `LaporanController` mengeksekusi `filterLaporan(cabang_id, periode)`. Sistem memverifikasi hak akses: Owner dapat melihat seluruh cabang, sedangkan Admin terkunci hanya pada cabangnya sendiri.
+4. Controller mengeksekusi kueri kalkulasi agregasi pendapatan, piutang, dan volume sablon melalui model `Pesanan` dan `Pembayaran` ke basis data.
+5. Kumpulan data rekapitulasi dikembalikan oleh Database ke Controller.
+6. Controller mengembalikan data terstruktur ke antarmuka `view_laporan` untuk disajikan dalam bentuk diagram grafik visual dan tabel ringkasan keuangan.
+
+#### Komponen yang Terlibat:
+1. Aktor (Owner, Admin)
+2. Class View / Boundary (`view_dashboard`, `view_laporan`)
+3. Class Controller / Control (`LaporanController`)
+4. Class Model / Entity (`Pesanan`, `Pembayaran`, `Cabang`)
+5. Class Database (`Database`)
+
+#### Penjelasan Gambar Sequence Diagram Fitur Dashboard dan Rekap Laporan:
+Gambar Sequence Diagram Fitur Dashboard dan Rekap Laporan memodelkan pengolahan data intelijen bisnis workshop PrintCraft. Pengguna memilih parameter periode dan cabang di antarmuka laporan. Controller menjalankan kalkulasi matematis terhadap transaksi yang tersimpan di basis data, lalu memvisualisasikan hasilnya dalam bentuk diagram tren penjualan dan tabel rekapitulasi laba rugi.
+
+---
+*Dokumen ini disusun untuk melengkapi Tugas 5 TPDB Workshop Sablon PrintCraft sesuai format penamaan tanpa nomor gambar.*
+
