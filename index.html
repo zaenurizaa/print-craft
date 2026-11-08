@@ -53,16 +53,29 @@
       color: #0F172A;
       font-family: 'Inter', sans-serif;
     }
+    /* Sleek Clean Scrollbar without ugly buttons/arrows */
     .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+      width: 4px;
+      height: 4px;
     }
     .custom-scrollbar::-webkit-scrollbar-track {
-      background: #F1F5F9;
+      background: transparent;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #CBD5E1;
+      background: #E2E8F0;
       border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #CBD5E1;
+    }
+    .custom-scrollbar::-webkit-scrollbar-button {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+    .custom-scrollbar {
+      scrollbar-width: thin;
+      scrollbar-color: #E2E8F0 transparent;
     }
   </style>
 </head>
@@ -803,130 +816,240 @@
   
         
   <!-- ==================== SCREEN 27: LANDING PAGE PUBLIK (SRS COMPLIANT - CUSTOMER TANPA LOGIN) ==================== -->
-  <div x-show="screen === '27'" class="space-y-12 max-w-6xl mx-auto py-4" x-cloak>
-    <!-- Public Navbar: No confusing customer login button -->
-    <header class="flex items-center justify-between pb-4 border-b border-slate-200">
+  <div x-show="screen === '27'" class="space-y-10 max-w-6xl mx-auto py-4 px-4 sm:px-6" x-cloak>
+    
+    <!-- Clean Studio Header -->
+    <header class="flex items-center justify-between pb-4 border-b border-slate-200/80">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-[#7C3AED] text-white flex items-center justify-center font-display font-black text-lg shadow-sm shadow-violet-200">
+        <div class="w-9 h-9 rounded-xl bg-[#7C3AED] text-white flex items-center justify-center font-display font-black text-base shadow-sm shadow-violet-200">
           PC
         </div>
         <div>
-          <span class="font-display font-black text-xl text-slate-900 tracking-tight">PrintCraft</span>
-          <span class="text-xs text-slate-500 block">Duta Media Sablon & Konveksi Digital</span>
+          <span class="font-display font-bold text-base text-slate-900 tracking-tight block">PrintCraft</span>
+          <span class="text-[11px] text-slate-500 font-medium block -mt-0.5">Duta Media Sablon & Konveksi Digital</span>
         </div>
       </div>
 
-      <div class="flex items-center gap-3">
-        <!-- Low-key internal staff access link (NOT a customer login button) -->
-        <button @click="setScreen('01')" class="px-3.5 py-2 text-xs font-semibold text-slate-500 hover:text-slate-800 rounded-xl hover:bg-slate-100 transition flex items-center gap-1.5" title="Khusus Staf & Admin Internal Duta Media">
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center gap-2.5">
+        <button @click="setScreen('01')" class="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition flex items-center gap-1.5" title="Khusus Staf & Admin Internal">
           <i data-lucide="lock" class="w-3.5 h-3.5 text-slate-400 inline-block align-middle"></i>
           <span>Portal Petugas</span>
         </button>
-        <!-- Customer CTA -->
-        <button @click="setScreen('28')" class="px-4 py-2 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-xl text-xs font-bold shadow-md shadow-violet-200 transition flex items-center gap-1.5">
+        <button @click="setScreen('28')" class="px-4 py-2 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-xl text-xs font-semibold shadow-sm transition flex items-center gap-1.5">
           <i data-lucide="user-plus" class="w-3.5 h-3.5 inline-block align-middle"></i>
           <span>Daftar Member Online</span>
         </button>
       </div>
     </header>
 
-    <!-- Hero Section (Softro Marketing Style - High Conversion) -->
-    <section aria-label="Pengenalan Layanan Konveksi" class="text-center max-w-3xl mx-auto space-y-5 pt-4">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-violet-50 border border-violet-200 text-violet-700 text-xs font-semibold">
-        <i data-lucide="award" class="w-3.5 h-3.5 inline-block align-middle"></i>
-        <span>Vendor Sablon & Konveksi Presisi Duta Media Yogyakarta</span>
-      </div>
-      <h1 class="text-4xl sm:text-5xl font-display font-extrabold text-slate-900 tracking-tight leading-tight">
-        Produksi Kaos Sablon Berkualitas dengan Transparansi Biaya
-      </h1>
-      <p class="text-sm text-slate-600 leading-relaxed max-w-2xl mx-auto">
-        Layanan jahit konveksi dan sablon manual (Plastisol, Discharge) maupun digital (DTF Premium) untuk komunitas, instansi, dan seragam resmi. Hitung estimasi biaya instan dengan kalkulator akurat kami.
-      </p>
+    <!-- Asymmetric 2-Column Hero: Left Info & Right Interactive Calculator -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Left Column: Studio Overview & Specs (5 cols) -->
+      <div class="lg:col-span-5 space-y-6 pt-2">
+        <div class="space-y-3">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 text-[11px] font-mono font-medium">
+            <span class="w-1.5 h-1.5 rounded-full bg-violet-600"></span>
+            <span>Workshop Duta Media — Yogyakarta</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-display font-extrabold text-slate-900 tracking-tight leading-tight">
+            Kalkulator & Produksi Kaos Sablon Presisi
+          </h1>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Layanan konveksi kaos katun dan sablon presisi untuk komunitas, kampus, dan instansi. Dapatkan estimasi biaya pengerjaan instan dan transparan tanpa perlu menunggu balasan admin.
+          </p>
+        </div>
 
-      <div class="flex items-center justify-center gap-3 pt-2">
-        <button @click="setScreen('28')" class="px-6 py-3.5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-xl text-xs font-bold shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center gap-2">
-          <i data-lucide="badge-percent" class="w-4 h-4 inline-block align-middle"></i>
-          <span>Daftar Member & Dapatkan Diskon 5%</span>
-        </button>
-        <a href="#mini-calc" class="px-5 py-3.5 border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-semibold transition flex items-center gap-2">
-          <i data-lucide="calculator" class="w-4 h-4 text-slate-500 inline-block align-middle"></i>
-          <span>Hitung Estimasi Harga</span>
-        </a>
-      </div>
-    </section>
-
-    <!-- Interactive Public Mini Price Estimator -->
-    <section aria-label="Simulasi Biaya Publik" id="mini-calc" class="bg-white rounded-2xl border border-slate-200/80 p-8 shadow-[0_4px_20px_rgba(15,23,42,0.04)] space-y-6">
-      <div class="text-center max-w-md mx-auto">
-        <span class="text-xs font-mono font-bold text-violet-600 uppercase tracking-wider">Simulasi Biaya Otomatis</span>
-        <h2 class="text-xl font-display font-extrabold text-slate-900 mt-1">Kalkulator Estimasi Harga Publik</h2>
-        <p class="text-xs text-slate-500 mt-1">Pilih spesifikasi kaos untuk melihat estimasi biaya produksi real-time.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 pt-2">
-        <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Jumlah Pesanan (Pcs)</label>
-          <div class="relative">
-            <input type="number" x-model.number="calc.qty" min="12" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs font-mono font-bold text-slate-800 focus:outline-none focus:ring-4 focus:ring-violet-500/15 focus:border-[#7C3AED]">
-            <span class="absolute right-3 top-2.5 text-[10px] text-slate-400 font-mono">Pcs</span>
+        <!-- Production Highlights Specs Grid -->
+        <div class="grid grid-cols-2 gap-3 pt-1">
+          <div class="p-3 rounded-xl bg-white border border-slate-200/80 shadow-sm space-y-1">
+            <span class="text-[10px] text-slate-400 font-mono block uppercase">Minimal Order</span>
+            <span class="text-xs font-bold text-slate-900 block font-mono">12 Pcs (1 Lusin)</span>
+            <span class="text-[10px] text-slate-500 block">Bisa campur ukuran kaos</span>
+          </div>
+          <div class="p-3 rounded-xl bg-white border border-slate-200/80 shadow-sm space-y-1">
+            <span class="text-[10px] text-slate-400 font-mono block uppercase">Waktu Produksi</span>
+            <span class="text-xs font-bold text-slate-900 block font-mono">5 - 7 Hari Kerja</span>
+            <span class="text-[10px] text-slate-500 block">Sesuai jadwal SPK workshop</span>
+          </div>
+          <div class="p-3 rounded-xl bg-white border border-slate-200/80 shadow-sm space-y-1">
+            <span class="text-[10px] text-slate-400 font-mono block uppercase">Bahan Utama</span>
+            <span class="text-xs font-bold text-slate-900 block">Cotton Combed</span>
+            <span class="text-[10px] text-slate-500 block">Pilihan 30s & 24s Reaktif</span>
+          </div>
+          <div class="p-3 rounded-xl bg-white border border-slate-200/80 shadow-sm space-y-1">
+            <span class="text-[10px] text-slate-400 font-mono block uppercase">Teknik Sablon</span>
+            <span class="text-xs font-bold text-slate-900 block">Plastisol & DTF</span>
+            <span class="text-[10px] text-slate-500 block">Mesin curing & heat press</span>
           </div>
         </div>
 
+        <!-- Left CTAs -->
+        <div class="flex items-center gap-3 pt-2">
+          <button @click="setScreen('28')" class="px-5 py-2.5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-xl text-xs font-semibold shadow-sm transition flex items-center gap-1.5">
+            <i data-lucide="badge-percent" class="w-4 h-4 inline-block align-middle"></i>
+            <span>Daftar Member (Diskon 5%)</span>
+          </button>
+          <button @click="setScreen('00')" class="px-4 py-2.5 border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-semibold transition flex items-center gap-1.5">
+            <i data-lucide="git-branch" class="w-3.5 h-3.5 text-slate-500 inline-block align-middle"></i>
+            <span>Lihat Alur Sistem (Flowchart)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Column: Integrated Live Price Calculator Card (7 cols) -->
+      <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200/90 shadow-[0_4px_25px_rgba(15,23,42,0.05)] p-6 space-y-5">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div>
+            <span class="text-[11px] font-mono font-bold text-violet-700 uppercase tracking-wider block">Kalkulator Langsung</span>
+            <h2 class="text-base font-display font-bold text-slate-900">Simulasi Estimasi Biaya Pemesanan</h2>
+          </div>
+          <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            Real-Time
+          </span>
+        </div>
+
+        <!-- Calculator Form Controls -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+          <!-- Qty Input -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Jumlah Kaos (Pcs)</label>
+            <div class="relative">
+              <input type="number" x-model.number="calc.qty" min="12" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 bg-slate-50/50">
+              <span class="absolute right-3 top-2 text-[10px] text-slate-400 font-mono">Pcs</span>
+            </div>
+            <span class="text-[10px] text-slate-400 mt-0.5 block">Minimal 12 pcs</span>
+          </div>
+
+          <!-- Bahan Select -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Bahan Kain</label>
+            <select x-model="calc.bahan" class="w-full px-2.5 py-2 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 bg-slate-50/50 cursor-pointer">
+              <template x-for="b in masterBahan" :key="b.nama">
+                <option :value="b.nama" x-text="b.nama"></option>
+              </template>
+            </select>
+            <span class="text-[10px] text-slate-400 mt-0.5 block">100% Katun Combed</span>
+          </div>
+
+          <!-- Sablon Select -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Teknik Cetak / Sablon</label>
+            <select x-model="calc.sablon" class="w-full px-2.5 py-2 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 bg-slate-50/50 cursor-pointer">
+              <template x-for="s in masterSablon" :key="s.nama">
+                <option :value="s.nama" x-text="s.nama"></option>
+              </template>
+            </select>
+            <span class="text-[10px] text-slate-400 mt-0.5 block">Area standar A3</span>
+          </div>
+        </div>
+
+        <!-- Member Discount Toggle -->
+        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between">
+          <label class="flex items-center gap-2 cursor-pointer select-none">
+            <input type="checkbox" x-model="calc.isMember" class="rounded text-[#7C3AED] focus:ring-violet-500">
+            <span class="text-xs font-medium text-slate-700">Simulasikan dengan Diskon Member Duta Media (Potongan 5%)</span>
+          </label>
+          <span class="text-[10px] font-mono font-bold text-violet-700" x-show="calc.isMember">-5% Diskon Aktif</span>
+        </div>
+
+        <!-- Real-Time Price Output Panel -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          <div class="p-3.5 rounded-xl bg-slate-100/70 border border-slate-200 flex flex-col justify-between">
+            <span class="text-[11px] text-slate-500 font-medium">Estimasi Biaya Satuan:</span>
+            <div class="text-lg font-mono font-extrabold text-[#7C3AED]" x-text="formatRupiah(calcUnitPrice()) + ' / pcs'"></div>
+            <span class="text-[10px] text-slate-400">Termasuk kaos polos & sablon</span>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-[#7C3AED] text-white flex flex-col justify-between shadow-md shadow-violet-500/20">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] text-violet-100 font-medium">Total Estimasi Pesanan:</span>
+              <span class="text-[10px] font-mono text-violet-200" x-text="calc.qty + ' pcs'"></span>
+            </div>
+            <div class="text-xl font-mono font-black" x-text="formatRupiah(calcGrandTotal())"></div>
+            <span class="text-[10px] text-violet-200" x-text="calc.isMember ? 'Sudah termasuk potongan member 5%' : 'Harga normal non-member'"></span>
+          </div>
+        </div>
+
+        <!-- Direct Actions -->
+        <div class="pt-2 flex items-center justify-between gap-3 flex-wrap">
+          <p class="text-[11px] text-slate-500">
+            *Estimasi akurat sesuai tarif bahan baku dan sablon workshop bulan ini.
+          </p>
+          <button @click="showToast('Rincian estimasi disalin ke clipboard. Hubungi cabang kami untuk memulai pengerjaan.')" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold shadow-sm transition flex items-center gap-1.5 ml-auto">
+            <i data-lucide="copy" class="w-3.5 h-3.5 inline-block align-middle"></i>
+            <span>Salin Rincian Estimasi</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clean Technical Catalog: Material & Sablon Tables (No generic AI cards) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+      <!-- Bahan Table Card -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm space-y-3">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+          <div class="flex items-center gap-2">
+            <i data-lucide="layers" class="w-4 h-4 text-violet-600 inline-block align-middle"></i>
+            <h3 class="text-xs font-bold text-slate-900 uppercase font-mono tracking-wider">Katalog Spesifikasi Bahan Kaos</h3>
+          </div>
+          <span class="text-[10px] text-slate-400 font-mono">100% Katun Reaktif</span>
+        </div>
+        <div class="space-y-2 text-xs">
+          <template x-for="b in masterBahan" :key="b.nama">
+            <div class="p-2.5 rounded-xl bg-slate-50/80 border border-slate-100 flex items-center justify-between">
+              <div>
+                <span class="font-bold text-slate-800 block" x-text="b.nama"></span>
+                <span class="text-[11px] text-slate-500" x-text="b.gramasi"></span>
+              </div>
+              <span class="font-mono font-semibold text-slate-700 text-xs" x-text="formatRupiah(b.hpp) + ' / pcs'"></span>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- Sablon Table Card -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm space-y-3">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+          <div class="flex items-center gap-2">
+            <i data-lucide="printer" class="w-4 h-4 text-violet-600 inline-block align-middle"></i>
+            <h3 class="text-xs font-bold text-slate-900 uppercase font-mono tracking-wider">Pilihan Teknik Cetak & Sablon</h3>
+          </div>
+          <span class="text-[10px] text-slate-400 font-mono">Area Cetak A3</span>
+        </div>
+        <div class="space-y-2 text-xs">
+          <template x-for="s in masterSablon" :key="s.nama">
+            <div class="p-2.5 rounded-xl bg-slate-50/80 border border-slate-100 flex items-center justify-between">
+              <div>
+                <span class="font-bold text-slate-800 block" x-text="s.nama"></span>
+                <span class="text-[11px] text-slate-500" x-text="s.deskripsi"></span>
+              </div>
+              <span class="font-mono font-semibold text-slate-700 text-xs" x-text="formatRupiah(s.biaya) + ' / pcs'"></span>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+
+    <!-- Member Advantage Banner (Clean single-row strip) -->
+    <div class="bg-violet-50/70 border border-violet-200/80 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-xl bg-violet-600 text-white flex items-center justify-center shrink-0">
+          <i data-lucide="award" class="w-4 h-4 inline-block align-middle"></i>
+        </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Pilihan Bahan Kaos</label>
-          <select x-model="calc.bahan" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-4 focus:ring-violet-500/15 focus:border-[#7C3AED]">
-            <template x-for="b in masterBahan" :key="b.nama">
-              <option :value="b.nama" x-text="b.nama"></option>
-            </template>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Teknik Sablon / Cetak</label>
-          <select x-model="calc.sablon" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-4 focus:ring-violet-500/15 focus:border-[#7C3AED]">
-            <template x-for="s in masterSablon" :key="s.nama">
-              <option :value="s.nama" x-text="s.nama"></option>
-            </template>
-          </select>
-        </div>
-
-        <div class="p-4 bg-violet-50 rounded-xl border border-violet-200/80 flex flex-col justify-between">
-          <span class="text-[11px] font-semibold text-violet-800">Estimasi Total Harga:</span>
-          <div class="text-xl font-mono font-black text-violet-900" x-text="formatRupiah(calcGrandTotal())"></div>
-          <span class="text-[10px] text-violet-600 font-mono" x-text="formatRupiah(calcUnitPrice()) + ' / pcs'"></span>
+          <span class="text-xs font-bold text-slate-900 block">Program Kemitraan Member Duta Media</span>
+          <span class="text-[11px] text-slate-600 block">Dapatkan potongan harga langsung 5% setiap pemesanan di atas 50 pcs. Pendaftaran online gratis tanpa biaya.</span>
         </div>
       </div>
-    </section>
+      <button @click="setScreen('28')" class="px-4 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-xl text-xs font-semibold shadow-sm transition shrink-0 self-start sm:self-auto">
+        Daftar Member Sekarang
+      </button>
+    </div>
 
-    <!-- Highlights & Member Benefits (SRS Compliant - Pure Customer Benefits) -->
-    <section aria-label="Keunggulan Duta Media Konveksi" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-2">
-        <div class="w-10 h-10 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center">
-          <i data-lucide="shield-check" class="w-5 h-5 inline-block align-middle"></i>
-        </div>
-        <h3 class="text-sm font-bold text-slate-900">Garansi Kualitas Bahan 100% Cotton</h3>
-        <p class="text-xs text-slate-500 leading-relaxed">Bahan katun reaktif tidak panas, menyerap keringat, dan rajutan standar ekspor combed 30s & 24s.</p>
-      </div>
-
-      <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-2">
-        <div class="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
-          <i data-lucide="printer" class="w-5 h-5 inline-block align-middle"></i>
-        </div>
-        <h3 class="text-sm font-bold text-slate-900">Sablon Presisi & Tahan Cuci</h3>
-        <p class="text-xs text-slate-500 leading-relaxed">Pilihan tinta plastisol curing doff, DTF full color high-resolution, hingga bordir komputer Tajima.</p>
-      </div>
-
-      <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-2">
-        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-          <i data-lucide="badge-percent" class="w-5 h-5 inline-block align-middle"></i>
-        </div>
-        <h3 class="text-sm font-bold text-slate-900">Diskon 5% Khusus Member Prioritas</h3>
-        <p class="text-xs text-slate-500 leading-relaxed">Daftar member secara online tanpa biaya dan nikmati potongan langsung di setiap order konveksi.</p>
-      </div>
-    </section>
-  </div>
-  
-  <!-- ==================== SCREEN 28: FORM REGISTRASI MEMBER ONLINE ==================== -->
+  </div><!-- ==================== SCREEN 28: FORM REGISTRASI MEMBER ONLINE ==================== -->
   <div x-show="screen === '28'" class="space-y-6 max-w-xl mx-auto py-8" x-cloak>
     <div class="text-center space-y-2">
       <div class="w-10 h-10 rounded-xl bg-violet-600 text-white flex items-center justify-center font-display font-black text-lg mx-auto shadow-sm">
@@ -1037,7 +1160,7 @@
       <!-- Sidebar -->
       
   <!-- Left Sidebar (240px Fixed) with Lucide Icons -->
-  <aside class="w-60 bg-white border-r border-slate-200 flex flex-col shrink-0 fixed top-0 bottom-0 left-0 z-30 transition-all duration-300">
+  <aside class="w-64 bg-white border-r border-slate-200 flex flex-col shrink-0 fixed top-0 bottom-0 left-0 z-30 transition-all duration-300 shadow-[1px_0_10px_rgba(15,23,42,0.02)]">
     <!-- Brand Header -->
     <div class="h-16 flex items-center px-6 border-b border-slate-200 justify-between">
       <div class="flex items-center gap-2.5 cursor-pointer" @click="setScreen('00')">
@@ -1055,7 +1178,7 @@
     </div>
 
     <!-- Navigation Menu Items -->
-    <div class="flex-1 overflow-y-auto px-3 py-4 space-y-6">
+    <div class="flex-1 overflow-y-auto px-3.5 py-3 space-y-4 custom-scrollbar">
       
       <!-- Group: Navigasi Utama -->
       <div>
@@ -1196,7 +1319,7 @@
   
 
       <!-- Main App Container (with left margin 240px to compensate fixed sidebar) -->
-      <div class="flex-1 flex flex-col min-w-0 transition-all duration-300" :class="viewportMode === 'mobile' ? 'ml-0' : 'ml-60'">
+      <div class="flex-1 flex flex-col min-w-0 transition-all duration-300" :class="viewportMode === 'mobile' ? 'ml-0' : 'ml-64'">
         <!-- Sticky Header (64px) -->
         
   <!-- Top Header with Lucide Icons -->
