@@ -1123,6 +1123,8 @@ Gambar 4\. Relasi Tabel
 
 5. ## Class Diagram
 
+> **Catatan Salinan Lengkap & Kode Draw.io:** Seluruh kode Draw.io XML dan penjelasan mendalam untuk Tugas 5 (Class Diagram & Sequence Diagram PC-001 s.d. PC-006) tersedia siap salin pada file: [SALINAN_LENGKAP_TUGAS5_TPDB.md](file:///d:/laragon/www/PrintCraft/SALINAN_LENGKAP_TUGAS5_TPDB.md).
+
 Tabel  Rincian Fitur (Berdasarkan ID Fitur)
 
 | Kategori Pengguna | ID Fitur | Fitur |
