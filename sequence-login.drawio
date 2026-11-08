@@ -1,0 +1,160 @@
+<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
+  <diagram id="seq-login" name="Sequence Login">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+<!-- Actor: Owner/Admin Top -->
+<mxCell id="act_user_top" value="Owner / Admin" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+  <mxGeometry x="80" y="40" width="30" height="60" as="geometry" />
+</mxCell>
+<mxCell id="act_user_bot" value="Owner / Admin" style="shape=umlActor;verticalLabelPosition=top;verticalAlign=bottom;html=1;outlineConnect=0;" vertex="1" parent="1">
+  <mxGeometry x="80" y="580" width="30" height="60" as="geometry" />
+</mxCell>
+<mxCell id="line_user" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="act_user_bot" target="act_user_top" />
+
+<!-- Boundary: view_login -->
+<mxCell id="ll_vlogin_top" value="view_login" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="260" y="50" width="60" height="40" as="geometry" />
+</mxCell>
+<mxCell id="ll_vlogin_bot" value="view_login" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="260" y="590" width="60" height="40" as="geometry" />
+</mxCell>
+<mxCell id="line_vlogin" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_vlogin_bot" target="ll_vlogin_top" />
+
+<!-- Control: AuthController -->
+<mxCell id="ll_ctrl_top" value="AuthController" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="460" y="45" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="ll_ctrl_bot" value="AuthController" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="460" y="585" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="line_ctrl" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_ctrl_bot" target="ll_ctrl_top" />
+
+<!-- Entity: Akun -->
+<mxCell id="ll_model_top" value="Akun" style="shape=umlEntity;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="660" y="45" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="ll_model_bot" value="Akun" style="shape=umlEntity;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="660" y="585" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="line_model" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_model_bot" target="ll_model_top" />
+
+<!-- Database: Database -->
+<mxCell id="ll_db_top" value="Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="840" y="45" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="ll_db_bot" value="Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="840" y="585" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="line_db" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_db_bot" target="ll_db_top" />
+
+<!-- Boundary: view_dashboard -->
+<mxCell id="ll_vdash_top" value="view_dashboard" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="980" y="50" width="60" height="40" as="geometry" />
+</mxCell>
+<mxCell id="ll_vdash_bot" value="view_dashboard" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="980" y="590" width="60" height="40" as="geometry" />
+</mxCell>
+<mxCell id="line_vdash" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_vdash_bot" target="ll_vdash_top" />
+
+<!-- Messages -->
+<!-- 1. Buka form login -->
+<mxCell id="m1" value="Buka halaman login" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry">
+    <mxPoint x="95" y="140" as="sourcePoint" /><mxPoint x="290" y="140" as="targetPoint" /><mxPoint as="offset" />
+  </mxGeometry>
+</mxCell>
+<!-- 2. showLoginForm() -->
+<mxCell id="m2" value="showLoginForm() / route GET /login" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry">
+    <mxPoint x="290" y="170" as="sourcePoint" /><mxPoint x="482" y="170" as="targetPoint" /><mxPoint as="offset" />
+  </mxGeometry>
+</mxCell>
+<!-- 3. return form -->
+<mxCell id="m3" value="return (view_login)" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.5;endFill=0;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry">
+    <mxPoint x="482" y="200" as="sourcePoint" /><mxPoint x="290" y="200" as="targetPoint" /><mxPoint as="offset" />
+  </mxGeometry>
+</mxCell>
+<!-- 4. Submit login -->
+<mxCell id="m4" value="Isikan username &amp; password, klik Login" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry">
+    <mxPoint x="95" y="240" as="sourcePoint" /><mxPoint x="290" y="240" as="targetPoint" /><mxPoint as="offset" />
+  </mxGeometry>
+</mxCell>
+<!-- 5. login(request) -->
+<mxCell id="m5" value="login(request) / route POST /login" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry">
+    <mxPoint x="290" y="270" as="sourcePoint" /><mxPoint x="482" y="270" as="targetPoint" /><mxPoint as="offset" />
+  </mxGeometry>
+</mxCell>
+<!-- 6. cekKredensial() -->
+<mxCell id="m6" value="cekKredensial(username, password)" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry">
+    <mxPoint x="482" y="300" as="sourcePoint" /><mxPoint x="682" y="300" as="targetPoint" /><mxPoint as="offset" />
+  </mxGeometry>
+</mxCell>
+<!-- 7. Query ke DB -->
+<mxCell id="m7" value="SELECT * FROM akun WHERE username=..." style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry">
+    <mxPoint x="682" y="330" as="sourcePoint" /><mxPoint x="862" y="330" as="targetPoint" /><mxPoint as="offset" />
+  </mxGeometry>
+</mxCell>
+<!-- 8. DB return record -->
+<mxCell id="m8" value="return (data_akun, password_hash)" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.5;endFill=0;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry">
+    <mxPoint x="862" y="360" as="sourcePoint" /><mxPoint x="682" y="360" as="targetPoint" /><mxPoint as="offset" />
+  </mxGeometry>
+</mxCell>
+<!-- 9. Model verify hash & return -->
+<mxCell id="m9" value="return (status_valid, role, id_cabang)" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.5;endFill=0;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry">
+    <mxPoint x="682" y="390" as="sourcePoint" /><mxPoint x="482" y="390" as="targetPoint" /><mxPoint as="offset" />
+  </mxGeometry>
+</mxCell>
+
+<!-- ALT FRAME: Kredensial Valid vs Tidak Valid -->
+<mxCell id="alt_login" value="alt" style="shape=umlFrame;whiteSpace=wrap;html=1;width=60;height=25;boundedLbl=1;verticalAlign=top;align=left;spacingLeft=5;fillColor=none;strokeColor=#000000;strokeWidth=1;" vertex="1" parent="1">
+  <mxGeometry x="220" y="420" width="820" height="140" as="geometry" />
+</mxCell>
+<mxCell id="lbl_alt_true" value="[Username &amp; Password Cocok (Valid)]" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];fontSize=11;fontStyle=2;" vertex="1" parent="alt_login">
+  <mxGeometry x="70" y="2" width="250" height="20" as="geometry" />
+</mxCell>
+<!-- Action True: session() -->
+<mxCell id="m10_sess" value="session(auth_user)" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="0.2" y="-15" relative="1" as="geometry">
+    <mxPoint x="482" y="455" as="sourcePoint" /><mxPoint x="482" y="480" as="targetPoint" />
+    <Array as="points"><mxPoint x="525" y="455" /><mxPoint x="525" y="480" /></Array><mxPoint as="offset" />
+  </mxGeometry>
+</mxCell>
+<!-- Redirect Dashboard -->
+<mxCell id="m11_dash" value="redirect(&apos;/dashboard&apos;)" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry">
+    <mxPoint x="482" y="495" as="sourcePoint" /><mxPoint x="1010" y="495" as="targetPoint" /><mxPoint as="offset" />
+  </mxGeometry>
+</mxCell>
+<!-- Alt Divider -->
+<mxCell id="alt_login_line" value="" style="line;strokeWidth=1;dashed=1;labelBackgroundColor=none;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;fontSize=12;fontColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+  <mxGeometry x="220" y="515" width="820" height="5" as="geometry" />
+</mxCell>
+<mxCell id="lbl_alt_false" value="[Username atau Password Salah]" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];fontSize=11;fontStyle=2;" vertex="1" parent="1">
+  <mxGeometry x="230" y="515" width="220" height="20" as="geometry" />
+</mxCell>
+<!-- Action False: return error -->
+<mxCell id="m12_err" value="return withErrors(&apos;Username atau password salah&apos;)" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.5;endFill=0;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry">
+    <mxPoint x="482" y="540" as="sourcePoint" /><mxPoint x="290" y="540" as="targetPoint" /><mxPoint as="offset" />
+  </mxGeometry>
+</mxCell>
+
+<!-- Caption -->
+<mxCell id="caption_fig13" value="&lt;b&gt;Gambar 13. Sequence Diagram Fitur Login Owner / Admin (PC-001)&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=13;" vertex="1" parent="1">
+  <mxGeometry x="320" y="660" width="450" height="30" as="geometry" />
+</mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

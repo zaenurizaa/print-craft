@@ -1,0 +1,96 @@
+<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
+  <diagram id="seq-invoice" name="Sequence Invoice">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+<!-- Actor: Admin/Owner -->
+<mxCell id="act_inv_top" value="Admin / Owner" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+  <mxGeometry x="80" y="40" width="30" height="60" as="geometry" />
+</mxCell>
+<mxCell id="act_inv_bot" value="Admin / Owner" style="shape=umlActor;verticalLabelPosition=top;verticalAlign=bottom;html=1;outlineConnect=0;" vertex="1" parent="1">
+  <mxGeometry x="80" y="550" width="30" height="60" as="geometry" />
+</mxCell>
+<mxCell id="line_inv_act" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="act_inv_bot" target="act_inv_top" />
+
+<!-- Boundary: view_detail_pesanan -->
+<mxCell id="ll_vdp_top" value="view_detail_pesanan" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="250" y="50" width="60" height="40" as="geometry" />
+</mxCell>
+<mxCell id="ll_vdp_bot" value="view_detail_pesanan" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="250" y="560" width="60" height="40" as="geometry" />
+</mxCell>
+<mxCell id="line_vdp" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_vdp_bot" target="ll_vdp_top" />
+
+<!-- Control: DokumenController -->
+<mxCell id="ll_dokc_top" value="DokumenController" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="450" y="45" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="ll_dokc_bot" value="DokumenController" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="450" y="555" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="line_dokc" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_dokc_bot" target="ll_dokc_top" />
+
+<!-- Entity: Pesanan -->
+<mxCell id="ll_mpes_top" value="Pesanan" style="shape=umlEntity;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="640" y="45" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="ll_mpes_bot" value="Pesanan" style="shape=umlEntity;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="640" y="555" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="line_mpes" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_mpes_bot" target="ll_mpes_top" />
+
+<!-- Library: Dompdf -->
+<mxCell id="ll_pdf_top" value="Dompdf" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="820" y="45" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="ll_pdf_bot" value="Dompdf" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="820" y="555" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="line_pdf" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_pdf_bot" target="ll_pdf_top" />
+
+<!-- Database: Database -->
+<mxCell id="ll_invdb_top" value="Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="980" y="45" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="ll_invdb_bot" value="Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="980" y="555" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="line_invdb" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_invdb_bot" target="ll_invdb_top" />
+
+<!-- Messages -->
+<mxCell id="im1" value="Klik tombol &apos;Cetak Invoice&apos;" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="95" y="140" as="sourcePoint" /><mxPoint x="280" y="140" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="im2" value="cetakInvoice(id) / route GET /pesanan/{id}/invoice" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="280" y="170" as="sourcePoint" /><mxPoint x="472" y="170" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="im3" value="getDetailPesananDanBayar(id)" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="472" y="200" as="sourcePoint" /><mxPoint x="662" y="200" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="im4" value="SELECT * FROM pesanan JOIN customer JOIN pembayaran..." style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="662" y="230" as="sourcePoint" /><mxPoint x="1002" y="230" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="im5" value="return (record data transaksi)" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.5;endFill=0;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="1002" y="260" as="sourcePoint" /><mxPoint x="472" y="260" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="im6" value="generatePDF(view_invoice_pdf, data)" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="472" y="300" as="sourcePoint" /><mxPoint x="842" y="300" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="im7" value="return stream (dokumen_invoice.pdf)" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.5;endFill=0;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="842" y="340" as="sourcePoint" /><mxPoint x="472" y="340" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="im8" value="tampilkan pratinjau PDF / buka dialog cetak" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.5;endFill=0;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="472" y="380" as="sourcePoint" /><mxPoint x="280" y="380" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+
+<!-- Caption -->
+<mxCell id="caption_fig15" value="&lt;b&gt;Gambar 15. Sequence Diagram Fitur Cetak Invoice PDF (PC-005)&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=13;" vertex="1" parent="1">
+  <mxGeometry x="320" y="630" width="450" height="30" as="geometry" />
+</mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

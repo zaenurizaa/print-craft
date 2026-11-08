@@ -1,0 +1,116 @@
+<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
+  <diagram id="seq-pesanan" name="Sequence Pesanan">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+<!-- Actor: Admin/Owner -->
+<mxCell id="act_p_top" value="Admin / Owner" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+  <mxGeometry x="60" y="40" width="30" height="60" as="geometry" />
+</mxCell>
+<mxCell id="act_p_bot" value="Admin / Owner" style="shape=umlActor;verticalLabelPosition=top;verticalAlign=bottom;html=1;outlineConnect=0;" vertex="1" parent="1">
+  <mxGeometry x="60" y="600" width="30" height="60" as="geometry" />
+</mxCell>
+<mxCell id="line_p_act" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="act_p_bot" target="act_p_top" />
+
+<!-- Boundary: form_pesanan -->
+<mxCell id="ll_fp_top" value="form_pesanan" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="210" y="50" width="60" height="40" as="geometry" />
+</mxCell>
+<mxCell id="ll_fp_bot" value="form_pesanan" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="210" y="610" width="60" height="40" as="geometry" />
+</mxCell>
+<mxCell id="line_fp" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_fp_bot" target="ll_fp_top" />
+
+<!-- Control: PesananController -->
+<mxCell id="ll_pc_top" value="PesananController" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="380" y="45" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="ll_pc_bot" value="PesananController" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="380" y="605" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="line_pc" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_pc_bot" target="ll_pc_top" />
+
+<!-- Entity: Pesanan -->
+<mxCell id="ll_mp_top" value="Pesanan" style="shape=umlEntity;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="550" y="45" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="ll_mp_bot" value="Pesanan" style="shape=umlEntity;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="550" y="605" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="line_mp" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_mp_bot" target="ll_mp_top" />
+
+<!-- Entity: Pembayaran -->
+<mxCell id="ll_mpay_top" value="Pembayaran" style="shape=umlEntity;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="710" y="45" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="ll_mpay_bot" value="Pembayaran" style="shape=umlEntity;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="710" y="605" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="line_mpay" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_mpay_bot" target="ll_mpay_top" />
+
+<!-- Database: Database -->
+<mxCell id="ll_pdb_top" value="Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="870" y="45" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="ll_pdb_bot" value="Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="870" y="605" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="line_pdb" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_pdb_bot" target="ll_pdb_top" />
+
+<!-- Boundary: view_daftar_pesanan -->
+<mxCell id="ll_vdp_top" value="view_daftar_pesanan" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="1010" y="50" width="70" height="40" as="geometry" />
+</mxCell>
+<mxCell id="ll_vdp_bot" value="view_daftar_pesanan" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="1010" y="610" width="70" height="40" as="geometry" />
+</mxCell>
+<mxCell id="line_vdp" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_vdp_bot" target="ll_vdp_top" />
+
+<!-- Messages -->
+<mxCell id="pm1" value="Klik &apos;Buat Pesanan Baru&apos;" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="75" y="140" as="sourcePoint" /><mxPoint x="240" y="140" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="pm2" value="create() / route GET /pesanan/create" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="240" y="170" as="sourcePoint" /><mxPoint x="402" y="170" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="pm3" value="return (form_pesanan)" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.5;endFill=0;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="402" y="200" as="sourcePoint" /><mxPoint x="240" y="200" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="pm4" value="Isi spesifikasi pesanan &amp; DP 50%, klik Simpan" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="75" y="240" as="sourcePoint" /><mxPoint x="240" y="240" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="pm5" value="store(request) / route POST /pesanan" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="240" y="270" as="sourcePoint" /><mxPoint x="402" y="270" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="pm6" value="simpanPesanan(data_pesanan)" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="402" y="300" as="sourcePoint" /><mxPoint x="572" y="300" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="pm7" value="INSERT INTO pesanan (nomor_pesanan, qty, total...)" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="572" y="330" as="sourcePoint" /><mxPoint x="892" y="330" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="pm8" value="return (id_pesanan)" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.5;endFill=0;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="892" y="360" as="sourcePoint" /><mxPoint x="402" y="360" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="pm9" value="catatPembayaran(id_pesanan, nominal_dp)" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="402" y="390" as="sourcePoint" /><mxPoint x="732" y="390" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="pm10" value="INSERT INTO pembayaran (id_pesanan, jenis=&apos;DP 50%&apos;...)" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="732" y="420" as="sourcePoint" /><mxPoint x="892" y="420" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="pm11" value="return (id_pembayaran)" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.5;endFill=0;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="892" y="450" as="sourcePoint" /><mxPoint x="402" y="450" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="pm12" value="redirect(&apos;/pesanan&apos;) with &apos;Pesanan berhasil dibuat&apos;" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="402" y="500" as="sourcePoint" /><mxPoint x="1045" y="500" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+
+<mxCell id="caption_fig_pesanan" value="&lt;b&gt;Sequence Diagram Fitur Transaksi Pesanan dan Pembayaran DP (PC-003)&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=13;" vertex="1" parent="1">
+  <mxGeometry x="300" y="670" width="490" height="30" as="geometry" />
+</mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

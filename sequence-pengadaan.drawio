@@ -1,0 +1,90 @@
+<mxfile host="app.diagrams.net" modified="2026-11-08T16:00:00.000Z" agent="Antigravity" version="24.0.0">
+  <diagram id="seq-pengadaan" name="Sequence Pengadaan">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+<!-- Actor: Admin Cabang -->
+<mxCell id="act_po_top" value="Admin Cabang" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+  <mxGeometry x="80" y="40" width="30" height="60" as="geometry" />
+</mxCell>
+<mxCell id="act_po_bot" value="Admin Cabang" style="shape=umlActor;verticalLabelPosition=top;verticalAlign=bottom;html=1;outlineConnect=0;" vertex="1" parent="1">
+  <mxGeometry x="80" y="550" width="30" height="60" as="geometry" />
+</mxCell>
+<mxCell id="line_po_act" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="act_po_bot" target="act_po_top" />
+
+<!-- Boundary: form_pengadaan -->
+<mxCell id="ll_fpo_top" value="form_pengadaan" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="250" y="50" width="60" height="40" as="geometry" />
+</mxCell>
+<mxCell id="ll_fpo_bot" value="form_pengadaan" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="250" y="560" width="60" height="40" as="geometry" />
+</mxCell>
+<mxCell id="line_fpo" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_fpo_bot" target="ll_fpo_top" />
+
+<!-- Control: PengadaanController -->
+<mxCell id="ll_poc_top" value="PengadaanController" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="450" y="45" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="ll_poc_bot" value="PengadaanController" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="450" y="555" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="line_poc" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_poc_bot" target="ll_poc_top" />
+
+<!-- Entity: PengadaanKaos -->
+<mxCell id="ll_mpo_top" value="PengadaanKaos" style="shape=umlEntity;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="650" y="45" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="ll_mpo_bot" value="PengadaanKaos" style="shape=umlEntity;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="650" y="555" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="line_mpo" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_mpo_bot" target="ll_mpo_top" />
+
+<!-- Database: Database -->
+<mxCell id="ll_podb_top" value="Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="840" y="45" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="ll_podb_bot" value="Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;verticalAlign=bottom;" vertex="1" parent="1">
+  <mxGeometry x="840" y="555" width="45" height="50" as="geometry" />
+</mxCell>
+<mxCell id="line_podb" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_podb_bot" target="ll_podb_top" />
+
+<!-- Messages -->
+<mxCell id="pom1" value="Pilih pesanan &amp; klik &apos;Buat PO Vendor&apos;" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="95" y="140" as="sourcePoint" /><mxPoint x="280" y="140" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="pom2" value="create(id_pesanan) / route GET /pengadaan/create" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="280" y="170" as="sourcePoint" /><mxPoint x="472" y="170" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="pom3" value="return (form_pengadaan)" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.5;endFill=0;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="472" y="200" as="sourcePoint" /><mxPoint x="280" y="200" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="pom4" value="Input nama supplier &amp; qty, klik Kirim PO" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="95" y="240" as="sourcePoint" /><mxPoint x="280" y="240" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="pom5" value="store(request) / route POST /pengadaan" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="280" y="270" as="sourcePoint" /><mxPoint x="472" y="270" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="pom6" value="simpanPO(data_po)" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="472" y="300" as="sourcePoint" /><mxPoint x="672" y="300" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="pom7" value="INSERT INTO pengadaan_kaos (nomor_po, supplier, status=&apos;Dipesan&apos;...)" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="672" y="330" as="sourcePoint" /><mxPoint x="862" y="330" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="pom8" value="return (id_pengadaan, nomor_po)" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.5;endFill=0;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="862" y="360" as="sourcePoint" /><mxPoint x="472" y="360" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+<mxCell id="pom9" value="return status PO Diterbitkan" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.5;endFill=0;" edge="1" parent="1">
+  <mxGeometry x="-0.05" y="-12" relative="1" as="geometry"><mxPoint x="472" y="400" as="sourcePoint" /><mxPoint x="280" y="400" as="targetPoint" /><mxPoint as="offset" /></mxGeometry>
+</mxCell>
+
+<!-- Caption -->
+<mxCell id="caption_fig14" value="&lt;b&gt;Gambar 14. Sequence Diagram Fitur Pengadaan Stok Kaos (PC-004)&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=13;" vertex="1" parent="1">
+  <mxGeometry x="300" y="630" width="460" height="30" as="geometry" />
+</mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
