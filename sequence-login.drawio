@@ -12,7 +12,9 @@
 <mxCell id="act_user_bot" value="Owner / Admin" style="shape=umlActor;verticalLabelPosition=top;verticalAlign=bottom;html=1;outlineConnect=0;" vertex="1" parent="1">
   <mxGeometry x="80" y="580" width="30" height="60" as="geometry" />
 </mxCell>
-<mxCell id="line_user" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="act_user_bot" target="act_user_top" />
+<mxCell id="line_user" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="act_user_bot" target="act_user_top">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
 
 <!-- Boundary: view_login -->
 <mxCell id="ll_vlogin_top" value="view_login" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
@@ -21,7 +23,9 @@
 <mxCell id="ll_vlogin_bot" value="view_login" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
   <mxGeometry x="260" y="590" width="60" height="40" as="geometry" />
 </mxCell>
-<mxCell id="line_vlogin" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_vlogin_bot" target="ll_vlogin_top" />
+<mxCell id="line_vlogin" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_vlogin_bot" target="ll_vlogin_top">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
 
 <!-- Control: AuthController -->
 <mxCell id="ll_ctrl_top" value="AuthController" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
@@ -30,7 +34,9 @@
 <mxCell id="ll_ctrl_bot" value="AuthController" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
   <mxGeometry x="460" y="585" width="45" height="50" as="geometry" />
 </mxCell>
-<mxCell id="line_ctrl" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_ctrl_bot" target="ll_ctrl_top" />
+<mxCell id="line_ctrl" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_ctrl_bot" target="ll_ctrl_top">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
 
 <!-- Entity: Akun -->
 <mxCell id="ll_model_top" value="Akun" style="shape=umlEntity;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
@@ -39,7 +45,9 @@
 <mxCell id="ll_model_bot" value="Akun" style="shape=umlEntity;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
   <mxGeometry x="660" y="585" width="45" height="50" as="geometry" />
 </mxCell>
-<mxCell id="line_model" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_model_bot" target="ll_model_top" />
+<mxCell id="line_model" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_model_bot" target="ll_model_top">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
 
 <!-- Database: Database -->
 <mxCell id="ll_db_top" value="Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;verticalAlign=top;" vertex="1" parent="1">
@@ -48,7 +56,9 @@
 <mxCell id="ll_db_bot" value="Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;verticalAlign=bottom;" vertex="1" parent="1">
   <mxGeometry x="840" y="585" width="45" height="50" as="geometry" />
 </mxCell>
-<mxCell id="line_db" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_db_bot" target="ll_db_top" />
+<mxCell id="line_db" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_db_bot" target="ll_db_top">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
 
 <!-- Boundary: view_dashboard -->
 <mxCell id="ll_vdash_top" value="view_dashboard" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
@@ -57,7 +67,9 @@
 <mxCell id="ll_vdash_bot" value="view_dashboard" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
   <mxGeometry x="980" y="590" width="60" height="40" as="geometry" />
 </mxCell>
-<mxCell id="line_vdash" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_vdash_bot" target="ll_vdash_top" />
+<mxCell id="line_vdash" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_vdash_bot" target="ll_vdash_top">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
 
 <!-- Messages -->
 <!-- 1. Buka form login -->

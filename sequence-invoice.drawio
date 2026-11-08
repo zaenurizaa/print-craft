@@ -12,7 +12,9 @@
 <mxCell id="act_inv_bot" value="Admin / Owner" style="shape=umlActor;verticalLabelPosition=top;verticalAlign=bottom;html=1;outlineConnect=0;" vertex="1" parent="1">
   <mxGeometry x="80" y="550" width="30" height="60" as="geometry" />
 </mxCell>
-<mxCell id="line_inv_act" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="act_inv_bot" target="act_inv_top" />
+<mxCell id="line_inv_act" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="act_inv_bot" target="act_inv_top">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
 
 <!-- Boundary: view_detail_pesanan -->
 <mxCell id="ll_vdp_top" value="view_detail_pesanan" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
@@ -21,7 +23,9 @@
 <mxCell id="ll_vdp_bot" value="view_detail_pesanan" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
   <mxGeometry x="250" y="560" width="60" height="40" as="geometry" />
 </mxCell>
-<mxCell id="line_vdp" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_vdp_bot" target="ll_vdp_top" />
+<mxCell id="line_vdp" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_vdp_bot" target="ll_vdp_top">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
 
 <!-- Control: DokumenController -->
 <mxCell id="ll_dokc_top" value="DokumenController" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
@@ -30,7 +34,9 @@
 <mxCell id="ll_dokc_bot" value="DokumenController" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
   <mxGeometry x="450" y="555" width="45" height="50" as="geometry" />
 </mxCell>
-<mxCell id="line_dokc" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_dokc_bot" target="ll_dokc_top" />
+<mxCell id="line_dokc" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_dokc_bot" target="ll_dokc_top">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
 
 <!-- Entity: Pesanan -->
 <mxCell id="ll_mpes_top" value="Pesanan" style="shape=umlEntity;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
@@ -39,7 +45,9 @@
 <mxCell id="ll_mpes_bot" value="Pesanan" style="shape=umlEntity;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
   <mxGeometry x="640" y="555" width="45" height="50" as="geometry" />
 </mxCell>
-<mxCell id="line_mpes" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_mpes_bot" target="ll_mpes_top" />
+<mxCell id="line_mpes" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_mpes_bot" target="ll_mpes_top">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
 
 <!-- Library: Dompdf -->
 <mxCell id="ll_pdf_top" value="Dompdf" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
@@ -48,7 +56,9 @@
 <mxCell id="ll_pdf_bot" value="Dompdf" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
   <mxGeometry x="820" y="555" width="45" height="50" as="geometry" />
 </mxCell>
-<mxCell id="line_pdf" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_pdf_bot" target="ll_pdf_top" />
+<mxCell id="line_pdf" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_pdf_bot" target="ll_pdf_top">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
 
 <!-- Database: Database -->
 <mxCell id="ll_invdb_top" value="Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;verticalAlign=top;" vertex="1" parent="1">
@@ -57,7 +67,9 @@
 <mxCell id="ll_invdb_bot" value="Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;verticalAlign=bottom;" vertex="1" parent="1">
   <mxGeometry x="980" y="555" width="45" height="50" as="geometry" />
 </mxCell>
-<mxCell id="line_invdb" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_invdb_bot" target="ll_invdb_top" />
+<mxCell id="line_invdb" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_invdb_bot" target="ll_invdb_top">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
 
 <!-- Messages -->
 <mxCell id="im1" value="Klik tombol &apos;Cetak Invoice&apos;" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">

@@ -46,18 +46,42 @@
           <mxGeometry x="740" y="490" width="170" height="60" as="geometry" />
         </mxCell>
 
-        <!-- Relations -->
-        <mxCell id="rel_c_p" value="1               *" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="cls_cust" target="cls_pesanan" />
-        <mxCell id="rel_p_b" value="1               *" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="cls_pesanan" target="cls_bayar" />
-        <mxCell id="dep_c_db" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_cust" target="cls_db" />
+        <!-- Relations with Multiplicity -->
+        <mxCell id="rel_c_p" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=1.5;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="cls_cust" target="cls_pesanan">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mult_c" value="1" style="text;html=1;align=center;verticalAlign=middle;fontSize=11;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="495" y="105" width="20" height="20" as="geometry" /></mxCell>
+        <mxCell id="mult_p" value="*" style="text;html=1;align=center;verticalAlign=middle;fontSize=11;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="555" y="105" width="20" height="20" as="geometry" /></mxCell>
 
-        <mxCell id="dep_cctrl_c" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_cust_ctrl" target="cls_cust" />
-        <mxCell id="dep_pctrl_p" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_pes_ctrl" target="cls_pesanan" />
-        <mxCell id="dep_pctrl_b" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.9;exitY=0;exitDx=0;exitDy=0;entryX=0.2;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_pes_ctrl" target="cls_bayar" />
+        <mxCell id="rel_p_b" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=1.5;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="cls_pesanan" target="cls_bayar">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mult_p2" value="1" style="text;html=1;align=center;verticalAlign=middle;fontSize=11;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="835" y="105" width="20" height="20" as="geometry" /></mxCell>
+        <mxCell id="mult_b" value="*" style="text;html=1;align=center;verticalAlign=middle;fontSize=11;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="885" y="105" width="20" height="20" as="geometry" /></mxCell>
 
-        <mxCell id="dep_cctrl_v" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_cust_ctrl" target="cls_v_cust" />
-        <mxCell id="dep_pctrl_f" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.3;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_pes_ctrl" target="cls_f_pes" />
-        <mxCell id="dep_pctrl_v" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.8;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_pes_ctrl" target="cls_v_pes" />
+        <mxCell id="dep_c_db" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.2;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_cust" target="cls_db">
+          <mxGeometry x="0.1" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="dep_cctrl_c" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.2;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_cust_ctrl" target="cls_cust">
+          <mxGeometry x="-0.1" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="dep_pctrl_p" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.2;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_pes_ctrl" target="cls_pesanan">
+          <mxGeometry x="-0.1" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="dep_pctrl_b" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.2;exitX=0.9;exitY=0;exitDx=0;exitDy=0;entryX=0.2;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_pes_ctrl" target="cls_bayar">
+          <mxGeometry x="-0.1" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="dep_cctrl_v" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_cust_ctrl" target="cls_v_cust">
+          <mxGeometry x="-0.1" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="dep_pctrl_f" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.2;exitX=0.3;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_pes_ctrl" target="cls_f_pes">
+          <mxGeometry x="-0.1" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="dep_pctrl_v" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.2;exitX=0.8;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_pes_ctrl" target="cls_v_pes">
+          <mxGeometry x="-0.1" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
 
         <mxCell id="cap_fig_pes" value="&lt;b&gt;Gambar 5b. Class Diagram Fitur Transaksi Pesanan dan Data Customer (PC-003)&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;fontSize=13;" vertex="1" parent="1">
           <mxGeometry x="310" y="610" width="520" height="30" as="geometry" />

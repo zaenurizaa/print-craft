@@ -12,7 +12,9 @@
 <mxCell id="act_dash_bot" value="Owner / Admin" style="shape=umlActor;verticalLabelPosition=top;verticalAlign=bottom;html=1;outlineConnect=0;" vertex="1" parent="1">
   <mxGeometry x="80" y="550" width="30" height="60" as="geometry" />
 </mxCell>
-<mxCell id="line_dash_act" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="act_dash_bot" target="act_dash_top" />
+<mxCell id="line_dash_act" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="act_dash_bot" target="act_dash_top">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
 
 <!-- Boundary: view_laporan -->
 <mxCell id="ll_vlap_top" value="view_laporan" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
@@ -21,7 +23,9 @@
 <mxCell id="ll_vlap_bot" value="view_laporan" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
   <mxGeometry x="260" y="560" width="60" height="40" as="geometry" />
 </mxCell>
-<mxCell id="line_vlap" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_vlap_bot" target="ll_vlap_top" />
+<mxCell id="line_vlap" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_vlap_bot" target="ll_vlap_top">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
 
 <!-- Control: LaporanController -->
 <mxCell id="ll_lapc_top" value="LaporanController" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
@@ -30,7 +34,9 @@
 <mxCell id="ll_lapc_bot" value="LaporanController" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
   <mxGeometry x="460" y="555" width="45" height="50" as="geometry" />
 </mxCell>
-<mxCell id="line_lapc" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_lapc_bot" target="ll_lapc_top" />
+<mxCell id="line_lapc" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_lapc_bot" target="ll_lapc_top">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
 
 <!-- Entity: Pesanan -->
 <mxCell id="ll_rekap_top" value="Pesanan" style="shape=umlEntity;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
@@ -39,7 +45,9 @@
 <mxCell id="ll_rekap_bot" value="Pesanan" style="shape=umlEntity;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
   <mxGeometry x="660" y="555" width="45" height="50" as="geometry" />
 </mxCell>
-<mxCell id="line_rekap" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_rekap_bot" target="ll_rekap_top" />
+<mxCell id="line_rekap" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_rekap_bot" target="ll_rekap_top">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
 
 <!-- Database: Database -->
 <mxCell id="ll_lapdb_top" value="Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;verticalAlign=top;" vertex="1" parent="1">
@@ -48,7 +56,9 @@
 <mxCell id="ll_lapdb_bot" value="Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;verticalAlign=bottom;" vertex="1" parent="1">
   <mxGeometry x="850" y="555" width="45" height="50" as="geometry" />
 </mxCell>
-<mxCell id="line_lapdb" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_lapdb_bot" target="ll_lapdb_top" />
+<mxCell id="line_lapdb" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1" source="ll_lapdb_bot" target="ll_lapdb_top">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
 
 <!-- Messages -->
 <mxCell id="dm1" value="Pilih filter cabang &amp; bulan, klik Tampilkan" style="endArrow=block;html=1;rounded=0;strokeWidth=1.5;endFill=1;" edge="1" parent="1">

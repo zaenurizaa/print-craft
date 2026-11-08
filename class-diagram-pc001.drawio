@@ -47,23 +47,48 @@
         </mxCell>
 
         <!-- Association: Cabang -> Akun -->
-        <mxCell id="rel_cab_akn" value="1               *" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="cls_cabang" target="cls_akun" />
+        <mxCell id="rel_cab_akn" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=1.5;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="cls_cabang" target="cls_akun">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_mult_cab" value="1" style="text;html=1;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="585" y="100" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_mult_akn" value="*" style="text;html=1;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="695" y="100" width="20" height="20" as="geometry" />
+        </mxCell>
 
         <!-- Dependencies to Database -->
-        <mxCell id="dep_cab_db" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0;exitY=0.3;exitDx=0;exitDy=0;entryX=1;entryY=0.3;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_cabang" target="cls_db" />
-        <mxCell id="dep_akn_db" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.2;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_akun" target="cls_db">
-          <Array as="points"><mxPoint x="770" y="20" /><mxPoint x="140" y="20" /></Array>
+        <mxCell id="dep_cab_db" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.2;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_cabang" target="cls_db">
+          <mxGeometry x="0.1" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="dep_akn_db" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.2;exitX=0.2;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_akun" target="cls_db">
+          <mxGeometry x="-0.1" y="-10" relative="1" as="geometry">
+            <Array as="points"><mxPoint x="770" y="15" /><mxPoint x="140" y="15" /></Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
         </mxCell>
 
         <!-- Dependencies Controller to Model -->
-        <mxCell id="dep_auth_akn" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.8;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_auth_ctrl" target="cls_akun" />
-        <mxCell id="dep_cabctrl_cab" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_cab_ctrl" target="cls_cabang" />
-        <mxCell id="dep_aknctrl_akn" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_akn_ctrl" target="cls_akun" />
+        <mxCell id="dep_auth_akn" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.2;exitX=1;exitY=0.2;exitDx=0;exitDy=0;entryX=0;entryY=0.85;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_auth_ctrl" target="cls_akun">
+          <mxGeometry x="-0.3" y="10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="dep_cabctrl_cab" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.2;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_cab_ctrl" target="cls_cabang">
+          <mxGeometry x="-0.1" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="dep_aknctrl_akn" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.2;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_akn_ctrl" target="cls_akun">
+          <mxGeometry x="-0.1" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
 
         <!-- Dependencies Controller to View -->
-        <mxCell id="dep_auth_v" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_auth_ctrl" target="cls_v_login" />
-        <mxCell id="dep_cab_v" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_cab_ctrl" target="cls_v_cabang" />
-        <mxCell id="dep_akn_v" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_akn_ctrl" target="cls_v_akun" />
+        <mxCell id="dep_auth_v" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_auth_ctrl" target="cls_v_login">
+          <mxGeometry x="-0.1" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="dep_cab_v" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_cab_ctrl" target="cls_v_cabang">
+          <mxGeometry x="-0.1" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="dep_akn_v" value="Dependency" style="endArrow=open;dashed=1;html=1;rounded=0;strokeWidth=1.2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="cls_akn_ctrl" target="cls_v_akun">
+          <mxGeometry x="-0.1" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
 
         <!-- Caption -->
         <mxCell id="cap_fig7" value="&lt;b&gt;Gambar 7. Class Diagram Fitur Login, Akun, Cabang (PC-001)&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;fontSize=13;" vertex="1" parent="1">
