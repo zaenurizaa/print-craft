@@ -1951,67 +1951,127 @@ Gambar 55 merupakan sequence diagram pendaftaran member pada website PrintCraft.
 
 2. # Kebutuhan Teknis Implementasi Coding {#kebutuhan-teknis-implementasi-coding}
 
-   ## Ketentuan Data {#ketentuan-data}
+## Ketentuan Data {#ketentuan-data}
 
-Penjabaran batasan tipe dan format data operasional sistem PrintCraft mencakup seluruh modul fungsional sebagai berikut:
+Berisi penjabaran ketentuan mengenai batasan-batasan pada data produk/aplikasi. Ketentuan mengenai batasan-batasan pada data yang digunakan terdiri dari :
 
-1. **Modul Autentikasi & Akun Petugas:**
-   - **Username:** Wajib menggunakan huruf kecil dan angka, panjang 4–30 karakter, tanpa spasi atau karakter khusus kecuali garis bawah (`_`), dan harus unik di basis data.
-   - **Password:** Minimal 8 karakter dengan kombinasi huruf dan angka. Disimpan dalam bentuk hash Bcrypt dengan panjang 60 karakter.
-   - **Email:** Format alamat email standar internasional (`user@domain.ext`), bersifat unik untuk setiap akun petugas.
-   - **Peran (Role):** Bernilai salah satu dari enum `Owner` atau `Admin`.
-2. **Modul Cabang Workshop:**
-   - **Nama Cabang:** Teks alfanumerik panjang maksimal 100 karakter (contoh: "Cabang Gejayan Workshop").
-   - **Nomor Telepon Cabang:** Deret angka panjang 10–15 digit.
-   - **Alamat Cabang:** Teks deskriptif alamat fisik workshop.
-3. **Modul Master Data & Parameter Biaya:**
-   - **Nama Bahan & Nama Sablon:** Teks alfabetis panjang maksimal 100 karakter.
-   - **Tarif Sablon & HPP Kaos Polos:** Angka bilangan bulat positif (`integer >= 0`) dalam satuan Rupiah tanpa sen.
-   - **Biaya Tambahan Ukuran Jumbo (Surcharge):** Angka bilangan bulat Rupiah (`integer >= 0`).
-   - **Margin Keuntungan:** Angka bulat persentase 10%–100% (default 30% terkunci untuk Admin).
-4. **Modul Transaksi Pesanan & Customer:**
-   - **Nomor Pesanan:** Format kode terstandarisasi `ORD-YYYY-XXX` (contoh: `ORD-2026-101`), bersifat unik.
-   - **Nomor WhatsApp Customer:** Format nomor seluler Indonesia (diawali `08` atau `628`), panjang 10–14 digit angka.
-   - **Jumlah Pesanan (Qty):** Bilangan bulat positif minimal 12 pcs (standar pesanan konveksi).
-   - **Nilai Rupiah (Harga Dasar, Diskon, Total Harga):** Bilangan bulat dalam mata uang Rupiah tanpa pecahan desimal/sen.
-   - **Batas Waktu (Deadline):** Format tanggal valid (`DD-MM-YYYY`) yang berjarak minimal 3 hari kerja dari tanggal pembuatan pesanan.
-   - **Status Pesanan:** Bernilai salah satu dari enum tahapan workshop: `Menunggu Bahan`, `Produksi Sablon`, `Selesai Sablon`, `Siap Diambil`, atau `Selesai`.
-5. **Modul Pembayaran & Kasir:**
-   - **Tahapan Pembayaran:** Pilihan enum `DP 50%` atau `Pelunasan`.
-   - **Nominal Bayar:** Angka bulat positif dalam Rupiah, bernilai maksimal sebesar sisa tagihan pesanan.
-   - **Metode Pembayaran:** Teks metode transaksi (`Tunai`, `Transfer Bank`, atau `QRIS`).
-6. **Modul Pengadaan Kaos Polos (PO Vendor):**
-   - **Nomor PO:** Format kode unik `PO-YYYY-XXX` (contoh: `PO-2026-088`).
-   - **Pemasok:** Teks nama vendor/supplier kaos polos pihak ketiga maksimal 100 karakter.
-   - **Status Pengadaan:** Pilihan enum logistik: `Dipesan ke Vendor`, `Dalam Pengiriman`, atau `Tiba di Cabang`.
-7. **Modul Dokumen Invoice & WOP:**
-   - **Nomor Invoice:** Format kode unik penagihan `INV-YYYY-XXX`.
-   - **Nomor WOP:** Format kode unik instruksi kerja workshop `WOP-YYYY-XXX`.
-   - **Dokumen WOP:** Tidak memuat kolom harga, biaya, maupun nominal pembayaran sesuai klausul batasan produk SRS 2.5.j.
+a. Fitur login  
+1) Username harus huruf dan angka, semua huruf kecil, panjang 4–30 karakter  
+2) Password harus minimal 8 karakter dengan kombinasi huruf dan angka  
 
-   ## Validasi {#validasi}
+b. Fitur akun  
+1) Nama lengkap harus berisi huruf dan panjang maksimal 100 karakter  
+2) Email harus format email standar (@ dan domain) serta bersifat unik  
+3) Peran (role) memilih otomatis dari data yang sudah tersedia (Owner atau Admin)  
+4) Cabang penugasan memilih dari data cabang yang sudah tersedia  
 
-Penjabaran ketentuan validasi sistem PrintCraft untuk mencegah inkonsistensi data (*Nielsen H5: Error Prevention*) serta memberikan pesan galat kontekstual (*Nielsen H9*):
+c. Fitur cabang  
+1) Nama cabang harus berisi huruf dan angka dengan panjang maksimal 100 karakter  
+2) Alamat cabang berisi teks deskriptif alamat fisik workshop  
+3) Nomor telepon cabang harus berupa deret angka dengan panjang 10–15 digit  
 
-1. **Validasi Modul Autentikasi & Akun:**
-   - **Validasi Keberadaan Pengguna:** Memvalidasi kombinasi username dan password. Jika salah, sistem mengembalikan pesan *"Username atau password salah"* tanpa membocorkan kredensial spesifik mana yang keliru.
-   - **Validasi Keunikan Data:** Memvalidasi bahwa username dan email baru yang didaftarkan belum pernah digunakan oleh akun lain di tabel `akun`.
-   - **Validasi Format Isian:** Memastikan email berformat valid dan password memenuhi syarat minimal 8 karakter.
-2. **Validasi Formulir Pesanan Baru:**
-   - **Validasi Kelengkapan Data Mandatori:** Seluruh kolom spesifikasi (customer, cabang, bahan kain, ukuran, jenis sablon, jumlah pcs, dan deadline) wajib diisi. Jika kosong, sistem menandai kolom terkait dengan border merah dan menampilkan pesan *"Kolom ini wajib diisi"*.
-   - **Validasi Jumlah Minimal Order:** Nilai jumlah pesanan diverifikasi harus berupa angka bilangan bulat minimal 12. Jika kurang, tampil pesan *"Jumlah pesanan minimal 12 pcs"*.
-   - **Validasi Logika Deadline:** Tanggal deadline wajib berjarak minimal 3 hari kerja dari tanggal input pesanan. Jika diinput mundur atau hari ini, sistem menolak dengan pesan *"Batas waktu pengerjaan tidak valid"*.
-3. **Validasi Transaksi Pembayaran:**
-   - **Validasi Nilai Pembayaran:** Nominal uang bayar yang diinput kasir harus berupa angka > 0.
-   - **Validasi Batas Pelunasan:** Nominal bayar tidak boleh melebihi sisa tagihan pesanan. Jika lebih, tampil pesan *"Nominal pembayaran melebihi sisa piutang pesanan"*.
-   - **Validasi Status Lunas Otomatis:** Ketika akumulasi pembayaran telah sama dengan `total_harga`, sistem otomatis mengunci status pesanan menjadi Lunas dan menonaktifkan tombol tambah bayar.
-4. **Validasi Pendaftaran Member Online:**
-   - **Validasi Format Nomor WhatsApp:** Memvalidasi nomor ponsel diawali digit `08` atau `628` dengan panjang 10–14 digit (regex `^(08|628)[0-9]{8,12}$`
-Jika keliru, muncul pesan *"Nomor WhatsApp wajib diawali 08 atau 628 dengan panjang 10-14 digit"*.
-   - **Validasi Duplikasi Nomor WhatsApp:** Memvalidasi nomor belum pernah terdaftar di tabel `customer`. Jika sudah ada, sistem menolak dan memunculkan notifikasi *"Nomor WhatsApp sudah terdaftar sebagai Customer/Member"*.
-5. **Validasi Integritas Relasi & Konfirmasi Aksi:**
-   - **Validasi Penghapusan Data (Foreign Key Integrity):** Cabang, bahan, ukuran, atau sablon yang masih memiliki relasi aktif pada transaksi pesanan tidak dapat dihapus. Sistem akan menolak dan memberikan notifikasi *"Data tidak dapat dihapus karena masih digunakan pada transaksi pesanan berjalan"*.
-   - **Validasi Konfirmasi Aksi Kritis:** Setiap aksi penghapusan data atau pembatalan pesanan wajib melalui modal dialog konfirmasi dengan tombol penegasan berwarna kontras.
+d. Fitur master data  
+1) Nama bahan kain dan nama sablon harus berisi huruf dan panjang maksimal 100 karakter  
+2) Tarif jasa sablon dan HPP kaos polos harus berupa angka bilangan bulat dalam satuan Rupiah tanpa sen  
+3) Ukuran kaos memilih otomatis dari data yang sudah tersedia (S, M, L, XL, XXL, 3XL)  
+4) Tambahan biaya ukuran jumbo (surcharge) harus berupa angka bilangan bulat dalam Rupiah  
+5) Potongan member harus berupa angka persentase dengan minimal pemesanan 12 pcs  
+
+e. Fitur kalkulator harga  
+1) Jumlah pesanan harus berupa angka bilangan bulat minimal 12 pcs  
+2) Bahan kain kaos memilih otomatis dari data yang sudah tersedia  
+3) Teknik dan area sablon memilih otomatis dari data yang sudah tersedia  
+4) Status keanggotaan customer memilih otomatis dari pilihan reguler atau member  
+5) Margin keuntungan terkunci otomatis 30% untuk admin cabang dan dapat diatur oleh owner  
+
+f. Fitur pesanan dan data customer  
+1) Nomor pesanan terisi otomatis oleh sistem dengan format ORD-YYYY-XXX dan bersifat unik  
+2) Nama customer harus berisi huruf dan panjang maksimal 100 karakter  
+3) Nomor WhatsApp customer harus berupa angka diawali 08 atau 628 dengan panjang 10–14 digit  
+4) Jumlah pesanan (qty) harus berupa angka bilangan bulat minimal 12 pcs  
+5) Batas waktu pengerjaan (deadline) harus berupa tanggal valid minimal berjarak 3 hari kerja dari tanggal input pesanan  
+6) Total harga pesanan harus berupa angka bilangan bulat dalam Rupiah tanpa sen  
+7) Status pengerjaan pesanan memilih otomatis dari tahapan workshop yang tersedia  
+8) Pembayaran uang muka (DP) minimal 50% dari total tagihan pesanan  
+9) Metode pembayaran memilih otomatis dari pilihan tunai, transfer bank, atau QRIS  
+
+g. Fitur pengadaan kaos  
+1) Nomor PO pengadaan terisi otomatis oleh sistem dengan format PO-YYYY-XXX dan bersifat unik  
+2) Nama pemasok (supplier/vendor) harus berisi huruf dan panjang maksimal 100 karakter  
+3) Jumlah kaos polos yang dipesan harus berupa angka bilangan bulat sesuai kebutuhan pesanan  
+4) Total biaya pengadaan harus berupa angka bilangan bulat dalam Rupiah  
+5) Status pengadaan memilih otomatis dari status logistik yang sudah tersedia (Dipesan ke Vendor, Dalam Pengiriman, Tiba di Cabang)  
+
+h. Fitur invoice dan WOP  
+1) Nomor faktur invoice terisi otomatis dengan format INV-YYYY-XXX  
+2) Nomor lembar kerja WOP terisi otomatis dengan format WOP-YYYY-XXX  
+3) Dokumen WOP produksi tidak memuat kolom nominal harga, biaya, maupun rincian pembayaran  
+
+i. Fitur dashboard dan rekap laporan  
+1) Filter cabang memilih otomatis dari daftar cabang yang terdaftar atau opsi semua cabang  
+2) Filter periode laporan memilih bulan dan tahun transaksi  
+
+j. Fitur landing page dan daftar member  
+1) Nama lengkap calon member harus berisi huruf dan panjang maksimal 100 karakter  
+2) Nomor WhatsApp harus berupa angka diawali 08 atau 628 dengan panjang 10–14 digit dan belum pernah terdaftar  
+3) Alamat calon member berisi teks alamat domisili pengiriman  
+
+## Validasi {#validasi}
+
+Berisi penjabaran ketentuan mengenai validasi pada seluruh fitur produk/aplikasi. Ketentuan mengenai validasi pada seluruh fitur yang dibuat terdiri dari :
+
+a. Fitur login  
+1) Validasi pada input username sesuai ketentuan data  
+2) Validasi pada input password sesuai ketentuan data  
+3) Validasi kecocokan username dan password dengan data di database  
+4) Validasi pembatasan percobaan login maksimal 5 kali gagal berturut-turut  
+
+b. Fitur akun  
+1) Validasi pada input nama lengkap sesuai ketentuan data  
+2) Validasi pada input email sesuai ketentuan data  
+3) Validasi keunikan username dan email agar tidak terduplikasi  
+4) Validasi pilih peran dan cabang dari data yang sudah tersedia  
+
+c. Fitur cabang  
+1) Validasi pada input nama cabang sesuai ketentuan data  
+2) Validasi pada input nomor telepon sesuai ketentuan data  
+3) Validasi penghapusan cabang yang masih memiliki relasi transaksi pesanan aktif  
+
+d. Fitur master data  
+1) Validasi pada input nama bahan dan jenis sablon sesuai ketentuan data  
+2) Validasi pada input tarif jasa sablon dan HPP berupa angka bilangan bulat positif  
+3) Validasi pilih ukuran kaos dan potongan member dari data yang sudah tersedia  
+
+e. Fitur kalkulator harga  
+1) Validasi pada input jumlah pesanan minimal 12 pcs  
+2) Validasi pilih bahan kain dan teknik sablon otomatis dari data yang tersedia  
+3) Validasi kalkulasi otomatis HPP, margin keuntungan, dan estimasi harga per pcs  
+
+f. Fitur pesanan dan data customer  
+1) Validasi kelengkapan seluruh isian formulir pesanan baru (kolom mandatori wajib diisi)  
+2) Validasi pada input nomor WhatsApp customer sesuai ketentuan data  
+3) Validasi pada input jumlah pesanan minimal 12 pcs  
+4) Validasi batas waktu pengerjaan (deadline) minimal berjarak 3 hari kerja ke depan  
+5) Validasi nominal pembayaran kasir tidak boleh melebihi sisa piutang pesanan  
+6) Validasi penguncian status pesanan otomatis menjadi Lunas saat akumulasi pembayaran terpenuhi  
+
+g. Fitur pengadaan kaos  
+1) Validasi pada input nama pemasok (vendor) sesuai ketentuan data  
+2) Validasi pada input jumlah kaos pengadaan sesuai kebutuhan pesanan  
+3) Validasi pilih status pengadaan logistik otomatis dari data yang sudah tersedia  
+
+h. Fitur invoice dan WOP  
+1) Validasi pencetakan faktur invoice sesuai rincian transaksi pesanan dan riwayat pembayaran  
+2) Validasi lembar kerja WOP bengkel produksi tidak memuat nominal harga dan rincian biaya  
+
+i. Fitur dashboard dan rekap laporan  
+1) Validasi pemilihan filter cabang dan periode tanggal sebelum data laporan ditampilkan  
+2) Validasi hak akses data laporan keuangan sesuai peran pengguna (Owner melihat seluruh cabang, Admin hanya cabangnya)  
+
+j. Fitur landing page dan daftar member  
+1) Validasi kelengkapan isian formulir pendaftaran member online  
+2) Validasi format nomor WhatsApp diawali 08 atau 628 dengan panjang 10–14 digit  
+3) Validasi keunikan nomor WhatsApp belum pernah terdaftar sebagai customer atau member sebelumnya  
 
 **Kontribusi Anggota Kelompok :** 
 
